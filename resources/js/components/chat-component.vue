@@ -39,7 +39,7 @@
                 <template
                   v-if="mensagem.para_user_id == usuario_autenticado_id_"
                   ><div class="col">
-                    <p class="float-start">
+                    <p class="float-start ">
                       {{ mensagem.desc_mensagem }}
                       <span class="text-muted d-block" style="font-size: 0.8rem">
                         {{ mensagem.created_at | formatDate()}}
@@ -50,7 +50,7 @@
 
                 <template v-else>
                   <div class="col">
-                    <p class="float-end">
+                    <p class="float-end text-dark">
                       {{ mensagem.desc_mensagem }}
                       <span class="text-muted d-block" style="font-size: 0.8rem">
                         {{ mensagem.created_at | formatDate() }}
@@ -110,7 +110,7 @@ export default {
       desc_mensagem: "",
       usuario_autenticado_id_: "",
       usuario_destino: "",
-      mensagens: "",
+      mensagens: [],
       usuario_destino_nome: "",
     };
   },
@@ -185,6 +185,16 @@ export default {
     async sendMessage() {
       const url = "http://127.0.0.1:8000/api/v1/mensagem";
 
+      this.mensagens.push({
+        de_usuario_id: this.usuario_autenticado_id_,
+        para_usuario_id: this.usuario_destino,
+        desc_mensagem:  this.desc_mensagem,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      })
+
+      
+
       let params = new URLSearchParams({
         de_usuario_id: this.usuario_autenticado_id_,
         para_usuario_id: this.usuario_destino,
@@ -202,6 +212,7 @@ export default {
       };
 
       axios(url, config).catch((err) => console.log(err));
+      this.desc_mensagem = ''
     },
   },
   beforeMount() {
