@@ -31,10 +31,10 @@
       </div>
       <!-- container para renderizar a janela de mensagem ativa -->
       <div
-        class="col-md-8 col-sm-12 mensagem-container"
+        class="col-md-8 col-sm-12"
         v-if="mensagemContainer"
       >
-        <div class="card mb-0 row ms-2">
+        <div class="card mb-0 row ms-2 mensagem-container">
           <div class="row g-0">
             <div class="card-body col-md-10">
               <h5 class="card-title">{{ usuario_destino_nome }}</h5>
@@ -71,6 +71,7 @@
             </div>
           </div>
         </div>
+      <div class="row">
         <form method="post" @submit.prevent="sendMessage()">
           <div class="input-group ms-2" id="mensagemContainer">
             <input type="hidden" name="csrf_token" :value="csrf_token" />
@@ -88,13 +89,12 @@
           </div>
         </form>
       </div>
-      <!--  -->
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   props: ["csrf_token", "rotamensagem"],
   computed: {
@@ -139,6 +139,7 @@ export default {
         .then((response) => response.data)
         .then((data) => data.usuario_autenticado)
         .then((res) => (usuario_autenticado_id = res));
+      this.usuario_autenticado_id_ = usuario_autenticado_id;
       return usuario_autenticado_id;
     },
 
@@ -195,11 +196,12 @@ export default {
         .get(url, config)
         .then((response) => response.data)
         .then((data) => (this.mensagens = data));
-      
-      this.scrollToEnd('.mensagem-container')
+
+      this.scrollToEnd(".mensagem-container");
     },
 
     async sendMessage() {
+      
       const url = "http://127.0.0.1:8000/api/v1/mensagem";
 
       this.mensagens.push({
@@ -228,18 +230,28 @@ export default {
 
       axios(url, config).catch((err) => console.log(err));
       this.desc_mensagem = "";
-      this.scrollToEnd('.mensagem-container')
+
+      
     },
   },
-  beforeMount() {
-    this.getUsers();
+  
+  beforeMount() {},
+  async mounted() {
+    await this.getUsers();
+
+    console.log(this.usuario_autenticado_id_);
+    Echo.private(`user.${this.usuario_autenticado_id_}`).listen(
+      ".SendMessage",
+      (mensagem) => {
+        this.mensagens.push(mensagem.mensagem);
+        this.scrollToEnd('.mensagem-container')
+      }
+    );
   },
-  mounted() {
-    Echo.private(`user.${this.usuario_autenticado_id_}`)
-      .listen('.SendMessage', (dados)=>{
-        console.log(dados)
-      })
-  },
+  updated(){
+    if(document.querySelector('.mensagem-container')) 
+      this.scrollToEnd('.mensagem-container')
+  }
 };
 </script>
 
