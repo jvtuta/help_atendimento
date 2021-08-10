@@ -16,6 +16,6 @@ class UserRepository extends Repository
             ->where('mensagens.para_user_id', '=', $user[1])
             ->orWhere('mensagens.de_user_id','=',$user[1])
             ->where('mensagens.para_user_id', '=', $user[0])
-            ->orderBy('mensagens.id', 'desc');
+            ->orderBy('mensagens.id', 'asc');
     }
 }
