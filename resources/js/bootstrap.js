@@ -33,6 +33,21 @@ import Echo from 'laravel-echo';
 
 window.Pusher = require('pusher-js');
 
+function token() {
+    let token = "";
+    token = document.cookie.split(";");
+    if (!document.cookie.includes("_Token=")) {
+        token = null;
+        return token;
+    }
+    token = token.filter((e) => {
+        return e.includes("_Token=");
+    });
+
+    token = token[0].replace("_Token=", "");
+    return token;
+}
+
 window.Echo = new Echo({
      broadcaster: 'pusher',
      key: process.env.MIX_PUSHER_APP_KEY,
@@ -40,6 +55,11 @@ window.Echo = new Echo({
      forceTLS: false,
      wsHost: window.location.hostname,
      wsPort: 6001,
+     auth: {
+       headers: {
+            Authorization: 'Bearer ' + token()
+         }
+    }
      
 
  });

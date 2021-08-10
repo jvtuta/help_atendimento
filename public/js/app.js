@@ -1978,6 +1978,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["csrf_token", "rotamensagem"],
   computed: {
@@ -2004,7 +2013,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       desc_mensagem: "",
       usuario_autenticado_id_: "",
       usuario_destino: "",
-      mensagens: "",
+      mensagens: [],
       usuario_destino_nome: ""
     };
   },
@@ -2043,6 +2052,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    scrollToEnd: function scrollToEnd(seletor) {
+      var container = this.$el.querySelector(seletor);
+      container.scrollTop = container.scrollHeight;
     },
     getUsers: function getUsers() {
       var _this2 = this;
@@ -2113,6 +2126,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 7:
+                _this3.scrollToEnd('.mensagem-container');
+
+              case 8:
               case "end":
                 return _context3.stop();
             }
@@ -2130,6 +2146,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context4.prev = _context4.next) {
               case 0:
                 url = "http://127.0.0.1:8000/api/v1/mensagem";
+
+                _this4.mensagens.push({
+                  de_usuario_id: _this4.usuario_autenticado_id_,
+                  para_usuario_id: _this4.usuario_destino,
+                  desc_mensagem: _this4.desc_mensagem,
+                  created_at: new Date().toISOString(),
+                  updated_at: new Date().toISOString()
+                });
+
                 params = new URLSearchParams({
                   de_usuario_id: _this4.usuario_autenticado_id_,
                   para_usuario_id: _this4.usuario_destino,
@@ -2146,8 +2171,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 axios(url, config)["catch"](function (err) {
                   return console.log(err);
                 });
+                _this4.desc_mensagem = "";
 
-              case 4:
+                _this4.scrollToEnd('.mensagem-container');
+
+              case 7:
               case "end":
                 return _context4.stop();
             }
@@ -2159,7 +2187,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   beforeMount: function beforeMount() {
     this.getUsers();
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {
+    Echo["private"]("user.".concat(this.usuario_autenticado_id_)).listen('.SendMessage', function (dados) {
+      console.log(dados);
+    });
+  }
 });
 
 /***/ }),
@@ -2304,6 +2336,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -2313,6 +2346,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js").default;
 moment__WEBPACK_IMPORTED_MODULE_0___default().locale('pt-br');
+
 
 Vue.filter('formatDate', function (v) {
   if (v) {
@@ -2386,13 +2420,35 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
+
+function token() {
+  var token = "";
+  token = document.cookie.split(";");
+
+  if (!document.cookie.includes("_Token=")) {
+    token = null;
+    return token;
+  }
+
+  token = token.filter(function (e) {
+    return e.includes("_Token=");
+  });
+  token = token[0].replace("_Token=", "");
+  return token;
+}
+
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__.default({
   broadcaster: 'pusher',
   key: "myappsecret",
   cluster: "mt1",
   forceTLS: false,
   wsHost: window.location.hostname,
-  wsPort: 6001
+  wsPort: 6001,
+  auth: {
+    headers: {
+      Authorization: 'Bearer ' + token()
+    }
+  }
 });
 
 /***/ }),
@@ -6855,7 +6911,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.textcard {\r\n  white-space: nowrap;\r\n  width: 160px;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.textcard:hover {\r\n  width: 300px;\n}\n#mensagemContainer > button {\r\n  border-radius: 0 !important;\n}\n#chatMessages div .row .col-md-10 .card-body:hover {\r\n  background-color: rgb(207, 219, 219);\r\n  /* border-radius: 0 25px 25px 0; */\r\n  cursor: pointer;\r\n  -webkit-text-decoration-color: white;\r\n          text-decoration-color: white;\r\n  color: white;\n}\r\n/* #chatMessages div.card {\r\n  border-radius: 25px !important;\r\n} */\n#mensagemContainer {\r\n  border-top-right-radius: 50rem;\r\n  border-bottom-right-radius: 50rem;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.textcard {\r\n  white-space: nowrap;\r\n  width: 160px;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.textcard:hover {\r\n  width: 300px;\n}\n#mensagemContainer > button {\r\n  border-radius: 0 !important;\n}\n.mensagem-container {\r\n  max-height: 620px;\r\n  overflow-y: auto;\n}\n#chatMessages div .row .col-md-10 .card-body:hover {\r\n  background-color: rgb(207, 219, 219);\r\n  /* border-radius: 0 25px 25px 0; */\r\n  cursor: pointer;\r\n  -webkit-text-decoration-color: white;\r\n          text-decoration-color: white;\r\n  color: white;\n}\r\n/* #chatMessages div.card {\r\n  border-radius: 25px !important;\r\n} */\n#mensagemContainer {\r\n  border-top-right-radius: 50rem;\r\n  border-bottom-right-radius: 50rem;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -67028,7 +67084,7 @@ var render = function() {
       ),
       _vm._v(" "),
       _vm.mensagemContainer
-        ? _c("div", { staticClass: "col-md-8 col-sm-12" }, [
+        ? _c("div", { staticClass: "col-md-8 col-sm-12 mensagem-container" }, [
             _c("div", { staticClass: "card mb-0 row ms-2" }, [
               _c("div", { staticClass: "row g-0" }, [
                 _c(
@@ -67076,31 +67132,35 @@ var render = function() {
                               ]
                             : [
                                 _c("div", { staticClass: "col" }, [
-                                  _c("p", { staticClass: "float-end" }, [
-                                    _vm._v(
-                                      "\n                    " +
-                                        _vm._s(mensagem.desc_mensagem) +
-                                        "\n                    "
-                                    ),
-                                    _c(
-                                      "span",
-                                      {
-                                        staticClass: "text-muted d-block",
-                                        staticStyle: { "font-size": "0.8rem" }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                      " +
-                                            _vm._s(
-                                              _vm._f("formatDate")(
-                                                mensagem.created_at
-                                              )
-                                            ) +
-                                            "\n                    "
-                                        )
-                                      ]
-                                    )
-                                  ])
+                                  _c(
+                                    "p",
+                                    { staticClass: "float-end text-dark" },
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(mensagem.desc_mensagem) +
+                                          "\n                    "
+                                      ),
+                                      _c(
+                                        "span",
+                                        {
+                                          staticClass: "text-muted d-block",
+                                          staticStyle: { "font-size": "0.8rem" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                      " +
+                                              _vm._s(
+                                                _vm._f("formatDate")(
+                                                  mensagem.created_at
+                                                )
+                                              ) +
+                                              "\n                    "
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
                                 ])
                               ]
                         ],

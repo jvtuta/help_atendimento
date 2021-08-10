@@ -10,9 +10,9 @@ window.Vue = require('vue').default;
 moment.locale('pt-br');
 
 import moment from 'moment'
-
-Vue.filter('formatDate', function(v){
-    if(v){
+import Echo from 'laravel-echo'
+Vue.filter('formatDate', function (v) {
+    if (v) {
         return moment(v).format('DD/MM/YYYY HH:mm')
     }
 })

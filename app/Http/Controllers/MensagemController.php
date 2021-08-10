@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Chat\SendMessage;
 use App\Models\Mensagem;
 use App\Repository\MensagemRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-
-
+use Illuminate\Support\Facades\Event;
 
 class MensagemController extends Controller
 {
@@ -91,7 +90,7 @@ class MensagemController extends Controller
         $this->mensagem->para_user_id = $request->para_usuario_id;
         // $this->mensagem->created_at = \Carbon\Carbon::now()->format('d/m/Y');
         $this->mensagem->save();
-
+        Event::dispatch(new SendMessage($this->mensagem, $request->para_usuario_id));
         return response()->json('Mensagem enviada com sucesso!',201);
     }
 

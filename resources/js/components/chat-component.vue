@@ -30,7 +30,10 @@
         </div>
       </div>
       <!-- container para renderizar a janela de mensagem ativa -->
-      <div class="col-md-8 col-sm-12" v-if="mensagemContainer">
+      <div
+        class="col-md-8 col-sm-12 mensagem-container"
+        v-if="mensagemContainer"
+      >
         <div class="card mb-0 row ms-2">
           <div class="row g-0">
             <div class="card-body col-md-10">
@@ -39,10 +42,13 @@
                 <template
                   v-if="mensagem.para_user_id == usuario_autenticado_id_"
                   ><div class="col">
-                    <p class="float-start ">
+                    <p class="float-start">
                       {{ mensagem.desc_mensagem }}
-                      <span class="text-muted d-block" style="font-size: 0.8rem">
-                        {{ mensagem.created_at | formatDate()}}
+                      <span
+                        class="text-muted d-block"
+                        style="font-size: 0.8rem"
+                      >
+                        {{ mensagem.created_at | formatDate() }}
                       </span>
                     </p>
                   </div>
@@ -52,7 +58,10 @@
                   <div class="col">
                     <p class="float-end text-dark">
                       {{ mensagem.desc_mensagem }}
-                      <span class="text-muted d-block" style="font-size: 0.8rem">
+                      <span
+                        class="text-muted d-block"
+                        style="font-size: 0.8rem"
+                      >
                         {{ mensagem.created_at | formatDate() }}
                       </span>
                     </p>
@@ -85,6 +94,7 @@
 </template>
 
 <script>
+
 export default {
   props: ["csrf_token", "rotamensagem"],
   computed: {
@@ -130,6 +140,11 @@ export default {
         .then((data) => data.usuario_autenticado)
         .then((res) => (usuario_autenticado_id = res));
       return usuario_autenticado_id;
+    },
+
+    scrollToEnd: function (seletor) {
+      var container = this.$el.querySelector(seletor);
+      container.scrollTop = container.scrollHeight;
     },
 
     async getUsers() {
@@ -180,6 +195,8 @@ export default {
         .get(url, config)
         .then((response) => response.data)
         .then((data) => (this.mensagens = data));
+      
+      this.scrollToEnd('.mensagem-container')
     },
 
     async sendMessage() {
@@ -188,12 +205,10 @@ export default {
       this.mensagens.push({
         de_usuario_id: this.usuario_autenticado_id_,
         para_usuario_id: this.usuario_destino,
-        desc_mensagem:  this.desc_mensagem,
+        desc_mensagem: this.desc_mensagem,
         created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      })
-
-      
+        updated_at: new Date().toISOString(),
+      });
 
       let params = new URLSearchParams({
         de_usuario_id: this.usuario_autenticado_id_,
@@ -212,13 +227,19 @@ export default {
       };
 
       axios(url, config).catch((err) => console.log(err));
-      this.desc_mensagem = ''
+      this.desc_mensagem = "";
+      this.scrollToEnd('.mensagem-container')
     },
   },
   beforeMount() {
     this.getUsers();
   },
-  mounted() {},
+  mounted() {
+    Echo.private(`user.${this.usuario_autenticado_id_}`)
+      .listen('.SendMessage', (dados)=>{
+        console.log(dados)
+      })
+  },
 };
 </script>
 
@@ -236,6 +257,11 @@ export default {
 
 #mensagemContainer > button {
   border-radius: 0 !important;
+}
+
+.mensagem-container {
+  max-height: 620px;
+  overflow-y: auto;
 }
 
 #chatMessages div .row .col-md-10 .card-body:hover {
