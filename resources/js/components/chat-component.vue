@@ -33,32 +33,31 @@
       <div class="col-md-8 col-sm-12" v-if="mensagemContainer">
         <div class="card mb-0 row ms-2">
           <div class="row g-0">
-            <div class="col-md-10">
-              <div class="card-body">
-                <h5 class="card-title">{{ usuario_destino_nome }}</h5>
-                <div
-                  v-for="mensagem in mensagens"
-                  :key="mensagem.id"
-                  class="row"
-                >
-                  <template
-                    v-if="mensagem.para_user_id == usuario_autenticado_id_"
+            <div class="card-body col-md-10">
+              <h5 class="card-title">{{ usuario_destino_nome }}</h5>
+              <div v-for="mensagem in mensagens" :key="mensagem.id" class="row">
+                <template
+                  v-if="mensagem.para_user_id == usuario_autenticado_id_"
                   ><div class="col">
-                    <span class="float-start"
-                      >{{ mensagem.desc_mensagem }}</span
-                    >
-                    </div>
-                    
-                  </template>
-                  
-                  <template v-else>
-                   <div class="col">
-                    <span class="float-end"
-                      >{{ mensagem.desc_mensagem }}</span
-                    >
-                    </div>
-                  </template>
-                </div>
+                    <p class="float-start">
+                      {{ mensagem.desc_mensagem }}
+                      <span class="text-muted d-block" style="font-size: 0.8rem">
+                        {{ mensagem.created_at | formatDate()}}
+                      </span>
+                    </p>
+                  </div>
+                </template>
+
+                <template v-else>
+                  <div class="col">
+                    <p class="float-end">
+                      {{ mensagem.desc_mensagem }}
+                      <span class="text-muted d-block" style="font-size: 0.8rem">
+                        {{ mensagem.created_at | formatDate() }}
+                      </span>
+                    </p>
+                  </div>
+                </template>
               </div>
             </div>
           </div>
@@ -75,6 +74,7 @@
               placeholder="   Pressione / para digitar"
               v-model="desc_mensagem"
             />
+
             <button class="btn btn-outline-primary">Enviar</button>
           </div>
         </form>
@@ -140,7 +140,7 @@ export default {
         },
       };
       let usuario_autenticado_id = await this.usuario_autenticado_id();
-      this.usuario_autenticado_id_ = usuario_autenticado_id
+      this.usuario_autenticado_id_ = usuario_autenticado_id;
       await axios
         .get(url, config)
         .then((response) => response.data)
@@ -165,7 +165,7 @@ export default {
 
       const url =
         "http://127.0.0.1:8000/api/v1/mensagem?getMessages=de_user_id=" +
-        ( this.usuario_autenticado_id_) +
+        this.usuario_autenticado_id_ +
         ";de_user_id=" +
         usuario.id;
 
@@ -218,19 +218,25 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .textcard:hover {
   width: 300px;
 }
+
+#mensagemContainer > button {
+  border-radius: 0 !important;
+}
+
 #chatMessages div .row .col-md-10 .card-body:hover {
   background-color: rgb(207, 219, 219);
-  border-radius: 0 25px 25px 0;
+  /* border-radius: 0 25px 25px 0; */
   cursor: pointer;
   text-decoration-color: white;
   color: white;
 }
-#chatMessages div.card {
+/* #chatMessages div.card {
   border-radius: 25px !important;
-}
+} */
 #mensagemContainer {
   border-top-right-radius: 50rem;
   border-bottom-right-radius: 50rem;

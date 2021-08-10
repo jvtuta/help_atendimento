@@ -7,7 +7,15 @@
 require('./bootstrap');
 
 window.Vue = require('vue').default;
+moment.locale('pt-br');
 
+import moment from 'moment'
+
+Vue.filter('formatDate', function(v){
+    if(v){
+        return moment(v).format('DD/MM/YYYY HH:mm')
+    }
+})
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

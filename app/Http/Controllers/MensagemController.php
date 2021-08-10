@@ -55,7 +55,7 @@ class MensagemController extends Controller
         if($request->has('getMessages')) {
             $user = new \App\Models\User;
             $userRepository = new \App\Repository\UserRepository($user);
-
+            
             $userRepository->getMensagem($request->getMessages);
 
             return response()->json($userRepository->getRes(),200);
@@ -86,11 +86,11 @@ class MensagemController extends Controller
      */
     public function store(Request $request)
     {
-        $this->mensagem->create([
-        'desc_mensagem'=>$request->desc_mensagem,
-        'de_user_id'=>$request->de_usuario_id,
-        'para_user_id'=>$request->para_usuario_id
-        ]);
+        $this->mensagem->desc_mensagem = $request->desc_mensagem;
+        $this->mensagem->de_user_id = $request->de_usuario_id;
+        $this->mensagem->para_user_id = $request->para_usuario_id;
+        // $this->mensagem->created_at = \Carbon\Carbon::now()->format('d/m/Y');
+        $this->mensagem->save();
 
         return response()->json('Mensagem enviada com sucesso!',201);
     }
