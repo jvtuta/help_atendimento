@@ -17,7 +17,7 @@ class CreateMensagensTable extends Migration
             $table->id();
             $table->unsignedBigInteger('de_user_id');
             $table->unsignedBigInteger('para_user_id');
-            $table->string('desc_mensagem');
+            $table->string('desc_mensagem')->nullable();
             // $table->boolean('ativo');
             $table->string('urn_arquivo')->nullable();
             $table->timestamps();

@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/bootstrap.theme.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.theme.min lux.css') }}" rel="stylesheet">
 </head>
 
 <body>

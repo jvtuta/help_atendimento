@@ -19,11 +19,14 @@
               <div class="card-body" @click="selectActivePanel(usuario)">
                 <div class="card-title h-5">
                   {{ usuario.name }}
-                  <div v-if="usuario.notificacao===true" class="float-end notificacao bg-primary"></div>
+                  <div
+                    v-if="usuario.notificacao === true"
+                    class="float-end notificacao bg-primary"
+                  ></div>
                 </div>
-                
+
                 <p class="card-text textcard">
-                  {{ usuario.ultima_mensagem.desc_mensagem }}
+                  <!-- {{ usuario.ultima_mensagem.desc_mensagem }} -->
                 </p>
                 <p class="card-text">
                   <small class="text-muted">Last updated 3 mins ago</small>
@@ -34,15 +37,13 @@
         </div>
       </div>
       <!-- container para renderizar a janela de mensagem ativa -->
-      <div
-        class="col-md-8 col-sm-12"
-        v-if="mensagemContainer"
-      >
-        <div class="card mb-0 row ms-2 ">
+      <div class="col-md-8 col-sm-12" v-if="mensagemContainer">
+        <div class="card mb-0 row ms-2">
           <div class="row g-0">
-            <div class="card-header col-md-12"> <h5 class="card-title">{{ usuario_destino_nome }}</h5></div>
+            <div class="card-header col-md-12">
+              <h5 class="card-title">{{ usuario_destino_nome }}</h5>
+            </div>
             <div class="card-body col-md-10 mensagem-container">
-              
               <div v-for="mensagem in mensagens" :key="mensagem.id" class="row">
                 <template
                   v-if="mensagem.para_user_id == usuario_autenticado_id_"
@@ -55,6 +56,12 @@
                       >
                         {{ mensagem.created_at | formatDate() }}
                       </span>
+                      <a
+                        v-if="mensagem.urn_arquivo"
+                        class="btn btn-sm btn-outline-primary"
+                        @click="downloadImage(mensagem.urn_arquivo)"
+                        >{{ mensagem.urn_arquivo }}</a
+                      >
                     </p>
                   </div>
                 </template>
@@ -69,6 +76,12 @@
                       >
                         {{ mensagem.created_at | formatDate() }}
                       </span>
+                      <a
+                        v-if="mensagem.urn_arquivo"
+                        class="btn btn-sm btn-outline-primary"
+                        @click="downloadImage(mensagem.urn_arquivo)"
+                        >{{ mensagem.urn_arquivo }}</a
+                      >
                     </p>
                   </div>
                 </template>
@@ -76,31 +89,45 @@
             </div>
           </div>
         </div>
-      <div class="row">
-        <form method="post" @submit.prevent="sendMessage()">
-          <div class="input-group ms-2" id="mensagemContainer">
-            <input type="hidden" name="csrf_token" :value="csrf_token" />
-            <span class="input-group-text"></span>
-            <input
-              type="text"
-              name="desc_mensagem"
-              id="desc_mensagem"
-              class="form-control"
-              placeholder="   Pressione / para digitar"
-              v-model="desc_mensagem"
-            />
-
-            <button class="btn btn-outline-primary">Enviar</button>
-          </div>
-        </form>
-      </div>
+        <div class="row">
+          <form method="post" @submit.prevent="sendMessage()">
+            <div class="input-group ms-2" id="mensagemContainer">
+              <input type="hidden" name="csrf_token" :value="csrf_token" />
+              <span class="input-group-text"></span>
+              <input
+                type="text"
+                name="desc_mensagem"
+                id="desc_mensagem"
+                class="form-control"
+                placeholder="   Pressione / para digitar"
+                v-model="desc_mensagem"
+              />
+              <label
+                class="form-label px-2 py-3 btn btn-outline-primary m-0"
+                for="file-image"
+                >Selecionar imagem</label
+              >
+              <input
+                type="file"
+                name="imagem"
+                class="form-control"
+                accept="image/*"
+                id="file-image"
+                @change="uploadImage($event)"
+                placeholder="imagem"
+                style="display: none"
+              />
+              <button class="btn btn-outline-primary">Enviar</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from 'vue';
+import Vue from "vue";
 export default {
   props: ["csrf_token", "rotamensagem"],
   computed: {
@@ -168,14 +195,13 @@ export default {
         .then((response) => response.data)
         .then((data) => {
           data.forEach((usuario) => {
-            if (usuario.id != usuario_autenticado_id) {
-              usuario.ultima_mensagem =
-                usuario.mensagens.length == 0
-                  ? ""
-                  : usuario.mensagens[usuario.mensagens.length - 1];
+            // if (usuario.id != usuario_autenticado_id) {
+            //   usuario.ultima_mensagem =
+            //     usuario.mensagens.length === 0
+            //       ? ""
+            //       : usuario.mensagens[usuario.mensagens.length - 1];
 
-              this.usuarios.push(usuario);
-            }
+            this.usuarios.push(usuario);
           });
         });
     },
@@ -184,10 +210,10 @@ export default {
       this.usuario_destino = usuario.id;
       this.usuario_destino_nome = usuario.name;
       this.mensagemContainer = true;
-      this.usuarios.forEach((usuario,i)=> {
-        if(this.usuarios[i].notificacao) 
-          Vue.set(this.usuarios[i], 'notificacao', false)
-      })
+      this.usuarios.forEach((u, i) => {
+        if (this.usuarios[i].notificacao)
+          Vue.set(this.usuarios[i], "notificacao", false);
+      });
 
       const url =
         "http://127.0.0.1:8000/api/v1/mensagem?getMessages=de_user_id=" +
@@ -210,8 +236,56 @@ export default {
       this.scrollToEnd(".mensagem-container");
     },
 
+    uploadImage(event) {
+      const url = "http://127.0.0.1:8000/api/v1/mensagem";
+
+      let data = new FormData();
+      console.log(event.target.files[0]);
+      data.append("imagem", event.target.files[0]);
+      data.append("de_usuario_id", this.usuario_autenticado_id_);
+      data.append("para_usuario_id", this.usuario_destino);
+
+      let config = {
+        headers: {
+          Authorization: "bearer " + this.token,
+          "Content-Type": "image/png",
+        },
+      };
+
+      axios
+        .post(url, data, config)
+        .then((response) => response.data)
+        .then((mensagem) => {
+          this.mensagens.push(mensagem);
+        });
+    },
+
+    async downloadImage(urn_arquivo) {
+      const url =
+        "http://127.0.0.1:8000/api/v1/mensagem?download=" + urn_arquivo;
+      const config = {
+        headers: {
+          Authorization: "bearer " + this.token,
+          responseType: "blob",
+        },
+      };
+      let imagemurn = urn_arquivo.replace('storage/imagens/chat/','')
+      await axios
+        .get(url, config)
+        .then((response) => response.data)
+        .then((imagem) => {
+          let fileURL = window.URL.createObjectURL(new Blob([imagem]));
+          let fileLink = document.createElement("a");
+
+          fileLink.href = fileURL;
+          fileLink.setAttribute("download", imagemurn);
+          document.body.appendChild(fileLink);
+
+          fileLink.click();
+        });
+    },
+
     async sendMessage() {
-      
       const url = "http://127.0.0.1:8000/api/v1/mensagem";
 
       this.mensagens.push({
@@ -240,34 +314,35 @@ export default {
 
       axios(url, config).catch((err) => console.log(err));
       this.desc_mensagem = "";
-
-      
     },
   },
   async mounted() {
     await this.getUsers();
 
-    
     Echo.private(`user.${this.usuario_autenticado_id_}`).listen(
       ".SendMessage",
       (mensagem) => {
-        if(this.usuario_destino && this.usuario_destino == mensagem.mensagem.de_user_id){
+        if (
+          this.usuario_destino &&
+          this.usuario_destino == mensagem.mensagem.de_user_id
+        ) {
           this.mensagens.push(mensagem.mensagem);
-          this.scrollToEnd('.mensagem-container')
+          this.scrollToEnd(".mensagem-container");
         } else {
-          const user = this.usuarios.filter((usuario, i)=> {
-            if(usuario.id === mensagem.mensagem.de_user_id) {
-              Vue.set(this.usuarios[i], 'notificacao', true)
+          const user = this.usuarios.filter((usuario, i) => {
+            if (usuario.id === mensagem.mensagem.de_user_id) {
+              Vue.set(this.usuarios[i], "notificacao", true);
             }
-          })
+          });
         }
       }
     );
   },
-  updated(){
-    if(document.querySelector('.mensagem-container')) 
-      this.scrollToEnd('.mensagem-container')
-  }
+
+  updated() {
+    if (document.querySelector(".mensagem-container"))
+      this.scrollToEnd(".mensagem-container");
+  },
 };
 </script>
 
@@ -293,11 +368,10 @@ export default {
 }
 
 .notificacao {
-    border-radius: 50%;
-    display: inline-block;
-    height: 10px;
-    width: 10px;
-
+  border-radius: 50%;
+  display: inline-block;
+  height: 10px;
+  width: 10px;
 }
 
 #chatMessages div .row .col-md-10 .card-body:hover {

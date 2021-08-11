@@ -1994,6 +1994,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["csrf_token", "rotamensagem"],
@@ -2092,11 +2119,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return response.data;
                 }).then(function (data) {
                   data.forEach(function (usuario) {
-                    if (usuario.id != usuario_autenticado_id) {
-                      usuario.ultima_mensagem = usuario.mensagens.length == 0 ? "" : usuario.mensagens[usuario.mensagens.length - 1];
-
-                      _this2.usuarios.push(usuario);
-                    }
+                    // if (usuario.id != usuario_autenticado_id) {
+                    //   usuario.ultima_mensagem =
+                    //     usuario.mensagens.length === 0
+                    //       ? ""
+                    //       : usuario.mensagens[usuario.mensagens.length - 1];
+                    _this2.usuarios.push(usuario);
                   });
                 });
 
@@ -2121,8 +2149,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this3.usuario_destino_nome = usuario.name;
                 _this3.mensagemContainer = true;
 
-                _this3.usuarios.forEach(function (usuario, i) {
-                  if (_this3.usuarios[i].notificacao) vue__WEBPACK_IMPORTED_MODULE_1__.default.set(_this3.usuarios[i], 'notificacao', false);
+                _this3.usuarios.forEach(function (u, i) {
+                  if (_this3.usuarios[i].notificacao) vue__WEBPACK_IMPORTED_MODULE_1__.default.set(_this3.usuarios[i], "notificacao", false);
                 });
 
                 url = "http://127.0.0.1:8000/api/v1/mensagem?getMessages=de_user_id=" + _this3.usuario_autenticado_id_ + ";de_user_id=" + usuario.id;
@@ -2150,34 +2178,92 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    sendMessage: function sendMessage() {
+    uploadImage: function uploadImage(event) {
       var _this4 = this;
 
+      var url = "http://127.0.0.1:8000/api/v1/mensagem";
+      var data = new FormData();
+      console.log(event.target.files[0]);
+      data.append("imagem", event.target.files[0]);
+      data.append("de_usuario_id", this.usuario_autenticado_id_);
+      data.append("para_usuario_id", this.usuario_destino);
+      var config = {
+        headers: {
+          Authorization: "bearer " + this.token,
+          "Content-Type": "image/png"
+        }
+      };
+      axios.post(url, data, config).then(function (response) {
+        return response.data;
+      }).then(function (mensagem) {
+        _this4.mensagens.push(mensagem);
+      });
+    },
+    downloadImage: function downloadImage(urn_arquivo) {
+      var _this5 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        var url, params, config;
+        var url, config, imagemurn;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
+                url = "http://127.0.0.1:8000/api/v1/mensagem?download=" + urn_arquivo;
+                config = {
+                  headers: {
+                    Authorization: "bearer " + _this5.token,
+                    responseType: "blob"
+                  }
+                };
+                imagemurn = urn_arquivo.replace('storage/imagens/chat/', '');
+                _context4.next = 5;
+                return axios.get(url, config).then(function (response) {
+                  return response.data;
+                }).then(function (imagem) {
+                  var fileURL = window.URL.createObjectURL(new Blob([imagem]));
+                  var fileLink = document.createElement("a");
+                  fileLink.href = fileURL;
+                  fileLink.setAttribute("download", imagemurn);
+                  document.body.appendChild(fileLink);
+                  fileLink.click();
+                });
+
+              case 5:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    sendMessage: function sendMessage() {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        var url, params, config;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
                 url = "http://127.0.0.1:8000/api/v1/mensagem";
 
-                _this4.mensagens.push({
-                  de_usuario_id: _this4.usuario_autenticado_id_,
-                  para_usuario_id: _this4.usuario_destino,
-                  desc_mensagem: _this4.desc_mensagem,
+                _this6.mensagens.push({
+                  de_usuario_id: _this6.usuario_autenticado_id_,
+                  para_usuario_id: _this6.usuario_destino,
+                  desc_mensagem: _this6.desc_mensagem,
                   created_at: new Date().toISOString(),
                   updated_at: new Date().toISOString()
                 });
 
                 params = new URLSearchParams({
-                  de_usuario_id: _this4.usuario_autenticado_id_,
-                  para_usuario_id: _this4.usuario_destino,
-                  desc_mensagem: _this4.desc_mensagem
+                  de_usuario_id: _this6.usuario_autenticado_id_,
+                  para_usuario_id: _this6.usuario_destino,
+                  desc_mensagem: _this6.desc_mensagem
                 });
                 config = {
                   method: "POST",
                   headers: {
-                    Authorization: "bearer " + _this4.token,
+                    Authorization: "bearer " + _this6.token,
                     "content-type": "application/x-www-form-urlencoded"
                   },
                   data: params
@@ -2185,38 +2271,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 axios(url, config)["catch"](function (err) {
                   return console.log(err);
                 });
-                _this4.desc_mensagem = "";
+                _this6.desc_mensagem = "";
 
               case 6:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }))();
     }
   },
   mounted: function mounted() {
-    var _this5 = this;
+    var _this7 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
         while (1) {
-          switch (_context5.prev = _context5.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
-              _context5.next = 2;
-              return _this5.getUsers();
+              _context6.next = 2;
+              return _this7.getUsers();
 
             case 2:
-              Echo["private"]("user.".concat(_this5.usuario_autenticado_id_)).listen(".SendMessage", function (mensagem) {
-                if (_this5.usuario_destino && _this5.usuario_destino == mensagem.mensagem.de_user_id) {
-                  _this5.mensagens.push(mensagem.mensagem);
+              Echo["private"]("user.".concat(_this7.usuario_autenticado_id_)).listen(".SendMessage", function (mensagem) {
+                if (_this7.usuario_destino && _this7.usuario_destino == mensagem.mensagem.de_user_id) {
+                  _this7.mensagens.push(mensagem.mensagem);
 
-                  _this5.scrollToEnd('.mensagem-container');
+                  _this7.scrollToEnd(".mensagem-container");
                 } else {
-                  var user = _this5.usuarios.filter(function (usuario, i) {
+                  var user = _this7.usuarios.filter(function (usuario, i) {
                     if (usuario.id === mensagem.mensagem.de_user_id) {
-                      vue__WEBPACK_IMPORTED_MODULE_1__.default.set(_this5.usuarios[i], 'notificacao', true);
+                      vue__WEBPACK_IMPORTED_MODULE_1__.default.set(_this7.usuarios[i], "notificacao", true);
                     }
                   });
                 }
@@ -2224,14 +2310,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
             case 3:
             case "end":
-              return _context5.stop();
+              return _context6.stop();
           }
         }
-      }, _callee5);
+      }, _callee6);
     }))();
   },
   updated: function updated() {
-    if (document.querySelector('.mensagem-container')) this.scrollToEnd('.mensagem-container');
+    if (document.querySelector(".mensagem-container")) this.scrollToEnd(".mensagem-container");
   }
 });
 
@@ -6952,7 +7038,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.textcard {\r\n  white-space: nowrap;\r\n  width: 160px;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.textcard:hover {\r\n  width: 300px;\n}\n#mensagemContainer > button {\r\n  border-radius: 0 !important;\n}\n.mensagem-container {\r\n  max-height: 620px;\r\n  overflow-y: auto;\n}\n.notificacao {\r\n    border-radius: 50%;\r\n    display: inline-block;\r\n    height: 10px;\r\n    width: 10px;\n}\n#chatMessages div .row .col-md-10 .card-body:hover {\r\n  background-color: rgb(207, 219, 219);\r\n  /* border-radius: 0 25px 25px 0; */\r\n  cursor: pointer;\r\n  -webkit-text-decoration-color: white;\r\n          text-decoration-color: white;\r\n  color: white;\n}\r\n/* #chatMessages div.card {\r\n  border-radius: 25px !important;\r\n} */\n#mensagemContainer {\r\n  border-top-right-radius: 50rem;\r\n  border-bottom-right-radius: 50rem;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.textcard {\r\n  white-space: nowrap;\r\n  width: 160px;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.textcard:hover {\r\n  width: 300px;\n}\n#mensagemContainer > button {\r\n  border-radius: 0 !important;\n}\n.mensagem-container {\r\n  max-height: 620px;\r\n  overflow-y: auto;\n}\n.notificacao {\r\n  border-radius: 50%;\r\n  display: inline-block;\r\n  height: 10px;\r\n  width: 10px;\n}\n#chatMessages div .row .col-md-10 .card-body:hover {\r\n  background-color: rgb(207, 219, 219);\r\n  /* border-radius: 0 25px 25px 0; */\r\n  cursor: pointer;\r\n  -webkit-text-decoration-color: white;\r\n          text-decoration-color: white;\r\n  color: white;\n}\r\n/* #chatMessages div.card {\r\n  border-radius: 25px !important;\r\n} */\n#mensagemContainer {\r\n  border-top-right-radius: 50rem;\r\n  border-bottom-right-radius: 50rem;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -67114,13 +67200,7 @@ var render = function() {
                           : _vm._e()
                       ]),
                       _vm._v(" "),
-                      _c("p", { staticClass: "card-text textcard" }, [
-                        _vm._v(
-                          "\n                " +
-                            _vm._s(usuario.ultima_mensagem.desc_mensagem) +
-                            "\n              "
-                        )
-                      ]),
+                      _c("p", { staticClass: "card-text textcard" }),
                       _vm._v(" "),
                       _vm._m(1, true)
                     ]
@@ -67135,7 +67215,7 @@ var render = function() {
       _vm._v(" "),
       _vm.mensagemContainer
         ? _c("div", { staticClass: "col-md-8 col-sm-12" }, [
-            _c("div", { staticClass: "card mb-0 row ms-2 " }, [
+            _c("div", { staticClass: "card mb-0 row ms-2" }, [
               _c("div", { staticClass: "row g-0" }, [
                 _c("div", { staticClass: "card-header col-md-12" }, [
                   _c("h5", { staticClass: "card-title" }, [
@@ -67177,7 +67257,25 @@ var render = function() {
                                           "\n                    "
                                       )
                                     ]
-                                  )
+                                  ),
+                                  _vm._v(" "),
+                                  mensagem.urn_arquivo
+                                    ? _c(
+                                        "a",
+                                        {
+                                          staticClass:
+                                            "btn btn-sm btn-outline-primary",
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.downloadImage(
+                                                mensagem.urn_arquivo
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [_vm._v(_vm._s(mensagem.urn_arquivo))]
+                                      )
+                                    : _vm._e()
                                 ])
                               ])
                             ]
@@ -67209,7 +67307,25 @@ var render = function() {
                                             "\n                    "
                                         )
                                       ]
-                                    )
+                                    ),
+                                    _vm._v(" "),
+                                    mensagem.urn_arquivo
+                                      ? _c(
+                                          "a",
+                                          {
+                                            staticClass:
+                                              "btn btn-sm btn-outline-primary",
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.downloadImage(
+                                                  mensagem.urn_arquivo
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [_vm._v(_vm._s(mensagem.urn_arquivo))]
+                                        )
+                                      : _vm._e()
                                   ]
                                 )
                               ])
@@ -67273,6 +67389,33 @@ var render = function() {
                               return
                             }
                             _vm.desc_mensagem = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass:
+                            "form-label px-2 py-3 btn btn-outline-primary m-0",
+                          attrs: { for: "file-image" }
+                        },
+                        [_vm._v("Selecionar imagem")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        staticStyle: { display: "none" },
+                        attrs: {
+                          type: "file",
+                          name: "imagem",
+                          accept: "image/*",
+                          id: "file-image",
+                          placeholder: "imagem"
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.uploadImage($event)
                           }
                         }
                       }),

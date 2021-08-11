@@ -13,7 +13,7 @@ class Mensagem extends Model
     public $timestamps = true;
 
     protected $table = 'mensagens';
-    protected $fillable = ['desc_mensagem', 'de_user_id', 'para_user_id'];
+    protected $fillable = ['desc_mensagem', 'de_user_id', 'para_user_id', 'urn_arquivo'];
     protected $dates = [
         'created_at',
     ];

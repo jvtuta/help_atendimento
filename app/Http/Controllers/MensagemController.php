@@ -8,6 +8,8 @@ use App\Repository\MensagemRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 
 class MensagemController extends Controller
 {
@@ -44,6 +46,12 @@ class MensagemController extends Controller
             // dd($request->atributos_relacionamento);
             
             $mensagemRepository->selectAtributosRelacionamento($request->atributos_relacionamento);
+
+        }
+
+        if($request->has('download')) {
+            $file = 'storage/'.$request->download;
+            return response()->download($file);
 
         }
 
@@ -85,6 +93,19 @@ class MensagemController extends Controller
      */
     public function store(Request $request)
     {
+        
+        if($request->has('imagem')) {
+            
+            $imagem = $request->file('imagem');
+            $imagem_urn = $imagem->store('imagens/chat/'.$request->de_usuario_id, 'public');
+            $this->mensagem->urn_arquivo = $imagem_urn;
+            $this->mensagem->de_user_id = $request->de_usuario_id;
+            $this->mensagem->para_user_id = $request->para_usuario_id;
+            $this->mensagem->save();
+            Event::dispatch(new SendMessage($this->mensagem, $request->para_usuario_id));
+            return response()->json($this->mensagem,201);
+        }
+        
         $this->mensagem->desc_mensagem = $request->desc_mensagem;
         $this->mensagem->de_user_id = $request->de_usuario_id;
         $this->mensagem->para_user_id = $request->para_usuario_id;

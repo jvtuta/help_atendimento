@@ -22,7 +22,7 @@ class UsuarioController extends Controller
     {
         $userRepository = new UserRepository($this->user);
         // dd($this->user);
-        $userRepository->setRelacionamento('mensagens');
+        
 
         if($request->has('usuario_autenticado') )
         {
@@ -37,7 +37,7 @@ class UsuarioController extends Controller
         if($request->has('atributos_relacionamento')) {
             // dd($request->atributos_relacionamento);
 
-            
+            $userRepository->setRelacionamento('mensagens');
             $userRepository->selectAtributosRelacionamento($request->atributos_relacionamento);
 
         }
