@@ -57,7 +57,7 @@ window.Echo = new Echo({
      wsPort: 6001,
      auth: {
        headers: {
-            Authorization: 'Bearer ' + token()
+            Authorization: 'bearer ' + token()
          }
     }
      

@@ -40,7 +40,7 @@
       >
         <div class="card mb-0 row ms-2 ">
           <div class="row g-0">
-            <div class="card-header col">{{ usuario_destino_nome }}</div>
+            <div class="card-header col-md-12"> <h5 class="card-title">{{ usuario_destino_nome }}</h5></div>
             <div class="card-body col-md-10 mensagem-container">
               
               <div v-for="mensagem in mensagens" :key="mensagem.id" class="row">
