@@ -17,7 +17,11 @@
             </div>
             <div class="col-md-10">
               <div class="card-body" @click="selectActivePanel(usuario)">
-                <h5 class="card-title">{{ usuario.name }}</h5>
+                <div class="card-title h-5">
+                  {{ usuario.name }}
+                  <div v-if="usuario.notificacao===true" class="float-end notificacao bg-primary"></div>
+                </div>
+                
                 <p class="card-text textcard">
                   {{ usuario.ultima_mensagem.desc_mensagem }}
                 </p>
@@ -34,10 +38,11 @@
         class="col-md-8 col-sm-12"
         v-if="mensagemContainer"
       >
-        <div class="card mb-0 row ms-2 mensagem-container">
+        <div class="card mb-0 row ms-2 ">
           <div class="row g-0">
-            <div class="card-body col-md-10">
-              <h5 class="card-title">{{ usuario_destino_nome }}</h5>
+            <div class="card-header col">{{ usuario_destino_nome }}</div>
+            <div class="card-body col-md-10 mensagem-container">
+              
               <div v-for="mensagem in mensagens" :key="mensagem.id" class="row">
                 <template
                   v-if="mensagem.para_user_id == usuario_autenticado_id_"
@@ -95,6 +100,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 export default {
   props: ["csrf_token", "rotamensagem"],
   computed: {
@@ -120,8 +126,8 @@ export default {
       desc_mensagem: "",
       usuario_autenticado_id_: "",
       usuario_destino: "",
-      mensagens: [],
       usuario_destino_nome: "",
+      mensagens: [],
     };
   },
   methods: {
@@ -178,6 +184,10 @@ export default {
       this.usuario_destino = usuario.id;
       this.usuario_destino_nome = usuario.name;
       this.mensagemContainer = true;
+      this.usuarios.forEach((usuario,i)=> {
+        if(this.usuarios[i].notificacao) 
+          Vue.set(this.usuarios[i], 'notificacao', false)
+      })
 
       const url =
         "http://127.0.0.1:8000/api/v1/mensagem?getMessages=de_user_id=" +
@@ -234,17 +244,23 @@ export default {
       
     },
   },
-  
-  beforeMount() {},
   async mounted() {
     await this.getUsers();
 
-    console.log(this.usuario_autenticado_id_);
+    
     Echo.private(`user.${this.usuario_autenticado_id_}`).listen(
       ".SendMessage",
       (mensagem) => {
-        this.mensagens.push(mensagem.mensagem);
-        this.scrollToEnd('.mensagem-container')
+        if(this.usuario_destino && this.usuario_destino == mensagem.mensagem.de_user_id){
+          this.mensagens.push(mensagem.mensagem);
+          this.scrollToEnd('.mensagem-container')
+        } else {
+          const user = this.usuarios.filter((usuario, i)=> {
+            if(usuario.id === mensagem.mensagem.de_user_id) {
+              Vue.set(this.usuarios[i], 'notificacao', true)
+            }
+          })
+        }
       }
     );
   },
@@ -274,6 +290,14 @@ export default {
 .mensagem-container {
   max-height: 620px;
   overflow-y: auto;
+}
+
+.notificacao {
+    border-radius: 50%;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+
 }
 
 #chatMessages div .row .col-md-10 .card-body:hover {
