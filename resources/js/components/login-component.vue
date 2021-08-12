@@ -15,7 +15,7 @@
 
 <script>
 export default {
-    props: ['csrf_token','action'],
+    props: ['csrf_token','action','serverip'],
     computed:{
 
     },
@@ -27,7 +27,7 @@ export default {
     },
     methods: {
         login(e) {
-            const url = 'http://127.0.0.1:8000/api/v1/login'
+            const url = 'http://'+serverip+'/api/v1/login'
             let params = new URLSearchParams({
                 'nome_usuario' : this.nome_usuario,
                 'password' : this.password

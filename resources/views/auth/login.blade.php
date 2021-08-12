@@ -7,7 +7,7 @@
                 <card-component cardheader="Login">
                     <template v-slot:cardbody>
                         <div class="card-body p-4">
-                            <login-component action="{{ route('login') }}" csrf_token={{ csrf_token() }}>
+                            <login-component action="{{ route('login') }}" csrf_token={{ csrf_token() }} serverip="{{$_SERVER['REMOTE_ADDR']}}">
                             </login-component>
                         </div>
                     </template>

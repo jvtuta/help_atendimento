@@ -129,7 +129,7 @@
 <script>
 import Vue from "vue";
 export default {
-  props: ["csrf_token", "rotamensagem"],
+  props: ["csrf_token", "rotamensagem", "serverip"],
   computed: {
     token() {
       let token = "";
@@ -160,7 +160,7 @@ export default {
   methods: {
     async usuario_autenticado_id() {
       const url =
-        "http://127.0.0.1:8000/api/v1/usuario?usuario_autenticado=true";
+        "http://"+serverip+"/api/v1/usuario?usuario_autenticado=true";
       const config = {
         headers: {
           Authorization: "bearer " + this.token,
@@ -182,7 +182,7 @@ export default {
     },
 
     async getUsers() {
-      const url = "http://127.0.0.1:8000/api/v1/usuario";
+      const url = "http://"+serverip+"/api/v1/usuario";
       const config = {
         headers: {
           Authorization: "bearer " + this.token,
@@ -216,7 +216,7 @@ export default {
       });
 
       const url =
-        "http://127.0.0.1:8000/api/v1/mensagem?getMessages=de_user_id=" +
+        "http://"+serverip+"/api/v1/mensagem?getMessages=de_user_id=" +
         this.usuario_autenticado_id_ +
         ";de_user_id=" +
         usuario.id;
@@ -237,7 +237,7 @@ export default {
     },
 
     uploadImage(event) {
-      const url = "http://127.0.0.1:8000/api/v1/mensagem";
+      const url = "http://"+serverip+"/api/v1/mensagem";
 
       let data = new FormData();
       console.log(event.target.files[0]);
@@ -262,7 +262,7 @@ export default {
 
     async downloadImage(urn_arquivo) {
       const url =
-        "http://127.0.0.1:8000/api/v1/mensagem?download=" + urn_arquivo;
+        "http://"+serverip+"/api/v1/mensagem?download=" + urn_arquivo;
       const config = {
         headers: {
           Authorization: "bearer " + this.token,
@@ -286,7 +286,7 @@ export default {
     },
 
     async sendMessage() {
-      const url = "http://127.0.0.1:8000/api/v1/mensagem";
+      const url = "http://"+serverip+"/api/v1/mensagem";
 
       this.mensagens.push({
         de_usuario_id: this.usuario_autenticado_id_,
