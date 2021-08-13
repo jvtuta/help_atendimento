@@ -4,10 +4,10 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <card-component cardheader="Registar">
+            <card-component cardheader="Registrar">
                 <template v-slot:cardbody>
-                    <card-body-component>
-                        <template>
+                    
+                        <div class="card-body p-4">
                             <form method="POST" action="{{ route('register') }}">
                                 @csrf
 
@@ -80,8 +80,8 @@
                                     </div>
                                 </div>
                             </form>
-                        </template>
-                    </card-body-component>
+                        </div>
+                    
                 </template>
             </card-component>
         </div>
