@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-4">
+            <div class="col-md-4 col-sm-12">
                 <card-component cardheader="Login">
                     <template v-slot:cardbody>
                         <div class="card-body p-4">

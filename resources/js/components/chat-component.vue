@@ -155,6 +155,7 @@ export default {
       usuario_destino: "",
       usuario_destino_nome: "",
       mensagens: [],
+      server: '10.10.1.175'
     };
   },
   methods: {
@@ -195,7 +196,7 @@ export default {
         .then((response) => response.data)
         .then((data) => {
           data.forEach((usuario) => {
-            if (usuario.id != usuario_autenticado_id) {
+            if (usuario.id != usuario_autenticado_id && usuario.active==true) {
               this.usuarios.push(usuario);
             //   usuario.ultima_mensagem =
             //     usuario.mensagens.length === 0

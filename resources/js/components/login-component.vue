@@ -37,7 +37,6 @@ export default {
                 method:'POST',
                 headers: { 'content-type': 'application/x-www-form-urlencoded' },
                 data: params,
-                // url: 'http://127.0.0.1:8000/api/v1/login'
             }
             axios(url,config)
                 .then(response => {

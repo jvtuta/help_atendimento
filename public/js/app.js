@@ -2049,7 +2049,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       usuario_autenticado_id_: "",
       usuario_destino: "",
       usuario_destino_nome: "",
-      mensagens: []
+      mensagens: [],
+      server: '10.10.1.175'
     };
   },
   methods: {
@@ -2119,7 +2120,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return response.data;
                 }).then(function (data) {
                   data.forEach(function (usuario) {
-                    if (usuario.id != usuario_autenticado_id) {
+                    if (usuario.id != usuario_autenticado_id && usuario.active == true) {
                       _this2.usuarios.push(usuario); //   usuario.ultima_mensagem =
                       //     usuario.mensagens.length === 0
                       //       ? ""
@@ -2371,8 +2372,7 @@ __webpack_require__.r(__webpack_exports__);
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
         },
-        data: params // url: 'http://127.0.0.1:8000/api/v1/login'
-
+        data: params
       };
       axios(url, config).then(function (response) {
         var token = response.data.token;
