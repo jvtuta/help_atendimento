@@ -196,13 +196,14 @@ export default {
         .then((response) => response.data)
         .then((data) => {
           data.forEach((usuario) => {
-            if (usuario.id != usuario_autenticado_id && usuario.active==true) {
-              this.usuarios.push(usuario);
+            if (usuario.id != usuario_autenticado_id && usuario.active==1) {
+                this.usuarios.push(usuario);
             //   usuario.ultima_mensagem =
             //     usuario.mensagens.length === 0
             //       ? ""
             //       : usuario.mensagens[usuario.mensagens.length - 1];
             }
+            
           });
         });
     },

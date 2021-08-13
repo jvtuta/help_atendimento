@@ -2120,7 +2120,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return response.data;
                 }).then(function (data) {
                   data.forEach(function (usuario) {
-                    if (usuario.id != usuario_autenticado_id && usuario.active == true) {
+                    if (usuario.id != usuario_autenticado_id && usuario.active == 1) {
                       _this2.usuarios.push(usuario); //   usuario.ultima_mensagem =
                       //     usuario.mensagens.length === 0
                       //       ? ""
