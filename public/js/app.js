@@ -2023,7 +2023,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["csrf_token", "rotamensagem"],
+  props: ["csrf_token"],
   computed: {
     token: function token() {
       var token = "";
@@ -2062,7 +2062,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                url = "http://127.0.0.1:8000/api/v1/usuario?usuario_autenticado=true";
+                url = "/api/v1/usuario?usuario_autenticado=true";
                 config = {
                   headers: {
                     Authorization: "bearer " + _this.token
@@ -2102,7 +2102,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                url = "http://127.0.0.1:8000/api/v1/usuario";
+                url = "/api/v1/usuario";
                 config = {
                   headers: {
                     Authorization: "bearer " + _this2.token
@@ -2119,12 +2119,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return response.data;
                 }).then(function (data) {
                   data.forEach(function (usuario) {
-                    // if (usuario.id != usuario_autenticado_id) {
-                    //   usuario.ultima_mensagem =
-                    //     usuario.mensagens.length === 0
-                    //       ? ""
-                    //       : usuario.mensagens[usuario.mensagens.length - 1];
-                    _this2.usuarios.push(usuario);
+                    if (usuario.id != usuario_autenticado_id) {
+                      _this2.usuarios.push(usuario); //   usuario.ultima_mensagem =
+                      //     usuario.mensagens.length === 0
+                      //       ? ""
+                      //       : usuario.mensagens[usuario.mensagens.length - 1];
+
+                    }
                   });
                 });
 
@@ -2153,7 +2154,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (_this3.usuarios[i].notificacao) vue__WEBPACK_IMPORTED_MODULE_1__.default.set(_this3.usuarios[i], "notificacao", false);
                 });
 
-                url = "http://127.0.0.1:8000/api/v1/mensagem?getMessages=de_user_id=" + _this3.usuario_autenticado_id_ + ";de_user_id=" + usuario.id;
+                url = "/api/v1/mensagem?getMessages=de_user_id=" + _this3.usuario_autenticado_id_ + ";de_user_id=" + usuario.id;
                 config = {
                   headers: {
                     Accept: "application/json",
@@ -2181,7 +2182,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     uploadImage: function uploadImage(event) {
       var _this4 = this;
 
-      var url = "http://127.0.0.1:8000/api/v1/mensagem";
+      var url = "/api/v1/mensagem";
       var data = new FormData();
       console.log(event.target.files[0]);
       data.append("imagem", event.target.files[0]);
@@ -2208,7 +2209,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                url = "http://127.0.0.1:8000/api/v1/mensagem?download=" + urn_arquivo;
+                url = "/api/v1/mensagem?download=" + urn_arquivo;
                 config = {
                   headers: {
                     Authorization: "bearer " + _this5.token,
@@ -2245,7 +2246,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                url = "http://127.0.0.1:8000/api/v1/mensagem";
+                url = "/api/v1/mensagem";
 
                 _this6.mensagens.push({
                   de_usuario_id: _this6.usuario_autenticado_id_,
@@ -2360,7 +2361,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     login: function login(e) {
-      var url = 'http://127.0.0.1:8000/api/v1/login';
+      var url = '/api/v1/login';
       var params = new URLSearchParams({
         'nome_usuario': this.nome_usuario,
         'password': this.password

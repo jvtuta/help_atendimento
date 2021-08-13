@@ -129,7 +129,7 @@
 <script>
 import Vue from "vue";
 export default {
-  props: ["csrf_token", "rotamensagem", "serverip"],
+  props: ["csrf_token"],
   computed: {
     token() {
       let token = "";
@@ -160,7 +160,7 @@ export default {
   methods: {
     async usuario_autenticado_id() {
       const url =
-        "http://"+serverip+"/api/v1/usuario?usuario_autenticado=true";
+        "/api/v1/usuario?usuario_autenticado=true";
       const config = {
         headers: {
           Authorization: "bearer " + this.token,
@@ -182,7 +182,7 @@ export default {
     },
 
     async getUsers() {
-      const url = "http://"+serverip+"/api/v1/usuario";
+      const url = "/api/v1/usuario";
       const config = {
         headers: {
           Authorization: "bearer " + this.token,
@@ -195,13 +195,13 @@ export default {
         .then((response) => response.data)
         .then((data) => {
           data.forEach((usuario) => {
-            // if (usuario.id != usuario_autenticado_id) {
+            if (usuario.id != usuario_autenticado_id) {
+              this.usuarios.push(usuario);
             //   usuario.ultima_mensagem =
             //     usuario.mensagens.length === 0
             //       ? ""
             //       : usuario.mensagens[usuario.mensagens.length - 1];
-
-            this.usuarios.push(usuario);
+            }
           });
         });
     },
@@ -216,7 +216,7 @@ export default {
       });
 
       const url =
-        "http://"+serverip+"/api/v1/mensagem?getMessages=de_user_id=" +
+        "/api/v1/mensagem?getMessages=de_user_id=" +
         this.usuario_autenticado_id_ +
         ";de_user_id=" +
         usuario.id;
@@ -237,7 +237,7 @@ export default {
     },
 
     uploadImage(event) {
-      const url = "http://"+serverip+"/api/v1/mensagem";
+      const url = "/api/v1/mensagem";
 
       let data = new FormData();
       console.log(event.target.files[0]);
@@ -262,7 +262,7 @@ export default {
 
     async downloadImage(urn_arquivo) {
       const url =
-        "http://"+serverip+"/api/v1/mensagem?download=" + urn_arquivo;
+        "/api/v1/mensagem?download=" + urn_arquivo;
       const config = {
         headers: {
           Authorization: "bearer " + this.token,
@@ -286,7 +286,7 @@ export default {
     },
 
     async sendMessage() {
-      const url = "http://"+serverip+"/api/v1/mensagem";
+      const url = "/api/v1/mensagem";
 
       this.mensagens.push({
         de_usuario_id: this.usuario_autenticado_id_,
