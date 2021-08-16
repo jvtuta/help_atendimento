@@ -33,7 +33,7 @@ Vue.component('navbar-list-component', require('./components/navbar-list-compone
 Vue.component('card-component', require('./components/card-component.vue').default);
 Vue.component('login-component', require('./components/login-component.vue').default);
 Vue.component('chat-component', require('./components/chat-component.vue').default);
-
+Vue.component('register-component', require('./components/register-component.vue').default);
 
 /*
  *

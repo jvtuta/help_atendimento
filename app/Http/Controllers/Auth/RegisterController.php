@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Departamento;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -53,6 +54,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'nome_usuario' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'fk_id_dp' => ['required', 'string']
         ]);
     }
 
@@ -63,11 +65,15 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
     protected function create(array $data)
-    {
+    {   
+        $departamento_id= new Departamento();
+        $departamento_id->find($data['fk_id_dp']);
+        
         return User::create([
             'name' => $data['name'],
             'nome_usuario' => $data['nome_usuario'],
             'password' => Hash::make($data['password']),
+            'fk_id_dp' => 
         ]);
     }
 }

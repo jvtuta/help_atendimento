@@ -74,6 +74,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany('App\Models\Mensagem','de_user_id');
     }
 
+    public function departamento() {
+        return $this->belongsTo('App\Models\Departamento');
+    }
+
 
     // public function departamento() {
     //     return $this->belongsTo('App/Models/Departamento');
