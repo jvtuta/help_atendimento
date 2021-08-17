@@ -77,7 +77,7 @@
                                         Phpmyadmin
                                     </a>
                                     <a href="{{route('configuracoes')}}" class="dropdown-item">
-                                        configurações
+                                        Configurações
                                     </a>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
