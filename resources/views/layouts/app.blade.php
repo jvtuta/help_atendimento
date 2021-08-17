@@ -72,9 +72,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @if (Auth::user()->administrador)
                                     <a class="dropdown-item" href="/phpmyadmin/" >
                                         Phpmyadmin
                                     </a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                                          document.getElementById('logout-form').submit();">
                                         Logout

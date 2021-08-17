@@ -1,2 +1,0 @@
-#!/bin/sh
-git remote set-url origin https://jvtuta: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@github.com/jvtuta/helpatendimento
