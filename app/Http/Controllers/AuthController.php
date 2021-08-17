@@ -33,13 +33,18 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         /*Validar as entradas antes de salvar o usuário a fim de manter consistência*/
-        $this->user->fill($request->all());
-        $this->user->password = bcrypt($request->get('password'));
+        if($request->password == $request->password_confirmation) {
+            $this->user->fill($request->all());
+            $this->user->password = bcrypt($request->get('password'));
+            $token = auth('api')->attempt($request->all('nome_usuario','password'));
+            if($this->user->save()&&$token) {
+                return response()->json(['Sucesso'=>'Usuário cadastrado com sucesso','token'=>$token],201);
+            };
+            return response()->json(['Erro'=>'Erro ao salvar'],400);
+        }   
+        return response()->json(['Erro'=>'Confirmação da senha inválida'],401);
+        
 
-        if($this->user->save()) {
-            return response()->json(['Sucesso'=>'Usuário cadastrado com sucesso'],201);
-        };
-        return response()->json(['Erro'=>'Erro ao salvar'],400);
 
         
         // return 'teste registrar';

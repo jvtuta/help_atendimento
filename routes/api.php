@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
     Route::post('login', [App\Http\Controllers\AuthController::class, 'login']);
     Route::post('register', [App\Http\Controllers\AuthController::class, 'register']);
+    Route::apiResource('departamento', 'App\Http\Controllers\DepartamentoController');
     Route::middleware('jwt.auth')->group(function () {
         // Route::
         Route::post('logout', [App\Http\Controllers\AuthController::class, 'logout']);

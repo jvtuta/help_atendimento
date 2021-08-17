@@ -4,17 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Departamento;
 use Illuminate\Http\Request;
+use App\Repository\DepartamentoRepository;
 
 class DepartamentoController extends Controller
 {
+    public function __construct(Departamento $departamento)
+    {
+        $this->departamento = $departamento;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $departamentoRepository = new DepartamentoRepository($this->departamento);
+
+        
+
+        return response()->json($departamentoRepository->getRes(), 200);
     }
 
     /**
