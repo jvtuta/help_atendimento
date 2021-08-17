@@ -21,11 +21,11 @@ class CreateUsersTable extends Migration
             $table->string('image_perfil_urn')->nullable();
             $table->boolean('active')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->unsignedBigInteger('id_departamento');
+            
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('id_departamento')->references('id')->on('departamentos');
+            
         });
     }
 
