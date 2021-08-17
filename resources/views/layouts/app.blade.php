@@ -76,6 +76,9 @@
                                     <a class="dropdown-item" href="/phpmyadmin/" >
                                         Phpmyadmin
                                     </a>
+                                    <a href="{{route('configuracoes')}}" class="dropdown-item">
+                                        configurações
+                                    </a>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                                          document.getElementById('logout-form').submit();">
