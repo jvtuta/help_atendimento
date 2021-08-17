@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\DBAL\Schema\Index;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::prefix('app')->group(function () {
-                        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-                        Route::get('/chat', [App\Http\Controllers\ChatController::class, 'index'])->name('chat');    
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/chat', [App\Http\Controllers\ChatController::class, 'index'])->name('chat');    
+    Route::get('/configuracoes', [App\Http\Controllers\ConfiguracoesController::class, 'index'])->name('configuracoes');
 });
