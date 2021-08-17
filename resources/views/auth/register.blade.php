@@ -7,7 +7,7 @@
             <card-component cardheader="Registrar">
                 <template v-slot:cardbody>
                     <register-component 
-                        action="{{route('register')}}"
+                        action="{{route('home')}}"
                         csrf_token="{{csrf_token()}}"
                     >
                     </register-component>          

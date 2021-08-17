@@ -1,6 +1,6 @@
 <template>
   <div class="card-body p-4">
-    <form :action="action" method="post">
+    <form :action="action" method="post" @submit.prevent="registro($event)">
       <input type="hidden" name="_token" :value="csrf_token" />
       <div class="mb-2 row">
         <label for="departamentos" class="col-md-4 col-form-label text-md-right"
@@ -96,6 +96,9 @@
         </div>
       </div>
     </form>
+    <div class="row mt-2" v-if="registrado">
+      <span class="text-success">Registrado com sucesso!</span>
+    </div>
   </div>
 </template>
 
@@ -109,15 +112,17 @@ export default {
       nome:'',
       nome_usuario:'',
       password:'',
-      password_confirmation: ''
+      password_confirmation: '',
+      registrado: false
     };
   },
   methods: {
     registro(e) {
+      this.registrado = false
       const url = "/api/v1/register";
       let params = new URLSearchParams({
-        departamento: this.departamento,
-        nome: this.nome,
+        id_departamento: this.departamento,
+        name: this.nome,
         nome_usuario: this.nome_usuario,
         password: this.password,
         password_confirmation: this.password_confirmation
@@ -130,10 +135,9 @@ export default {
       };
       axios(url, config).then((response) => {
         let token = response.data.token;
-        console.log(response)
         if (token) {
           document.cookie = "_Token=" + token + ";SameSite=lax";
-          e.target.submit();
+          this.registrado = true
         }
       }).catch((err)=>{
         console.log(err)
