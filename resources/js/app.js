@@ -34,7 +34,7 @@ Vue.component('card-component', require('./components/card-component.vue').defau
 Vue.component('login-component', require('./components/login-component.vue').default);
 Vue.component('chat-component', require('./components/chat-component.vue').default);
 Vue.component('register-component', require('./components/register-component.vue').default);
-
+Vue.component('configuracoes-component', require('./components/configuracoes-component.vue').default);
 /*
  *
  * Next, we will create a fresh Vue application instance and attach it to

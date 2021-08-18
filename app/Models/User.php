@@ -75,7 +75,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function departamento() {
-        return $this->belongsTo('App\Models\Departamento');
+        return $this->belongsTo('App\Models\Departamento', 'id_departamento');
     }
 
 

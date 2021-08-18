@@ -2,6 +2,8 @@
 
 @section('content')
 
-<h1>Teste</h1>
+<configuracoes-component>
+    
+</configuracoes-component>
 
 @endsection

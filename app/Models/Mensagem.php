@@ -17,8 +17,7 @@ class Mensagem extends Model
     protected $dates = [
         'created_at',
     ];
-    // protected $dateFormat = 'Y';
-    // user_id = remetente = de_usuario
+
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'para_user_id');

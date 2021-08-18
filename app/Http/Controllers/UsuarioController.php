@@ -21,13 +21,10 @@ class UsuarioController extends Controller
     public function index(Request $request)
     {
         $userRepository = new UserRepository($this->user);
-        // dd($this->user);
         
-
         if($request->has('usuario_autenticado') )
         {
             $userRepository->filtrarRegistros('id:=:'.Auth::user()->id);
-            
         }
         
         if($request->has('atributos')) {
@@ -35,12 +32,15 @@ class UsuarioController extends Controller
         }
         
         if($request->has('atributos_relacionamento')) {
-            // dd($request->atributos_relacionamento);
-
-            $userRepository->setRelacionamento('mensagens');
-            $userRepository->selectAtributosRelacionamento($request->atributos_relacionamento);
-
-        }
+            
+            if($request->relacionamento=='departamento') {
+                $userRepository->setRelacionamento('departamento');
+                $userRepository->selectAtributosRelacionamento($request->atributos_relacionamento);
+            } else {
+                $userRepository->setRelacionamento('mensagens');
+                $userRepository->selectAtributosRelacionamento($request->atributos_relacionamento);
+            }
+        } 
 
         if($request->has('filtro')) {
             $userRepository->filtrarRegistros($request->filtro);

@@ -22,7 +22,8 @@ abstract class Repository
     public function selectAtributosRelacionamento(...$attr)
     {
         $attr = implode(',', $attr);
-            $this->repository = $this->repository->with($this->relacionamento . ':id,' . $attr);
+        
+        $this->repository = $this->repository->with($this->relacionamento . ':id,' . $attr);
             // $this->repository = $this->repository->with($this->relacionamento . ':'.$relacionamento.',' . $attr);
     }
 
