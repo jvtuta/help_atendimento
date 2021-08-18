@@ -2021,6 +2021,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["csrf_token"],
@@ -2045,12 +2060,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       usuarios: [],
       mensagemContainer: false,
+      button_back: false,
+      chatMessages: true,
       desc_mensagem: "",
       usuario_autenticado_id_: "",
       usuario_destino: "",
       usuario_destino_nome: "",
       mensagens: [],
-      server: '10.10.1.175'
+      departamentos: []
     };
   },
   methods: {
@@ -2103,7 +2120,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                url = "/api/v1/usuario";
+                url = "/api/v1/departamento";
                 config = {
                   headers: {
                     Authorization: "bearer " + _this2.token
@@ -2119,14 +2136,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.get(url, config).then(function (response) {
                   return response.data;
                 }).then(function (data) {
-                  data.forEach(function (usuario) {
-                    if (usuario.id != usuario_autenticado_id && usuario.active == 1) {
-                      _this2.usuarios.push(usuario); //   usuario.ultima_mensagem =
-                      //     usuario.mensagens.length === 0
-                      //       ? ""
-                      //       : usuario.mensagens[usuario.mensagens.length - 1];
+                  var id_p, id_u;
+                  data.forEach(function (departamento, iDp) {
+                    _this2.departamentos.push(departamento);
 
-                    }
+                    departamento.users.forEach(function (usuario, index) {
+                      if (usuario.id != usuario_autenticado_id && usuario.active == 1) {
+                        _this2.usuarios.push(usuario);
+                      } else {
+                        id_p = iDp;
+                        id_u = usuario.id;
+                      }
+                    });
+                  }); // Remover usuário autenticado da lista de renderização do chat
+
+                  // Remover usuário autenticado da lista de renderização do chat
+                  _this2.departamentos[id_p].users = _this2.departamentos[id_p].users.filter(function (usuario) {
+                    return usuario.id !== id_u;
                   });
                 });
 
@@ -2155,6 +2181,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (_this3.usuarios[i].notificacao) vue__WEBPACK_IMPORTED_MODULE_1__.default.set(_this3.usuarios[i], "notificacao", false);
                 });
 
+                if (screen.width < 576) {
+                  _this3.button_back = true;
+                  _this3.chatMessages = false;
+                }
+
                 url = "/api/v1/mensagem?getMessages=de_user_id=" + _this3.usuario_autenticado_id_ + ";de_user_id=" + usuario.id;
                 config = {
                   headers: {
@@ -2162,17 +2193,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     Authorization: "bearer " + _this3.token
                   }
                 };
-                _context3.next = 8;
+                _context3.next = 9;
                 return axios.get(url, config).then(function (response) {
                   return response.data;
                 }).then(function (data) {
                   return _this3.mensagens = data;
                 });
 
-              case 8:
+              case 9:
                 _this3.scrollToEnd(".mensagem-container");
 
-              case 9:
+              case 10:
               case "end":
                 return _context3.stop();
             }
@@ -2217,7 +2248,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     responseType: "blob"
                   }
                 };
-                imagemurn = urn_arquivo.replace('storage/imagens/chat/', '');
+                imagemurn = urn_arquivo.replace("storage/imagens/chat/", "");
                 _context4.next = 5;
                 return axios.get(url, config).then(function (response) {
                   return response.data;
@@ -7242,7 +7273,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.textcard {\r\n  white-space: nowrap;\r\n  width: 160px;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.textcard:hover {\r\n  width: 300px;\n}\n#mensagemContainer > button {\r\n  border-radius: 0 !important;\n}\n.mensagem-container {\r\n  max-height: 620px;\r\n  overflow-y: auto;\n}\n.notificacao {\r\n  border-radius: 50%;\r\n  display: inline-block;\r\n  height: 10px;\r\n  width: 10px;\n}\n#chatMessages div .row .col-md-10 .card-body:hover {\r\n  background-color: rgb(207, 219, 219);\r\n  /* border-radius: 0 25px 25px 0; */\r\n  cursor: pointer;\r\n  -webkit-text-decoration-color: white;\r\n          text-decoration-color: white;\r\n  color: white;\n}\r\n/* #chatMessages div.card {\r\n  border-radius: 25px !important;\r\n} */\n#mensagemContainer {\r\n  border-top-right-radius: 50rem;\r\n  border-bottom-right-radius: 50rem;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.textcard {\r\n  white-space: nowrap;\r\n  width: 160px;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.textcard:hover {\r\n  width: 300px;\n}\n#mensagemContainer > button {\r\n  border-radius: 0 !important;\n}\n.mensagem-container {\r\n  max-height: 620px;\r\n  overflow-y: auto;\n}\n.notificacao {\r\n  border-radius: 50%;\r\n  display: inline-block;\r\n  height: 10px;\r\n  width: 10px;\n}\n#chatMessages div .row .col-md-10 .card-body:hover {\r\n  background-color: rgb(207, 219, 219);\r\n  /* border-radius: 0 25px 25px 0; */\r\n  cursor: pointer;\r\n  -webkit-text-decoration-color: white;\r\n          text-decoration-color: white;\r\n  color: white;\n}\r\n/* #chatMessages div.card {\r\n  border-radius: 25px !important;\r\n} */\n#mensagemContainer {\r\n  border-top-right-radius: 50rem;\r\n  border-bottom-right-radius: 50rem;\n}\n#chatMessages > div > ul > li {\r\n  border: none;\r\n  margin: 0;\r\n  padding: 0;\n}\n#chatMessages > div > ul > li > div {\r\n  border-collapse: collapse;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -67508,131 +67539,152 @@ var render = function() {
     _c("hr"),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        { staticClass: "col-md-4 col-sm-12", attrs: { id: "chatMessages" } },
-        _vm._l(_vm.usuarios, function(usuario) {
-          return _c(
+      _vm.chatMessages
+        ? _c(
             "div",
             {
-              key: usuario.id,
-              staticClass: "card mb-2 row",
-              staticStyle: { "max-height": "14rem" }
+              staticClass: "col-md-3 col-sm-12 mb-4 me-1",
+              attrs: { id: "chatMessages" }
             },
-            [
-              _c("div", { staticClass: "row g-0" }, [
-                _vm._m(0, true),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-10" }, [
+            _vm._l(_vm.departamentos, function(departamento) {
+              return _c(
+                "div",
+                { key: departamento.id },
+                [
+                  departamento.users.length != 0
+                    ? [
+                        _c("div", { staticClass: "mt-3" }, [
+                          _c("h5", [
+                            _vm._v(_vm._s(departamento.nome_departamento))
+                          ]),
+                          _vm._v(" "),
+                          _c("hr")
+                        ])
+                      ]
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c(
-                    "div",
-                    {
-                      staticClass: "card-body",
-                      on: {
-                        click: function($event) {
-                          return _vm.selectActivePanel(usuario)
-                        }
-                      }
-                    },
-                    [
-                      _c("div", { staticClass: "card-title h-5" }, [
-                        _vm._v(
-                          "\n                " +
-                            _vm._s(usuario.name) +
-                            "\n                "
-                        ),
-                        usuario.notificacao === true
-                          ? _c("div", {
-                              staticClass: "float-end notificacao bg-primary"
-                            })
-                          : _vm._e()
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "card-text textcard" }),
-                      _vm._v(" "),
-                      _vm._m(1, true)
-                    ]
-                  )
-                ])
-              ])
-            ]
-          )
-        }),
-        0
-      ),
-      _vm._v(" "),
-      _vm.mensagemContainer
-        ? _c("div", { staticClass: "col-md-8 col-sm-12" }, [
-            _c("div", { staticClass: "card mb-0 row ms-2" }, [
-              _c("div", { staticClass: "row g-0" }, [
-                _c("div", { staticClass: "card-header col-md-12" }, [
-                  _c("h5", { staticClass: "card-title" }, [
-                    _vm._v(_vm._s(_vm.usuario_destino_nome))
-                  ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "card-body col-md-10 mensagem-container" },
-                  _vm._l(_vm.mensagens, function(mensagem) {
-                    return _c(
-                      "div",
-                      { key: mensagem.id, staticClass: "row" },
-                      [
-                        mensagem.para_user_id == _vm.usuario_autenticado_id_
-                          ? [
-                              _c("div", { staticClass: "col" }, [
-                                _c("p", { staticClass: "float-start" }, [
-                                  _vm._v(
-                                    "\n                    " +
-                                      _vm._s(mensagem.desc_mensagem) +
-                                      "\n                    "
-                                  ),
+                    "ul",
+                    { staticClass: "list-group" },
+                    _vm._l(departamento.users, function(usuario) {
+                      return _c(
+                        "li",
+                        { key: usuario.id, staticClass: "list-group-item" },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "card row",
+                              staticStyle: { "max-height": "14rem" }
+                            },
+                            [
+                              _c("div", { staticClass: "row g-0" }, [
+                                _vm._m(0, true),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-10" }, [
                                   _c(
-                                    "span",
+                                    "div",
                                     {
-                                      staticClass: "text-muted d-block",
-                                      staticStyle: { "font-size": "0.8rem" }
+                                      staticClass: "card-body",
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.selectActivePanel(usuario)
+                                        }
+                                      }
                                     },
                                     [
-                                      _vm._v(
-                                        "\n                      " +
-                                          _vm._s(
-                                            _vm._f("formatDate")(
-                                              mensagem.created_at
-                                            )
-                                          ) +
-                                          "\n                    "
-                                      )
+                                      _c(
+                                        "div",
+                                        { staticClass: "card-title h-5" },
+                                        [
+                                          _vm._v(
+                                            "\n                      " +
+                                              _vm._s(usuario.name) +
+                                              "\n                      "
+                                          ),
+                                          usuario.notificacao === true
+                                            ? _c("div", {
+                                                staticClass:
+                                                  "float-end notificacao bg-primary"
+                                              })
+                                            : _vm._e()
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("p", {
+                                        staticClass: "card-text textcard"
+                                      }),
+                                      _vm._v(" "),
+                                      _vm._m(1, true)
                                     ]
-                                  ),
-                                  _vm._v(" "),
-                                  mensagem.urn_arquivo
-                                    ? _c(
-                                        "a",
-                                        {
-                                          staticClass:
-                                            "btn btn-sm btn-outline-primary",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.downloadImage(
-                                                mensagem.urn_arquivo
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [_vm._v(_vm._s(mensagem.urn_arquivo))]
-                                      )
-                                    : _vm._e()
+                                  )
                                 ])
                               ])
                             ]
-                          : [
-                              _c("div", { staticClass: "col" }, [
-                                _c(
-                                  "p",
-                                  { staticClass: "float-end text-dark" },
-                                  [
+                          )
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                ],
+                2
+              )
+            }),
+            0
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.button_back
+        ? _c(
+            "div",
+            {
+              staticClass: "mb-2",
+              attrs: { id: "button_back" },
+              on: {
+                click: function() {
+                  _vm.button_back = false
+                  _vm.chatMessages = true
+                  _vm.mensagemContainer = false
+                }
+              }
+            },
+            [
+              _c("button", { staticClass: "btn btn-outline-primary" }, [
+                _vm._v("Voltar")
+              ])
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.mensagemContainer
+        ? _c(
+            "div",
+            {
+              staticClass: "col-md-8 col-sm-12",
+              attrs: { id: "mensagemContainer" }
+            },
+            [
+              _c("div", { staticClass: "card mb-0" }, [
+                _c("div", { staticClass: "row g-0" }, [
+                  _c("div", { staticClass: "card-header col-md-12" }, [
+                    _c("h5", { staticClass: "card-title" }, [
+                      _vm._v(_vm._s(_vm.usuario_destino_nome))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "card-body col-md-10 mensagem-container" },
+                    _vm._l(_vm.mensagens, function(mensagem) {
+                      return _c(
+                        "div",
+                        { key: mensagem.id, staticClass: "row" },
+                        [
+                          mensagem.para_user_id == _vm.usuario_autenticado_id_
+                            ? [
+                                _c("div", { staticClass: "col" }, [
+                                  _c("p", { staticClass: "float-start" }, [
                                     _vm._v(
                                       "\n                    " +
                                         _vm._s(mensagem.desc_mensagem) +
@@ -67674,109 +67726,169 @@ var render = function() {
                                           [_vm._v(_vm._s(mensagem.urn_arquivo))]
                                         )
                                       : _vm._e()
-                                  ]
-                                )
-                              ])
-                            ]
-                      ],
-                      2
+                                  ])
+                                ])
+                              ]
+                            : [
+                                _c("div", { staticClass: "col" }, [
+                                  _c(
+                                    "p",
+                                    { staticClass: "float-end text-dark" },
+                                    [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(mensagem.desc_mensagem) +
+                                          "\n                    "
+                                      ),
+                                      _c(
+                                        "span",
+                                        {
+                                          staticClass: "text-muted d-block",
+                                          staticStyle: { "font-size": "0.8rem" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                      " +
+                                              _vm._s(
+                                                _vm._f("formatDate")(
+                                                  mensagem.created_at
+                                                )
+                                              ) +
+                                              "\n                    "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      mensagem.urn_arquivo
+                                        ? _c(
+                                            "a",
+                                            {
+                                              staticClass:
+                                                "btn btn-sm btn-outline-primary",
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.downloadImage(
+                                                    mensagem.urn_arquivo
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(mensagem.urn_arquivo)
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              ]
+                        ],
+                        2
+                      )
+                    }),
+                    0
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c(
+                  "form",
+                  {
+                    attrs: { method: "post" },
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.sendMessage()
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "ms-2",
+                        attrs: { id: "mensagemContainer" }
+                      },
+                      [
+                        _c("input", {
+                          attrs: { type: "hidden", name: "csrf_token" },
+                          domProps: { value: _vm.csrf_token }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.desc_mensagem,
+                                expression: "desc_mensagem"
+                              }
+                            ],
+                            staticClass: "form-control form-control-sm",
+                            attrs: {
+                              type: "text",
+                              name: "desc_mensagem",
+                              id: "desc_mensagem",
+                              placeholder: "Digite aqui..."
+                            },
+                            domProps: { value: _vm.desc_mensagem },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.desc_mensagem = $event.target.value
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            {
+                              staticClass:
+                                "col-form-label col-form-label-sm px-2 py-3 btn btn-outline-primary m-0",
+                              attrs: { for: "file-image" }
+                            },
+                            [_vm._v("Selecionar imagem")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            staticClass: "form-control",
+                            staticStyle: { display: "none" },
+                            attrs: {
+                              type: "file",
+                              name: "imagem",
+                              accept: "image/*",
+                              id: "file-image",
+                              placeholder: "imagem"
+                            },
+                            on: {
+                              change: function($event) {
+                                return _vm.uploadImage($event)
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass:
+                                "btn btn-outline-primary col-md-2 col-sm-2"
+                            },
+                            [_vm._v("\n                Enviar\n              ")]
+                          )
+                        ])
+                      ]
                     )
-                  }),
-                  0
+                  ]
                 )
               ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c(
-                "form",
-                {
-                  attrs: { method: "post" },
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.sendMessage()
-                    }
-                  }
-                },
-                [
-                  _c(
-                    "div",
-                    {
-                      staticClass: "input-group ms-2",
-                      attrs: { id: "mensagemContainer" }
-                    },
-                    [
-                      _c("input", {
-                        attrs: { type: "hidden", name: "csrf_token" },
-                        domProps: { value: _vm.csrf_token }
-                      }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "input-group-text" }),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.desc_mensagem,
-                            expression: "desc_mensagem"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          name: "desc_mensagem",
-                          id: "desc_mensagem",
-                          placeholder: "   Pressione / para digitar"
-                        },
-                        domProps: { value: _vm.desc_mensagem },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.desc_mensagem = $event.target.value
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass:
-                            "form-label px-2 py-3 btn btn-outline-primary m-0",
-                          attrs: { for: "file-image" }
-                        },
-                        [_vm._v("Selecionar imagem")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        staticStyle: { display: "none" },
-                        attrs: {
-                          type: "file",
-                          name: "imagem",
-                          accept: "image/*",
-                          id: "file-image",
-                          placeholder: "imagem"
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.uploadImage($event)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("button", { staticClass: "btn btn-outline-primary" }, [
-                        _vm._v("Enviar")
-                      ])
-                    ]
-                  )
-                ]
-              )
-            ])
-          ])
+            ]
+          )
         : _vm._e()
     ])
   ])

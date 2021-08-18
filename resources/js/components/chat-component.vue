@@ -4,41 +4,52 @@
     <hr />
     <!-- Usuários Perfis(ultima mensagem, ativo?, n° mensagens não lidas, foto de perfil e nome) -->
     <div class="row">
-      <div class="col-md-4 col-sm-12" id="chatMessages">
-        <div
-          class="card mb-2 row"
-          style="max-height: 14rem"
-          v-for="usuario in usuarios"
-          :key="usuario.id"
-        >
-          <div class="row g-0">
-            <div class="col-md-2">
-              <i class="fas fa-user"></i>
+      <div class="col-md-3 col-sm-12 mb-4 me-1" id="chatMessages" v-if="chatMessages">
+        <div v-for="departamento in departamentos" :key="departamento.id">
+          <template v-if="departamento.users.length != 0">
+            <div class="mt-3">
+              <h5>{{ departamento.nome_departamento }}</h5>
+              <hr />
             </div>
-            <div class="col-md-10">
-              <div class="card-body" @click="selectActivePanel(usuario)">
-                <div class="card-title h-5">
-                  {{ usuario.name }}
-                  <div
-                    v-if="usuario.notificacao === true"
-                    class="float-end notificacao bg-primary"
-                  ></div>
-                </div>
+          </template>
+          <ul class="list-group">
+            <li
+              class="list-group-item"
+              v-for="usuario in departamento.users"
+              :key="usuario.id"
+            >
+              <div class="card row" style="max-height: 14rem">
+                <div class="row g-0">
+                  <div class="col-md-2">
+                    <i class="fas fa-user"></i>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="card-body" @click="selectActivePanel(usuario)">
+                      <div class="card-title h-5">
+                        {{ usuario.name }}
+                        <div
+                          v-if="usuario.notificacao === true"
+                          class="float-end notificacao bg-primary"
+                        ></div>
+                      </div>
 
-                <p class="card-text textcard">
-                  <!-- {{ usuario.ultima_mensagem.desc_mensagem }} -->
-                </p>
-                <p class="card-text">
-                  <small class="text-muted"> </small>
-                </p>
+                      <p class="card-text textcard">
+                        <!-- {{ usuario.ultima_mensagem.desc_mensagem }} -->
+                      </p>
+                      <p class="card-text">
+                        <small class="text-muted"> </small>
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
       </div>
-      <!-- container para renderizar a janela de mensagem ativa -->
-      <div class="col-md-8 col-sm-12" v-if="mensagemContainer">
-        <div class="card mb-0 row ms-2">
+      <div class="mb-2" id="button_back" v-if="button_back" @click="()=> { button_back = false; chatMessages = true; mensagemContainer = false}"> <button class="btn btn-outline-primary">Voltar</button> </div>
+      <div class="col-md-8 col-sm-12" v-if="mensagemContainer" id="mensagemContainer">
+        <div class="card mb-0">
           <div class="row g-0">
             <div class="card-header col-md-12">
               <h5 class="card-title">{{ usuario_destino_nome }}</h5>
@@ -91,33 +102,37 @@
         </div>
         <div class="row">
           <form method="post" @submit.prevent="sendMessage()">
-            <div class="input-group ms-2" id="mensagemContainer">
+            <div class="ms-2" id="mensagemContainer">
               <input type="hidden" name="csrf_token" :value="csrf_token" />
-              <span class="input-group-text"></span>
-              <input
-                type="text"
-                name="desc_mensagem"
-                id="desc_mensagem"
-                class="form-control"
-                placeholder="   Pressione / para digitar"
-                v-model="desc_mensagem"
-              />
-              <label
-                class="form-label px-2 py-3 btn btn-outline-primary m-0"
-                for="file-image"
-                >Selecionar imagem</label
-              >
-              <input
-                type="file"
-                name="imagem"
-                class="form-control"
-                accept="image/*"
-                id="file-image"
-                @change="uploadImage($event)"
-                placeholder="imagem"
-                style="display: none"
-              />
-              <button class="btn btn-outline-primary">Enviar</button>
+              <div class="input-group">
+                <input
+                  type="text"
+                  name="desc_mensagem"
+                  id="desc_mensagem"
+                  class="form-control form-control-sm"
+                  placeholder="Digite aqui..."
+                  v-model="desc_mensagem"
+                />
+                <label
+                  class="col-form-label col-form-label-sm px-2 py-3 btn btn-outline-primary m-0"
+                  for="file-image"
+                  >Selecionar imagem</label
+                >
+                <input
+                  type="file"
+                  name="imagem"
+                  class="form-control"
+                  accept="image/*"
+                  id="file-image"
+                  @change="uploadImage($event)"
+                  placeholder="imagem"
+                  style="display: none"
+                />
+
+                <button class="btn btn-outline-primary col-md-2 col-sm-2">
+                  Enviar
+                </button>
+              </div>
             </div>
           </form>
         </div>
@@ -150,18 +165,19 @@ export default {
     return {
       usuarios: [],
       mensagemContainer: false,
+      button_back: false,
+      chatMessages: true,
       desc_mensagem: "",
       usuario_autenticado_id_: "",
       usuario_destino: "",
       usuario_destino_nome: "",
       mensagens: [],
-      server: '10.10.1.175'
+      departamentos: [],
     };
   },
   methods: {
     async usuario_autenticado_id() {
-      const url =
-        "/api/v1/usuario?usuario_autenticado=true";
+      const url = "/api/v1/usuario?usuario_autenticado=true";
       const config = {
         headers: {
           Authorization: "bearer " + this.token,
@@ -183,7 +199,7 @@ export default {
     },
 
     async getUsers() {
-      const url = "/api/v1/usuario";
+      const url = "/api/v1/departamento";
       const config = {
         headers: {
           Authorization: "bearer " + this.token,
@@ -195,16 +211,22 @@ export default {
         .get(url, config)
         .then((response) => response.data)
         .then((data) => {
-          data.forEach((usuario) => {
-            if (usuario.id != usuario_autenticado_id && usuario.active==1) {
+          let id_p, id_u;
+          data.forEach((departamento, iDp) => {
+            this.departamentos.push(departamento);
+            departamento.users.forEach((usuario, index) => {
+              if (usuario.id != usuario_autenticado_id && usuario.active == 1) {
                 this.usuarios.push(usuario);
-            //   usuario.ultima_mensagem =
-            //     usuario.mensagens.length === 0
-            //       ? ""
-            //       : usuario.mensagens[usuario.mensagens.length - 1];
-            }
-            
+              } else {
+                id_p = iDp;
+                id_u = usuario.id;
+              }
+            });
           });
+          // Remover usuário autenticado da lista de renderização do chat
+          this.departamentos[id_p].users = this.departamentos[
+            id_p
+          ].users.filter((usuario) => usuario.id !== id_u);
         });
     },
 
@@ -216,7 +238,11 @@ export default {
         if (this.usuarios[i].notificacao)
           Vue.set(this.usuarios[i], "notificacao", false);
       });
+      if(screen.width < 576) {
 
+        this.button_back = true;
+        this.chatMessages = false;
+      }
       const url =
         "/api/v1/mensagem?getMessages=de_user_id=" +
         this.usuario_autenticado_id_ +
@@ -263,15 +289,14 @@ export default {
     },
 
     async downloadImage(urn_arquivo) {
-      const url =
-        "/api/v1/mensagem?download=" + urn_arquivo;
+      const url = "/api/v1/mensagem?download=" + urn_arquivo;
       const config = {
         headers: {
           Authorization: "bearer " + this.token,
           responseType: "blob",
         },
       };
-      let imagemurn = urn_arquivo.replace('storage/imagens/chat/','')
+      let imagemurn = urn_arquivo.replace("storage/imagens/chat/", "");
       await axios
         .get(url, config)
         .then((response) => response.data)
@@ -389,5 +414,14 @@ export default {
 #mensagemContainer {
   border-top-right-radius: 50rem;
   border-bottom-right-radius: 50rem;
+}
+
+#chatMessages > div > ul > li {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+#chatMessages > div > ul > li > div {
+  border-collapse: collapse;
 }
 </style>

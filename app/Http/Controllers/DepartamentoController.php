@@ -20,9 +20,21 @@ class DepartamentoController extends Controller
     public function index(Request $request)
     {
         $departamentoRepository = new DepartamentoRepository($this->departamento);
+        $departamentoRepository->setRelacionamento('users');
+        if ($request->has('atributos')) {
+            $departamentoRepository->selectAtributos($request->atributos);
+        }
 
+        if ($request->has('atributos_relacionamento')) {
+
+            
+            $departamentoRepository->selectAtributosRelacionamento($request->atributos_relacionamento);
+        }
+
+        if ($request->has('filtro')) {
+            $departamentoRepository->filtrarRegistros($request->filtro);
+        }
         
-
         return response()->json($departamentoRepository->getRes(), 200);
     }
 
