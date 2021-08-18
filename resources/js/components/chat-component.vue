@@ -109,14 +109,14 @@
                   type="text"
                   name="desc_mensagem"
                   id="desc_mensagem"
-                  class="form-control form-control-sm"
+                  class="form-control form-control-sm col-xs-12"
                   placeholder="Digite aqui..."
                   v-model="desc_mensagem"
                 />
                 <label
-                  class="col-form-label col-form-label-sm px-2 py-3 btn btn-outline-primary m-0"
+                  class="btn btn-outline-primary p-1"
                   for="file-image"
-                  >Selecionar imagem</label
+                  >imagem</label
                 >
                 <input
                   type="file"
@@ -129,7 +129,7 @@
                   style="display: none"
                 />
 
-                <button class="btn btn-outline-primary col-md-2 col-sm-2">
+                <button class="btn btn-outline-primary p-1">
                   Enviar
                 </button>
               </div>

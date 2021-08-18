@@ -67828,7 +67828,8 @@ var render = function() {
                                 expression: "desc_mensagem"
                               }
                             ],
-                            staticClass: "form-control form-control-sm",
+                            staticClass:
+                              "form-control form-control-sm col-xs-12",
                             attrs: {
                               type: "text",
                               name: "desc_mensagem",
@@ -67849,11 +67850,10 @@ var render = function() {
                           _c(
                             "label",
                             {
-                              staticClass:
-                                "col-form-label col-form-label-sm px-2 py-3 btn btn-outline-primary m-0",
+                              staticClass: "btn btn-outline-primary p-1",
                               attrs: { for: "file-image" }
                             },
-                            [_vm._v("Selecionar imagem")]
+                            [_vm._v("imagem")]
                           ),
                           _vm._v(" "),
                           _c("input", {
@@ -67875,10 +67875,7 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "button",
-                            {
-                              staticClass:
-                                "btn btn-outline-primary col-md-2 col-sm-2"
-                            },
+                            { staticClass: "btn btn-outline-primary p-1" },
                             [_vm._v("\n                Enviar\n              ")]
                           )
                         ])
