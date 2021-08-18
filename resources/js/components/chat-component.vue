@@ -18,7 +18,7 @@
               v-for="usuario in departamento.users"
               :key="usuario.id"
             >
-              <div class="card row" style="max-height: 14rem">
+              <div class="card" style="max-height: 14rem">
                 <div class="row g-0">
                   <div class="col-md-2">
                     <i class="fas fa-user"></i>
@@ -102,7 +102,7 @@
         </div>
         <div class="row">
           <form method="post" @submit.prevent="sendMessage()">
-            <div class="ms-2" id="mensagemContainer">
+          
               <input type="hidden" name="csrf_token" :value="csrf_token" />
               <div class="input-group">
                 <input
@@ -133,7 +133,7 @@
                   Enviar
                 </button>
               </div>
-            </div>
+            
           </form>
         </div>
       </div>

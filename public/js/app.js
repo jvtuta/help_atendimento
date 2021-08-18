@@ -67574,7 +67574,7 @@ var render = function() {
                           _c(
                             "div",
                             {
-                              staticClass: "card row",
+                              staticClass: "card",
                               staticStyle: { "max-height": "14rem" }
                             },
                             [
@@ -67806,81 +67806,71 @@ var render = function() {
                     }
                   },
                   [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "ms-2",
-                        attrs: { id: "mensagemContainer" }
-                      },
-                      [
-                        _c("input", {
-                          attrs: { type: "hidden", name: "csrf_token" },
-                          domProps: { value: _vm.csrf_token }
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "input-group" }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.desc_mensagem,
-                                expression: "desc_mensagem"
-                              }
-                            ],
-                            staticClass:
-                              "form-control form-control-sm col-xs-12",
-                            attrs: {
-                              type: "text",
-                              name: "desc_mensagem",
-                              id: "desc_mensagem",
-                              placeholder: "Digite aqui..."
-                            },
-                            domProps: { value: _vm.desc_mensagem },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.desc_mensagem = $event.target.value
-                              }
+                    _c("input", {
+                      attrs: { type: "hidden", name: "csrf_token" },
+                      domProps: { value: _vm.csrf_token }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "input-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.desc_mensagem,
+                            expression: "desc_mensagem"
+                          }
+                        ],
+                        staticClass: "form-control form-control-sm col-xs-12",
+                        attrs: {
+                          type: "text",
+                          name: "desc_mensagem",
+                          id: "desc_mensagem",
+                          placeholder: "Digite aqui..."
+                        },
+                        domProps: { value: _vm.desc_mensagem },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
                             }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "label",
-                            {
-                              staticClass: "btn btn-outline-primary p-1",
-                              attrs: { for: "file-image" }
-                            },
-                            [_vm._v("imagem")]
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            staticClass: "form-control",
-                            staticStyle: { display: "none" },
-                            attrs: {
-                              type: "file",
-                              name: "imagem",
-                              accept: "image/*",
-                              id: "file-image",
-                              placeholder: "imagem"
-                            },
-                            on: {
-                              change: function($event) {
-                                return _vm.uploadImage($event)
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            { staticClass: "btn btn-outline-primary p-1" },
-                            [_vm._v("\n                Enviar\n              ")]
-                          )
-                        ])
-                      ]
-                    )
+                            _vm.desc_mensagem = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "btn btn-outline-primary p-1",
+                          attrs: { for: "file-image" }
+                        },
+                        [_vm._v("imagem")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        staticStyle: { display: "none" },
+                        attrs: {
+                          type: "file",
+                          name: "imagem",
+                          accept: "image/*",
+                          id: "file-image",
+                          placeholder: "imagem"
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.uploadImage($event)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        { staticClass: "btn btn-outline-primary p-1" },
+                        [_vm._v("\n                Enviar\n              ")]
+                      )
+                    ])
                   ]
                 )
               ])
