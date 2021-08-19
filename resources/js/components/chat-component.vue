@@ -47,7 +47,7 @@
           </ul>
         </div>
       </div>
-      <div class="mb-2" id="button_back" v-if="button_back" @click="()=> { button_back = false; chatMessages = true; mensagemContainer = false}"> <button class="btn btn-outline-primary">Voltar</button> </div>
+      <div class="mb-2" id="button_back" v-if="button_back" @click="()=> { button_back = false; chatMessages = true; mensagemContainer = false}"> <button class="btn btn-outline-primary btn-sm">Voltar</button> </div>
       <div class="col-md-8 col-sm-12" v-if="mensagemContainer" id="mensagemContainer">
         <div class="card mb-0">
           <div class="row g-0">
@@ -89,7 +89,7 @@
                       </span>
                       <a
                         v-if="mensagem.urn_arquivo"
-                        class="btn btn-sm btn-outline-primary"
+                        class="btn btn-sm btn-outline-primary btn-sm"
                         @click="downloadImage(mensagem.urn_arquivo)"
                         >{{ mensagem.urn_arquivo }}</a
                       >
@@ -356,7 +356,7 @@ export default {
           this.mensagens.push(mensagem.mensagem);
           this.scrollToEnd(".mensagem-container");
         } else {
-          const user = this.usuarios.filter((usuario, i) => {
+          this.usuarios.filter((usuario, i) => {
             if (usuario.id === mensagem.mensagem.de_user_id) {
               Vue.set(this.usuarios[i], "notificacao", true);
             }
@@ -390,6 +390,7 @@ export default {
 }
 
 .mensagem-container {
+  min-height: 420px;
   max-height: 620px;
   overflow-y: auto;
 }
