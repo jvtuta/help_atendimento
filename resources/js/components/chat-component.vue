@@ -4,7 +4,11 @@
     <hr />
     <!-- Usuários Perfis(ultima mensagem, ativo?, n° mensagens não lidas, foto de perfil e nome) -->
     <div class="row">
-      <div class="col-md-3 col-sm-12 mb-4 me-1" id="chatMessages" v-if="chatMessages">
+      <div
+        class="col-md-3 col-sm-12 mb-4 me-1"
+        id="chatMessages"
+        v-if="chatMessages"
+      >
         <div v-for="departamento in departamentos" :key="departamento.id">
           <template v-if="departamento.users.length != 0">
             <div class="mt-3">
@@ -47,8 +51,25 @@
           </ul>
         </div>
       </div>
-      <div class="mb-2" id="button_back" v-if="button_back" @click="()=> { button_back = false; chatMessages = true; mensagemContainer = false}"> <button class="btn btn-outline-primary btn-sm">Voltar</button> </div>
-      <div class="col-md-8 col-sm-12" v-if="mensagemContainer" id="mensagemContainer">
+      <div
+        class="mb-2"
+        id="button_back"
+        v-if="button_back"
+        @click="
+          () => {
+            button_back = false;
+            chatMessages = true;
+            mensagemContainer = false;
+          }
+        "
+      >
+        <button class="btn btn-outline-primary btn-sm">Voltar</button>
+      </div>
+      <div
+        class="col-md-8 col-sm-12"
+        v-if="mensagemContainer"
+        id="mensagemContainer"
+      >
         <div class="card mb-0">
           <div class="row g-0">
             <div class="card-header col-md-12">
@@ -102,38 +123,32 @@
         </div>
         <div class="row">
           <form method="post" @submit.prevent="sendMessage()">
-          
-              <input type="hidden" name="csrf_token" :value="csrf_token" />
-              <div class="input-group">
-                <input
-                  type="text"
-                  name="desc_mensagem"
-                  id="desc_mensagem"
-                  class="form-control form-control-sm col-xs-12"
-                  placeholder="Digite aqui..."
-                  v-model="desc_mensagem"
-                />
-                <label
-                  class="btn btn-outline-primary p-1"
-                  for="file-image"
-                  >imagem</label
-                >
-                <input
-                  type="file"
-                  name="imagem"
-                  class="form-control"
-                  accept="image/*"
-                  id="file-image"
-                  @change="uploadImage($event)"
-                  placeholder="imagem"
-                  style="display: none"
-                />
+            <input type="hidden" name="csrf_token" :value="csrf_token" />
+            <div class="input-group">
+              <input
+                type="text"
+                name="desc_mensagem"
+                id="desc_mensagem"
+                class="form-control form-control-sm col-xs-12"
+                placeholder="Digite aqui..."
+                v-model="desc_mensagem"
+              />
+              <label class="btn btn-outline-primary p-1" for="file-image"
+                >imagem</label
+              >
+              <input
+                type="file"
+                name="imagem"
+                class="form-control"
+                accept="image/*"
+                id="file-image"
+                @change="uploadImage($event)"
+                placeholder="imagem"
+                style="display: none"
+              />
 
-                <button class="btn btn-outline-primary p-1">
-                  Enviar
-                </button>
-              </div>
-            
+              <button class="btn btn-outline-primary p-1">Enviar</button>
+            </div>
           </form>
         </div>
       </div>
@@ -210,24 +225,25 @@ export default {
       await axios
         .get(url, config)
         .then((response) => response.data)
-        .then((data) => {
-          let id_p, id_u;
-          data.forEach((departamento, iDp) => {
-            this.departamentos.push(departamento);
-            departamento.users.forEach((usuario, index) => {
-              if (usuario.id != usuario_autenticado_id && usuario.active == 1) {
-                this.usuarios.push(usuario);
-              } else {
-                id_p = iDp;
-                id_u = usuario.id;
-              }
-            });
+        .then((data) => {         
+          data.forEach((departamento) => {
+            if (
+              departamento.users !== undefined &&
+              departamento.users.length != 0
+            ) {
+              let usuarios = []
+              departamento.users.forEach((usuario, index)=> {
+                if(usuario.id !== this.usuario_autenticado_id_ && usuario.active === 1) {
+                  usuarios.push(usuario);
+                  this.usuarios.push(usuario)
+                }
+              })
+              departamento.users = usuarios;
+              this.departamentos.push(departamento)
+            }
           });
-          // Remover usuário autenticado da lista de renderização do chat
-          this.departamentos[id_p].users = this.departamentos[
-            id_p
-          ].users.filter((usuario) => usuario.id !== id_u);
         });
+
     },
 
     async selectActivePanel(usuario) {
@@ -238,8 +254,7 @@ export default {
         if (this.usuarios[i].notificacao)
           Vue.set(this.usuarios[i], "notificacao", false);
       });
-      if(screen.width < 576) {
-
+      if (screen.width < 576) {
         this.button_back = true;
         this.chatMessages = false;
       }

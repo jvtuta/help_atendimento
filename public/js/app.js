@@ -2036,6 +2036,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["csrf_token"],
@@ -2136,23 +2151,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.get(url, config).then(function (response) {
                   return response.data;
                 }).then(function (data) {
-                  var id_p, id_u;
-                  data.forEach(function (departamento, iDp) {
-                    _this2.departamentos.push(departamento);
+                  data.forEach(function (departamento) {
+                    if (departamento.users !== undefined && departamento.users.length != 0) {
+                      var usuarios = [];
+                      departamento.users.forEach(function (usuario, index) {
+                        if (usuario.id !== _this2.usuario_autenticado_id_ && usuario.active === 1) {
+                          usuarios.push(usuario);
 
-                    departamento.users.forEach(function (usuario, index) {
-                      if (usuario.id != usuario_autenticado_id && usuario.active == 1) {
-                        _this2.usuarios.push(usuario);
-                      } else {
-                        id_p = iDp;
-                        id_u = usuario.id;
-                      }
-                    });
-                  }); // Remover usuário autenticado da lista de renderização do chat
+                          _this2.usuarios.push(usuario);
+                        }
+                      });
+                      departamento.users = usuarios;
 
-                  // Remover usuário autenticado da lista de renderização do chat
-                  _this2.departamentos[id_p].users = _this2.departamentos[id_p].users.filter(function (usuario) {
-                    return usuario.id !== id_u;
+                      _this2.departamentos.push(departamento);
+                    }
                   });
                 });
 
@@ -67868,7 +67880,7 @@ var render = function() {
                       _c(
                         "button",
                         { staticClass: "btn btn-outline-primary p-1" },
-                        [_vm._v("\n                Enviar\n              ")]
+                        [_vm._v("Enviar")]
                       )
                     ])
                   ]
