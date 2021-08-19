@@ -413,7 +413,7 @@ export default {
 
 .mensagem-container {
   min-height: 50%;
-  max-height: 460px;
+  max-height: 480px;
   overflow-y: auto;
 }
 
