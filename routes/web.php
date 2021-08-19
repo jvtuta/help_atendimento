@@ -25,8 +25,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::prefix('app')->group(function () {
+Route::prefix('app')->middleware('auth')->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/chat', [App\Http\Controllers\ChatController::class, 'index'])->name('chat');    
     Route::get('/configuracoes', [App\Http\Controllers\ConfiguracoesController::class, 'index'])->name('configuracoes');
+    Route::get('/metas', [App\Http\Controllers\MetaController::class, 'index'])->name('metas');
+    
 });

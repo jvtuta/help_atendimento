@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-      
+
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.theme.min lux.css') }}" rel="stylesheet">
 </head>
@@ -66,7 +66,7 @@
                                 </li>
                             @endif
                         @else
-
+                        
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -75,15 +75,23 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     @if (Auth::user()->administrador)
-                                    <a class="dropdown-item" href="/phpmyadmin/" >
-                                        Phpmyadmin
-                                    </a>
-                                    <a href="{{route('configuracoes')}}" class="dropdown-item">
-                                        Configurações
-                                    </a>
+                                        <a class="dropdown-item" href="/phpmyadmin/">
+                                            Phpmyadmin
+                                        </a>
+                                        <a href="{{ route('configuracoes') }}" class="dropdown-item">
+                                            Configurações
+                                        </a>
                                     @endif
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                                         document.getElementById('logout-form').submit();">
+                                    @if (strtolower(Auth::user()->nivel_usuario) == 'gerente' || Auth::user()->administrador)
+                                        <a href="{{'usuarios'}}" class="dropdown-item">Autorizar usuários</a>
+                                        
+                                        @if(Session::get('departamento')=='teleatendimento')
+                                            <a href="{{route('metas')}}" class="dropdown-item">Metas</a>
+                                        @endif
+                                    @endif
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                                             document.getElementById('logout-form').submit();">
                                         Logout
                                     </a>
 
