@@ -85,7 +85,7 @@
                                     @if (strtolower(Auth::user()->nivel_usuario) == 'gerente' || Auth::user()->administrador)
                                         <a href="{{'usuarios'}}" class="dropdown-item">Autorizar usuários</a>
                                         
-                                        @if(Session::get('departamento')=='teleatendimento')
+                                        @if(Session::get('departamento')=='teleatendimento' || Auth::user()->administrador)
                                             <a href="{{route('metas')}}" class="dropdown-item">Metas</a>
                                         @endif
                                     @endif
