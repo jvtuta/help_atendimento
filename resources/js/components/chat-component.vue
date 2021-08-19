@@ -24,10 +24,10 @@
             >
               <div class="card" style="max-height: 14rem">
                 <div class="row g-0">
-                  <div class="col-md-2">
-                    <i class="fas fa-user"></i>
-                  </div>
-                  <div class="col-md-10">
+                  <!-- <div class="col-md-2 text-center m-auto">
+                    <i class="fas fa-user fa-2x"></i>
+                  </div> -->
+                  <div class="col">
                     <div class="card-body" @click="selectActivePanel(usuario)">
                       <div class="card-title h-5">
                         {{ usuario.name }}
@@ -60,6 +60,7 @@
             button_back = false;
             chatMessages = true;
             mensagemContainer = false;
+            icone = false;
           }
         "
       >
@@ -69,6 +70,7 @@
         class="col-md-8 col-sm-12"
         v-if="mensagemContainer"
         id="mensagemContainer"
+        @click="focus('desc_mensagem')"
       >
         <div class="card mb-0">
           <div class="row g-0">
@@ -133,7 +135,7 @@
                 placeholder="Digite aqui..."
                 v-model="desc_mensagem"
               />
-              <label class="btn btn-outline-primary p-1" for="file-image"
+              <label class="btn btn-outline-primary p-1 m-0" for="file-image"
                 >imagem</label
               >
               <input
@@ -182,6 +184,7 @@ export default {
       mensagemContainer: false,
       button_back: false,
       chatMessages: true,
+      icone: true,
       desc_mensagem: "",
       usuario_autenticado_id_: "",
       usuario_destino: "",
@@ -206,6 +209,10 @@ export default {
         .then((res) => (usuario_autenticado_id = res));
       this.usuario_autenticado_id_ = usuario_autenticado_id;
       return usuario_autenticado_id;
+    },
+
+    focus(elemento) {
+      document.getElementById(elemento).focus();
     },
 
     scrollToEnd: function (seletor) {
@@ -417,7 +424,7 @@ export default {
   width: 10px;
 }
 
-#chatMessages div .row .col-md-10 .card-body:hover {
+#chatMessages div .row .col .card-body:hover {
   background-color: rgb(207, 219, 219);
   /* border-radius: 0 25px 25px 0; */
   cursor: pointer;

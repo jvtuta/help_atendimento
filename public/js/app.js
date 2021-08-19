@@ -2051,6 +2051,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["csrf_token"],
@@ -2077,6 +2079,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       mensagemContainer: false,
       button_back: false,
       chatMessages: true,
+      icone: true,
       desc_mensagem: "",
       usuario_autenticado_id_: "",
       usuario_destino: "",
@@ -2121,6 +2124,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    focus: function focus(elemento) {
+      document.getElementById(elemento).focus();
     },
     scrollToEnd: function scrollToEnd(seletor) {
       var container = this.$el.querySelector(seletor);
@@ -7285,7 +7291,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.textcard {\r\n  white-space: nowrap;\r\n  width: 160px;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.textcard:hover {\r\n  width: 300px;\n}\n#mensagemContainer > button {\r\n  border-radius: 0 !important;\n}\n.mensagem-container {\r\n  min-height: 420px;\r\n  max-height: 620px;\r\n  overflow-y: auto;\n}\n.notificacao {\r\n  border-radius: 50%;\r\n  display: inline-block;\r\n  height: 10px;\r\n  width: 10px;\n}\n#chatMessages div .row .col-md-10 .card-body:hover {\r\n  background-color: rgb(207, 219, 219);\r\n  /* border-radius: 0 25px 25px 0; */\r\n  cursor: pointer;\r\n  -webkit-text-decoration-color: white;\r\n          text-decoration-color: white;\r\n  color: white;\n}\r\n/* #chatMessages div.card {\r\n  border-radius: 25px !important;\r\n} */\n#mensagemContainer {\r\n  border-top-right-radius: 50rem;\r\n  border-bottom-right-radius: 50rem;\n}\n#chatMessages > div > ul > li {\r\n  border: none;\r\n  margin: 0;\r\n  padding: 0;\n}\n#chatMessages > div > ul > li > div {\r\n  border-collapse: collapse;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.textcard {\r\n  white-space: nowrap;\r\n  width: 160px;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.textcard:hover {\r\n  width: 300px;\n}\n#mensagemContainer > button {\r\n  border-radius: 0 !important;\n}\n.mensagem-container {\r\n  min-height: 420px;\r\n  max-height: 620px;\r\n  overflow-y: auto;\n}\n.notificacao {\r\n  border-radius: 50%;\r\n  display: inline-block;\r\n  height: 10px;\r\n  width: 10px;\n}\n#chatMessages div .row .col .card-body:hover {\r\n  background-color: rgb(207, 219, 219);\r\n  /* border-radius: 0 25px 25px 0; */\r\n  cursor: pointer;\r\n  -webkit-text-decoration-color: white;\r\n          text-decoration-color: white;\r\n  color: white;\n}\r\n/* #chatMessages div.card {\r\n  border-radius: 25px !important;\r\n} */\n#mensagemContainer {\r\n  border-top-right-radius: 50rem;\r\n  border-bottom-right-radius: 50rem;\n}\n#chatMessages > div > ul > li {\r\n  border: none;\r\n  margin: 0;\r\n  padding: 0;\n}\n#chatMessages > div > ul > li > div {\r\n  border-collapse: collapse;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -67591,9 +67597,7 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "row g-0" }, [
-                                _vm._m(0, true),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-md-10" }, [
+                                _c("div", { staticClass: "col" }, [
                                   _c(
                                     "div",
                                     {
@@ -67627,7 +67631,7 @@ var render = function() {
                                         staticClass: "card-text textcard"
                                       }),
                                       _vm._v(" "),
-                                      _vm._m(1, true)
+                                      _vm._m(0, true)
                                     ]
                                   )
                                 ])
@@ -67658,6 +67662,7 @@ var render = function() {
                   _vm.button_back = false
                   _vm.chatMessages = true
                   _vm.mensagemContainer = false
+                  _vm.icone = false
                 }
               }
             },
@@ -67674,7 +67679,12 @@ var render = function() {
             "div",
             {
               staticClass: "col-md-8 col-sm-12",
-              attrs: { id: "mensagemContainer" }
+              attrs: { id: "mensagemContainer" },
+              on: {
+                click: function($event) {
+                  return _vm.focus("desc_mensagem")
+                }
+              }
             },
             [
               _c("div", { staticClass: "card mb-0" }, [
@@ -67854,7 +67864,7 @@ var render = function() {
                       _c(
                         "label",
                         {
-                          staticClass: "btn btn-outline-primary p-1",
+                          staticClass: "btn btn-outline-primary p-1 m-0",
                           attrs: { for: "file-image" }
                         },
                         [_vm._v("imagem")]
@@ -67893,14 +67903,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-2" }, [
-      _c("i", { staticClass: "fas fa-user" })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
