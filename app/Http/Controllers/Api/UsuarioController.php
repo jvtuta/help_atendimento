@@ -45,8 +45,13 @@ class UsuarioController extends Controller
         if($request->has('filtro')) {
             $userRepository->filtrarRegistros($request->filtro);
         }
+
+        if($request->has('usuarios')) {
+            return response()->json(['usuarios'=>$userRepository->getRes(), 'usuario_autenticado'=>Auth::user()], 200);
+        }
+
         if($request->has('usuario_autenticado')) {
-            return response()->json(["query"=>$userRepository->getRes(),'usuario_autenticado'=>Auth::user()->id]);
+            return response()->json(["query"=>$userRepository->getRes(),'usuario_autenticado'=>Auth::user()->id], 200);
         } else {
             return response()->json($userRepository->getRes(),200);
         }
@@ -102,9 +107,15 @@ class UsuarioController extends Controller
      * @param  \App\Models\User  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $usuario)
+    public function update(Request $request, $id)
     {
-        //
+        $user = $this->user->find($id);
+        if(!$user) {
+            return response()->json(['erro' => 'Recurso não existe'], 404);
+        }
+        $user->fill($request->all());
+        $user->save();
+        return response()->json(['sucesso' => 'Recurso salvo com sucesso'], 200);
     }
 
     /**

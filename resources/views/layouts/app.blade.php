@@ -78,13 +78,12 @@
                                         <a class="dropdown-item" href="/phpmyadmin/">
                                             Phpmyadmin
                                         </a>
-                                        <a href="{{ route('configuracoes') }}" class="dropdown-item">
-                                            Configurações
-                                        </a>
                                     @endif
                                     @if (strtolower(Auth::user()->nivel_usuario) == 'gerente' || Auth::user()->administrador)
                                         <a href="{{'usuarios'}}" class="dropdown-item">Autorizar usuários</a>
-                                        
+                                        <a href="{{ route('configuracoes') }}" class="dropdown-item">
+                                            Configurações
+                                        </a>
                                         @if(Session::get('departamento')=='teleatendimento' || Auth::user()->administrador)
                                             <a href="{{route('metas')}}" class="dropdown-item">Metas</a>
                                         @endif

@@ -2532,15 +2532,17 @@ __webpack_require__.r(__webpack_exports__);
     return {
       usuarios: false,
       logs: false,
-      log_chat: false
+      log_chat: false,
+      usuario_autenticado: "",
+      usuario_selecionado: '',
+      attr_old: ''
     };
   },
   methods: {
     usuarios_method: function usuarios_method() {
       var _this = this;
 
-      console.log("usuarios_method");
-      var url = "/api/v1/usuario";
+      var url = "/api/v1/usuario?usuarios";
       var config = {
         method: "GET",
         url: url,
@@ -2551,15 +2553,42 @@ __webpack_require__.r(__webpack_exports__);
       axios(config).then(function (response) {
         return response.data;
       }).then(function (data) {
-        return _this.usuarios = data;
+        _this.usuarios = data.usuarios;
+        _this.usuario_autenticado = data.usuario_autenticado;
+        _this.attr_old = data.usuarios;
       });
     },
-    update_user: function update_user(e) {
+    before_update_user: function before_update_user(e) {
+      this.usuario_selecionado = document.querySelector('tr input').value;
+
+      if (e.target.name == "administrador" && !(this.usuario_autenticado.administrador == true)) {
+        return;
+      }
+
       e.target.removeAttribute("readonly");
       e.target.setAttribute("style", "cursor: text !important;font-family: inherit  !important;padding: 0.25em 0.5em  !important;background-color: #fff  !important;border: 2px solid rgb(207, 219, 219)  !important;border-radius: 4px  !important;");
     },
-    afterUpdate: function afterUpdate(e) {
+    after_update_user: function after_update_user(e) {
+      if (e.key == 'Enter') {
+        var params = new URLSearchParams();
+        params.append(e.target.name, e.target.value);
+        params.append('_method', 'PATCH');
+        var config = {
+          method: 'POST',
+          url: '/api/v1/usuario/' + this.usuario_selecionado,
+          headers: {
+            Authorization: "bearer " + this.token
+          },
+          data: params
+        };
+        axios(config);
+        this.blur(e);
+      }
+    },
+    blur: function blur(e) {
+      var old = this.attr_old;
       e.target.removeAttribute("style");
+      this.usuarios = old;
     },
     log_method: function log_method() {
       console.log("log_method");
@@ -68247,18 +68276,17 @@ var render = function() {
                         "tr",
                         { key: usuario.id, attrs: { id: index } },
                         [
+                          _c("input", {
+                            attrs: { type: "hidden", name: "id" },
+                            domProps: { value: usuario.id }
+                          }),
+                          _vm._v(" "),
                           _c("td", [
                             _c("input", {
                               attrs: {
                                 type: "text",
-                                name: "active",
                                 readonly: "",
                                 placeholder: usuario.active
-                              },
-                              on: {
-                                blur: function($event) {
-                                  return _vm.afterUpdate($event)
-                                }
                               }
                             })
                           ]),
@@ -68268,7 +68296,7 @@ var render = function() {
                             {
                               on: {
                                 dblclick: function($event) {
-                                  return _vm.update_user($event)
+                                  return _vm.before_update_user($event)
                                 }
                               }
                             },
@@ -68285,7 +68313,7 @@ var render = function() {
                                 ],
                                 attrs: {
                                   type: "text",
-                                  name: "active",
+                                  name: "administrador",
                                   readonly: "",
                                   placeholder: usuario.administrador
                                 },
@@ -68294,7 +68322,10 @@ var render = function() {
                                 },
                                 on: {
                                   blur: function($event) {
-                                    return _vm.afterUpdate($event)
+                                    return _vm.blur($event)
+                                  },
+                                  keypress: function($event) {
+                                    return _vm.after_update_user($event)
                                   },
                                   change: function($event) {
                                     return _vm.$set(
@@ -68315,7 +68346,7 @@ var render = function() {
                             {
                               on: {
                                 dblclick: function($event) {
-                                  return _vm.update_user($event)
+                                  return _vm.before_update_user($event)
                                 }
                               }
                             },
@@ -68333,7 +68364,7 @@ var render = function() {
                                 ],
                                 attrs: {
                                   type: "text",
-                                  name: "active",
+                                  name: "id_departamento",
                                   readonly: "",
                                   placeholder: usuario.id_departamento
                                 },
@@ -68342,7 +68373,10 @@ var render = function() {
                                 },
                                 on: {
                                   blur: function($event) {
-                                    return _vm.afterUpdate($event)
+                                    return _vm.blur($event)
+                                  },
+                                  keypress: function($event) {
+                                    return _vm.after_update_user($event)
                                   },
                                   change: function($event) {
                                     return _vm.$set(
@@ -68361,7 +68395,7 @@ var render = function() {
                             {
                               on: {
                                 dblclick: function($event) {
-                                  return _vm.update_user($event)
+                                  return _vm.before_update_user($event)
                                 }
                               }
                             },
@@ -68378,14 +68412,17 @@ var render = function() {
                                 ],
                                 attrs: {
                                   type: "text",
-                                  name: "active",
+                                  name: "name",
                                   readonly: "",
                                   placeholder: usuario.name
                                 },
                                 domProps: { value: _vm.usuarios[index].name },
                                 on: {
                                   blur: function($event) {
-                                    return _vm.afterUpdate($event)
+                                    return _vm.blur($event)
+                                  },
+                                  keypress: function($event) {
+                                    return _vm.after_update_user($event)
                                   },
                                   change: function($event) {
                                     return _vm.$set(
@@ -68404,7 +68441,7 @@ var render = function() {
                             {
                               on: {
                                 dblclick: function($event) {
-                                  return _vm.update_user($event)
+                                  return _vm.before_update_user($event)
                                 }
                               }
                             },
@@ -68421,7 +68458,7 @@ var render = function() {
                                 ],
                                 attrs: {
                                   type: "text",
-                                  name: "active",
+                                  name: "nivel_usuario",
                                   readonly: "",
                                   placeholder: _vm.usuarios.nivel_usuario
                                 },
@@ -68430,7 +68467,10 @@ var render = function() {
                                 },
                                 on: {
                                   blur: function($event) {
-                                    return _vm.afterUpdate($event)
+                                    return _vm.blur($event)
+                                  },
+                                  keypress: function($event) {
+                                    return _vm.after_update_user($event)
                                   },
                                   change: function($event) {
                                     return _vm.$set(
@@ -68449,7 +68489,7 @@ var render = function() {
                             {
                               on: {
                                 dblclick: function($event) {
-                                  return _vm.update_user($event)
+                                  return _vm.before_update_user($event)
                                 }
                               }
                             },
@@ -68466,7 +68506,7 @@ var render = function() {
                                 ],
                                 attrs: {
                                   type: "text",
-                                  name: "active",
+                                  name: "nome_usuario",
                                   readonly: "",
                                   placeholder: usuario.nome_usuario
                                 },
@@ -68475,7 +68515,10 @@ var render = function() {
                                 },
                                 on: {
                                   blur: function($event) {
-                                    return _vm.afterUpdate($event)
+                                    return _vm.blur($event)
+                                  },
+                                  keypress: function($event) {
+                                    return _vm.after_update_user($event)
                                   },
                                   change: function($event) {
                                     return _vm.$set(

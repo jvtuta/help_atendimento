@@ -45,61 +45,61 @@
                 :key="usuario.id"
                 :id="index"
               >
+                <input type="hidden" name="id" :value="usuario.id">
                 <td>
-                  <input
-                    type="text"
-                    name="active"
-                    @blur="afterUpdate($event)"
-                    readonly
-                    :placeholder="usuario.active"
-                  />
+                  <input type="text" readonly :placeholder="usuario.active" />
                 </td>
-                <td @dblclick="update_user($event)">
+                <td @dblclick="before_update_user($event)">
                   <input
                     type="text"
-                    name="active"
-                    @blur="afterUpdate($event)"
+                    name="administrador"
+                    @blur="blur($event)"
+                    @keypress="after_update_user($event)"
                     readonly
                     :placeholder="usuario.administrador"
                     v-model.lazy="usuarios[index].administrador"
                   />
                 </td>
-                <td >button</td>
-                <td @dblclick="update_user($event)">
+                <td>button</td>
+                <td @dblclick="before_update_user($event)">
                   <input
                     type="text"
-                    name="active"
-                    @blur="afterUpdate($event)"
+                    name="id_departamento"
+                    @blur="blur($event)"
+                    @keypress="after_update_user($event)"
                     readonly
                     :placeholder="usuario.id_departamento"
                     v-model.lazy="usuarios[index].id_departamento"
                   />
                 </td>
-                <td @dblclick="update_user($event)">
+                <td @dblclick="before_update_user($event)">
                   <input
                     type="text"
-                    name="active"
-                    @blur="afterUpdate($event)"
+                    name="name"
+                    @blur="blur($event)"
+                    @keypress="after_update_user($event)"
                     readonly
                     :placeholder="usuario.name"
                     v-model.lazy="usuarios[index].name"
                   />
                 </td>
-                <td @dblclick="update_user($event)">
+                <td @dblclick="before_update_user($event)">
                   <input
                     type="text"
-                    name="active"
-                    @blur="afterUpdate($event)"
+                    name="nivel_usuario"
+                    @blur="blur($event)"
+                    @keypress="after_update_user($event)"
                     readonly
                     :placeholder="usuarios.nivel_usuario"
                     v-model.lazy="usuarios[index].nivel_usuario"
                   />
                 </td>
-                <td @dblclick="update_user($event)">
+                <td @dblclick="before_update_user($event)">
                   <input
                     type="text"
-                    name="active"
-                    @blur="afterUpdate($event)"
+                    name="nome_usuario"
+                    @blur="blur($event)"
+                    @keypress="after_update_user($event)"
                     readonly
                     :placeholder="usuario.nome_usuario"
                     v-model.lazy="usuarios[index].nome_usuario"
@@ -147,13 +147,17 @@ export default {
       usuarios: false,
       logs: false,
       log_chat: false,
+      usuario_autenticado: "",
+      usuario_selecionado: '',
+      attr_old: ''
+      
     };
   },
 
   methods: {
     usuarios_method() {
-      console.log("usuarios_method");
-      const url = "/api/v1/usuario";
+      
+      const url = "/api/v1/usuario?usuarios";
 
       const config = {
         method: "GET",
@@ -163,17 +167,48 @@ export default {
 
       axios(config)
         .then((response) => response.data)
-        .then((data) => (this.usuarios = data));
+        .then((data) => {
+          this.usuarios = data.usuarios;
+          this.usuario_autenticado = data.usuario_autenticado;
+          this.attr_old = data.usuarios;
+        });
+
     },
-    update_user(e) {
+    before_update_user(e) {
+      this.usuario_selecionado=document.querySelector('tr input').value
+      if (
+        e.target.name == "administrador" &&
+        !(this.usuario_autenticado.administrador == true)
+      ) {    
+        return;
+      }
       e.target.removeAttribute("readonly");
       e.target.setAttribute(
         "style",
         "cursor: text !important;font-family: inherit  !important;padding: 0.25em 0.5em  !important;background-color: #fff  !important;border: 2px solid rgb(207, 219, 219)  !important;border-radius: 4px  !important;"
       );
     },
-    afterUpdate(e) {
+    after_update_user(e) {
+      
+      if(e.key == 'Enter') {        
+        let params = new URLSearchParams()
+        params.append(e.target.name, e.target.value)
+        params.append('_method', 'PATCH')
+        const config = {
+          method: 'POST',
+          url: '/api/v1/usuario/'+this.usuario_selecionado,
+          headers: { Authorization: "bearer " + this.token },
+          data: params
+        }
+
+        axios(config)
+        this.blur(e)
+      }
+    },
+    blur(e) {
+      const old = this.attr_old
       e.target.removeAttribute("style");
+      this.usuarios = old
     },
     log_method() {
       console.log("log_method");
