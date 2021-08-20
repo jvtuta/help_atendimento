@@ -15,7 +15,13 @@ class CreateMetasTable extends Migration
     {
         Schema::create('metas', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('nome_colaborador', 50);
+            $table->integer('manipulacao');
+            $table->integer('revenda');
+            $table->integer('vendas_ontem');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -29,5 +29,6 @@ Route::prefix('v1')->group(function () {
         Route::post('me', [App\Http\Controllers\Api\AuthController::class, 'me']);
         Route::apiResource('usuario', 'App\Http\Controllers\Api\UsuarioController');
         Route::apiResource('mensagem', 'App\Http\Controllers\Api\MensagemController');
+        Route::apiResource('meta', 'App\Http\Controllers\Api\MetaController');
     });
 });

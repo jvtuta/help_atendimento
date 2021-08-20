@@ -35,6 +35,8 @@ Vue.component('login-component', require('./components/login-component.vue').def
 Vue.component('chat-component', require('./components/chat-component.vue').default);
 Vue.component('register-component', require('./components/register-component.vue').default);
 Vue.component('configuracoes-component', require('./components/configuracoes-component.vue').default);
+Vue.component('meta-component', require('./components/meta-component.vue').default);
+
 /*
  *
  * Next, we will create a fresh Vue application instance and attach it to

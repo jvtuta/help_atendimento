@@ -44,6 +44,11 @@
                             <li class="nav-item">
                                 <a href="{{ route('chat') }}" class="nav-link">Chat</a>
                             </li>
+                            @if(Session::get('departamento')=='teleatendimento' || Auth::user()->administrador)
+                            <li class="nav-item">
+                                <a href="{{route('metas')}}" class="nav-link">Metas</a>
+                            </li>
+                            @endif
                         </template>
                     </navbar-list-component>
                 @endguest
@@ -84,9 +89,7 @@
                                         <a href="{{ route('configuracoes') }}" class="dropdown-item">
                                             Configurações
                                         </a>
-                                        @if(Session::get('departamento')=='teleatendimento' || Auth::user()->administrador)
-                                            <a href="{{route('metas')}}" class="dropdown-item">Metas</a>
-                                        @endif
+
                                     @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();

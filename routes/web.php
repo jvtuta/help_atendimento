@@ -30,5 +30,6 @@ Route::prefix('app')->middleware('auth')->group(function () {
     Route::get('/chat', [App\Http\Controllers\ChatController::class, 'index'])->name('chat');    
     Route::get('/configuracoes', [App\Http\Controllers\ConfiguracoesController::class, 'index'])->name('configuracoes');
     Route::get('/metas', [App\Http\Controllers\MetaController::class, 'index'])->name('metas');
+    Route::post('/metas', [App\Http\Controllers\MetaController::class, 'meta_import'])->name('meta_import');
     
 });
