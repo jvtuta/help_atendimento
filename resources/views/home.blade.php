@@ -5,7 +5,7 @@
         <card-component cardheader="Dashboard">
             <template v-slot:cardbody>
                 <div class="card-body">
-                    teste
+                    <home-component usuario="{{Auth::user()->name}}"></home-component>
                 </div>
             </template>
         </card-component>

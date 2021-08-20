@@ -5,17 +5,43 @@ namespace App\Http\Controllers\Api;
 use App\Models\Meta;
 use Illuminate\Http\Request;
 use App\Imports\MetasImport;
+use App\Repository\MetaRepository;
+use Illuminate\Support\Facades\Auth;
 
 class MetaController extends Controller
 {
+    public function __construct(Meta $meta) 
+    {
+        $this->meta = $meta;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(Request $request)
+    {   
+        
+        $metaRepository = new MetaRepository($this->meta);
+        
+        if($request->has('atributos')) {
+            $metaRepository->selectAtributos($request->atributos);
+        }
+        
+        if($request->has('atributos_relacionamento')) {
+            $metaRepository->setRelacionamento('user');
+        } 
+
+        if($request->has('filtro')) {
+            $metaRepository->filtrarRegistros($request->filtro);
+        }
+
+        if($request->has('meta_usuario')) {
+            $metaRepository->repository->where('id','=',Auth::user()->id);
+        }
+
+        return response()->json($metaRepository->getRes(),200);
+        
     }
 
     /**

@@ -4,8 +4,10 @@ namespace App\Imports;
 
 use App\Models\User;
 use App\Models\Meta;
+use Maatwebsite\Excel\Concerns\SkipsUnknownSheets;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
 class MetasImport implements ToModel, WithHeadingRow
 {
@@ -14,6 +16,7 @@ class MetasImport implements ToModel, WithHeadingRow
     {
         $this->users = User::select('id', 'name')->get();
     }
+
     /**
      * @param array $row
      *
@@ -22,14 +25,17 @@ class MetasImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
 
-        if($row['colaborador'] == null) {
+        if($row['colaborador'] === null) {
             return;
-        }
+        } 
 
-        $user = $this->users->where('name', $row['colaborador'])->first()->id; //Pegar o primeiro resultado a fim de otimizar a pesquisa na collection
-        
+         //Pegar o primeiro resultado a fim de otimizar a pesquisa na collection
+         $user = $this->users->where('name', $row['colaborador'])->first();
+         if($user === null) {
+            return;
+         }
         return new Meta([
-            'user_id' => $user, //Exemplo
+            'user_id' => $user->id, //Exemplo
             'nome_colaborador' => $row['colaborador'], //Exemplo
             'manipulacao' => $row['manipulacao'], //Exemplo
             'revenda' => $row['revenda'], //Exemplo

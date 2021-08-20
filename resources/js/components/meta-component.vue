@@ -6,6 +6,9 @@
                 <li class="nav-item mt-2">
                     <a href="" class="nav-link" @click.prevent="imports = true">Importar</a>
                 </li>      
+                <li class="nav-item mt-2">
+                    <a href="" class="nav-link" @click.prevent="imports = true">Visualizar relatórios importados</a>
+                </li>      
             </ul>
             </div>
             

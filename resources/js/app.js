@@ -36,6 +36,7 @@ Vue.component('chat-component', require('./components/chat-component.vue').defau
 Vue.component('register-component', require('./components/register-component.vue').default);
 Vue.component('configuracoes-component', require('./components/configuracoes-component.vue').default);
 Vue.component('meta-component', require('./components/meta-component.vue').default);
+Vue.component('home-component', require('./components/home-component.vue').default);
 
 /*
  *
