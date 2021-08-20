@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-4 ps-0 pe-3">
+  <div class="container-liquid">
+    <div class="row justify-content-center p-5">
+      <div class="col-md-2 ps-0 pe-3">
         <div class="border rounded border-primary pt-3">
           <h5 class="mb-3 ms-3">Menu</h5>
           <nav class="nav flex-column">
@@ -39,15 +39,72 @@
                 <th>#</th>
               </tr>
             </thead>
-            <tbody>
-              <tr v-for="(usuario,index) in usuarios" :key="usuario.id" :id="index">
-                <td @dblclick="update_user($event)" >{{usuario.active ? usuario.active : '' }} <input v-if="teste" type='number' name='active' v-model="usuarios[index].active"> </td>
-                <td @dblclick="update_user($event)" >{{ usuario.administrador ? usuario.administrador : input[1] }}</td>
-                <td @dblclick="update_user($event)" >______</td>
-                <td @dblclick="update_user($event)" >{{ usuario.id_departamento ? usuario.id_departamento : input[3] }}</td>
-                <td @dblclick="update_user($event)" >{{ usuario.name ? usuario.name : input[4] }}</td>
-                <td @dblclick="update_user($event)" >{{ usuario.nivel_usuario ? usuario.nivel_usuario : input[5] }}</td>
-                <td @dblclick="update_user($event)" >{{ usuario.nome_usuario ? usuario.nome_usuario : input[6] }}</td>
+            <tbody id="tbody-usuarios">
+              <tr
+                v-for="(usuario, index) in usuarios"
+                :key="usuario.id"
+                :id="index"
+              >
+                <td>
+                  <input
+                    type="text"
+                    name="active"
+                    @blur="afterUpdate($event)"
+                    readonly
+                    :placeholder="usuario.active"
+                  />
+                </td>
+                <td @dblclick="update_user($event)">
+                  <input
+                    type="text"
+                    name="active"
+                    @blur="afterUpdate($event)"
+                    readonly
+                    :placeholder="usuario.administrador"
+                    v-model.lazy="usuarios[index].administrador"
+                  />
+                </td>
+                <td >button</td>
+                <td @dblclick="update_user($event)">
+                  <input
+                    type="text"
+                    name="active"
+                    @blur="afterUpdate($event)"
+                    readonly
+                    :placeholder="usuario.id_departamento"
+                    v-model.lazy="usuarios[index].id_departamento"
+                  />
+                </td>
+                <td @dblclick="update_user($event)">
+                  <input
+                    type="text"
+                    name="active"
+                    @blur="afterUpdate($event)"
+                    readonly
+                    :placeholder="usuario.name"
+                    v-model.lazy="usuarios[index].name"
+                  />
+                </td>
+                <td @dblclick="update_user($event)">
+                  <input
+                    type="text"
+                    name="active"
+                    @blur="afterUpdate($event)"
+                    readonly
+                    :placeholder="usuarios.nivel_usuario"
+                    v-model.lazy="usuarios[index].nivel_usuario"
+                  />
+                </td>
+                <td @dblclick="update_user($event)">
+                  <input
+                    type="text"
+                    name="active"
+                    @blur="afterUpdate($event)"
+                    readonly
+                    :placeholder="usuario.nome_usuario"
+                    v-model.lazy="usuarios[index].nome_usuario"
+                  />
+                </td>
                 <td>
                   <button class="btn btn-sm btn-outline-info">pass</button>
                 </td>
@@ -57,7 +114,6 @@
               </tr>
             </tbody>
           </table>
-          
         </div>
         <div v-if="logs">logs</div>
         <div v-if="log_chat">log_chat</div>
@@ -84,17 +140,13 @@ export default {
       token = token[0].replace("_Token=", "");
       return token;
     },
-    
   },
+
   data() {
     return {
       usuarios: false,
       logs: false,
       log_chat: false,
-      input: [
-        ,
-      ],
-      teste : false
     };
   },
 
@@ -114,18 +166,14 @@ export default {
         .then((data) => (this.usuarios = data));
     },
     update_user(e) {
-      // id do usuario = e.path[1].id
-      let old_active, old_administrador, old_id_departamento, old_name, old_nome_usuario, old_nivel_usuario
-      switch (e.target.cellIndex) {
-        case 0:
-          old_active = this.usuarios[0].active 
-          this.usuarios[0].active = false
-          this.teste = true;
-          break;
-      
-        default:
-          break;
-      }
+      e.target.removeAttribute("readonly");
+      e.target.setAttribute(
+        "style",
+        "cursor: text !important;font-family: inherit  !important;padding: 0.25em 0.5em  !important;background-color: #fff  !important;border: 2px solid rgb(207, 219, 219)  !important;border-radius: 4px  !important;"
+      );
+    },
+    afterUpdate(e) {
+      e.target.removeAttribute("style");
     },
     log_method() {
       console.log("log_method");
@@ -139,17 +187,31 @@ export default {
 </script>
 
 <style>
-
-#app > main > div > div > div.col-md-4.ps-0.pe-3 > div > nav a:hover {
+#app > main > div > div > div.col-md-2.ps-0.pe-3 > div > nav a:hover
+/* #tbody-usuarios tr td input:hover */ {
   background-color: rgb(207, 219, 219);
 }
 
 #tabela_usuarios > table th,
 #tabela_usuarios > table td {
-  width: 300px;
-  padding: 2px;
+  height: 30px;
+  padding: 0px;
   margin: 0px;
+  text-align: center;
   font-size: 12px;
 }
+#tabela_usuarios > table td {
+  cursor: cell;
+}
 
+#tbody-usuarios tr td input {
+  padding: 6px;
+  height: 100%;
+  cursor: inherit;
+  background-color: inherit;
+  box-shadow: 0px 0px 0px 0px;
+  border: 0 none;
+  outline: 0;
+  text-align: center;
+}
 </style>

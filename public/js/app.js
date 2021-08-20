@@ -2453,6 +2453,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: [],
   computed: {
@@ -2476,9 +2532,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       usuarios: false,
       logs: false,
-      log_chat: false,
-      input: [,],
-      teste: false
+      log_chat: false
     };
   },
   methods: {
@@ -2501,19 +2555,11 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     update_user: function update_user(e) {
-      // id do usuario = e.path[1].id
-      var old_active, old_administrador, old_id_departamento, old_name, old_nome_usuario, old_nivel_usuario;
-
-      switch (e.target.cellIndex) {
-        case 0:
-          old_active = this.usuarios[0].active;
-          this.usuarios[0].active = false;
-          this.teste = true;
-          break;
-
-        default:
-          break;
-      }
+      e.target.removeAttribute("readonly");
+      e.target.setAttribute("style", "cursor: text !important;font-family: inherit  !important;padding: 0.25em 0.5em  !important;background-color: #fff  !important;border: 2px solid rgb(207, 219, 219)  !important;border-radius: 4px  !important;");
+    },
+    afterUpdate: function afterUpdate(e) {
+      e.target.removeAttribute("style");
     },
     log_method: function log_method() {
       console.log("log_method");
@@ -7441,7 +7487,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#app > main > div > div > div.col-md-4.ps-0.pe-3 > div > nav a:hover {\r\n  background-color: rgb(207, 219, 219);\n}\n#tabela_usuarios > table th,\r\n#tabela_usuarios > table td {\r\n  width: 300px;\r\n  padding: 2px;\r\n  margin: 0px;\r\n  font-size: 12px;\n}\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#app > main > div > div > div.col-md-2.ps-0.pe-3 > div > nav a:hover\r\n/* #tbody-usuarios tr td input:hover */ {\r\n  background-color: rgb(207, 219, 219);\n}\n#tabela_usuarios > table th,\r\n#tabela_usuarios > table td {\r\n  height: 30px;\r\n  padding: 0px;\r\n  margin: 0px;\r\n  text-align: center;\r\n  font-size: 12px;\n}\n#tabela_usuarios > table td {\r\n  cursor: cell;\n}\n#tbody-usuarios tr td input {\r\n  padding: 6px;\r\n  height: 100%;\r\n  cursor: inherit;\r\n  background-color: inherit;\r\n  box-shadow: 0px 0px 0px 0px;\r\n  border: 0 none;\r\n  outline: 0;\r\n  text-align: center;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -68129,9 +68175,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-4 ps-0 pe-3" }, [
+  return _c("div", { staticClass: "container-liquid" }, [
+    _c("div", { staticClass: "row justify-content-center p-5" }, [
+      _c("div", { staticClass: "col-md-2 ps-0 pe-3" }, [
         _c("div", { staticClass: "border rounded border-primary pt-3" }, [
           _c("h5", { staticClass: "mb-3 ms-3" }, [_vm._v("Menu")]),
           _vm._v(" "),
@@ -68195,11 +68241,28 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "tbody",
+                    { attrs: { id: "tbody-usuarios" } },
                     _vm._l(_vm.usuarios, function(usuario, index) {
                       return _c(
                         "tr",
                         { key: usuario.id, attrs: { id: index } },
                         [
+                          _c("td", [
+                            _c("input", {
+                              attrs: {
+                                type: "text",
+                                name: "active",
+                                readonly: "",
+                                placeholder: usuario.active
+                              },
+                              on: {
+                                blur: function($event) {
+                                  return _vm.afterUpdate($event)
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
                           _c(
                             "td",
                             {
@@ -68210,38 +68273,86 @@ var render = function() {
                               }
                             },
                             [
-                              _vm._v(
-                                _vm._s(usuario.active ? usuario.active : "") +
-                                  " "
-                              ),
-                              _vm.teste
-                                ? _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.usuarios[index].active,
-                                        expression: "usuarios[index].active"
-                                      }
-                                    ],
-                                    attrs: { type: "number", name: "active" },
-                                    domProps: {
-                                      value: _vm.usuarios[index].active
-                                    },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.$set(
-                                          _vm.usuarios[index],
-                                          "active",
-                                          $event.target.value
-                                        )
-                                      }
-                                    }
-                                  })
-                                : _vm._e()
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model.lazy",
+                                    value: _vm.usuarios[index].administrador,
+                                    expression: "usuarios[index].administrador",
+                                    modifiers: { lazy: true }
+                                  }
+                                ],
+                                attrs: {
+                                  type: "text",
+                                  name: "active",
+                                  readonly: "",
+                                  placeholder: usuario.administrador
+                                },
+                                domProps: {
+                                  value: _vm.usuarios[index].administrador
+                                },
+                                on: {
+                                  blur: function($event) {
+                                    return _vm.afterUpdate($event)
+                                  },
+                                  change: function($event) {
+                                    return _vm.$set(
+                                      _vm.usuarios[index],
+                                      "administrador",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("button")]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            {
+                              on: {
+                                dblclick: function($event) {
+                                  return _vm.update_user($event)
+                                }
+                              }
+                            },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model.lazy",
+                                    value: _vm.usuarios[index].id_departamento,
+                                    expression:
+                                      "usuarios[index].id_departamento",
+                                    modifiers: { lazy: true }
+                                  }
+                                ],
+                                attrs: {
+                                  type: "text",
+                                  name: "active",
+                                  readonly: "",
+                                  placeholder: usuario.id_departamento
+                                },
+                                domProps: {
+                                  value: _vm.usuarios[index].id_departamento
+                                },
+                                on: {
+                                  blur: function($event) {
+                                    return _vm.afterUpdate($event)
+                                  },
+                                  change: function($event) {
+                                    return _vm.$set(
+                                      _vm.usuarios[index],
+                                      "id_departamento",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
                             ]
                           ),
                           _vm._v(" "),
@@ -68255,63 +68366,36 @@ var render = function() {
                               }
                             },
                             [
-                              _vm._v(
-                                _vm._s(
-                                  usuario.administrador
-                                    ? usuario.administrador
-                                    : _vm.input[1]
-                                )
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "td",
-                            {
-                              on: {
-                                dblclick: function($event) {
-                                  return _vm.update_user($event)
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model.lazy",
+                                    value: _vm.usuarios[index].name,
+                                    expression: "usuarios[index].name",
+                                    modifiers: { lazy: true }
+                                  }
+                                ],
+                                attrs: {
+                                  type: "text",
+                                  name: "active",
+                                  readonly: "",
+                                  placeholder: usuario.name
+                                },
+                                domProps: { value: _vm.usuarios[index].name },
+                                on: {
+                                  blur: function($event) {
+                                    return _vm.afterUpdate($event)
+                                  },
+                                  change: function($event) {
+                                    return _vm.$set(
+                                      _vm.usuarios[index],
+                                      "name",
+                                      $event.target.value
+                                    )
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v("______")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "td",
-                            {
-                              on: {
-                                dblclick: function($event) {
-                                  return _vm.update_user($event)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                _vm._s(
-                                  usuario.id_departamento
-                                    ? usuario.id_departamento
-                                    : _vm.input[3]
-                                )
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "td",
-                            {
-                              on: {
-                                dblclick: function($event) {
-                                  return _vm.update_user($event)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                _vm._s(
-                                  usuario.name ? usuario.name : _vm.input[4]
-                                )
-                              )
+                              })
                             ]
                           ),
                           _vm._v(" "),
@@ -68325,13 +68409,38 @@ var render = function() {
                               }
                             },
                             [
-                              _vm._v(
-                                _vm._s(
-                                  usuario.nivel_usuario
-                                    ? usuario.nivel_usuario
-                                    : _vm.input[5]
-                                )
-                              )
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model.lazy",
+                                    value: _vm.usuarios[index].nivel_usuario,
+                                    expression: "usuarios[index].nivel_usuario",
+                                    modifiers: { lazy: true }
+                                  }
+                                ],
+                                attrs: {
+                                  type: "text",
+                                  name: "active",
+                                  readonly: "",
+                                  placeholder: _vm.usuarios.nivel_usuario
+                                },
+                                domProps: {
+                                  value: _vm.usuarios[index].nivel_usuario
+                                },
+                                on: {
+                                  blur: function($event) {
+                                    return _vm.afterUpdate($event)
+                                  },
+                                  change: function($event) {
+                                    return _vm.$set(
+                                      _vm.usuarios[index],
+                                      "nivel_usuario",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
                             ]
                           ),
                           _vm._v(" "),
@@ -68345,13 +68454,38 @@ var render = function() {
                               }
                             },
                             [
-                              _vm._v(
-                                _vm._s(
-                                  usuario.nome_usuario
-                                    ? usuario.nome_usuario
-                                    : _vm.input[6]
-                                )
-                              )
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model.lazy",
+                                    value: _vm.usuarios[index].nome_usuario,
+                                    expression: "usuarios[index].nome_usuario",
+                                    modifiers: { lazy: true }
+                                  }
+                                ],
+                                attrs: {
+                                  type: "text",
+                                  name: "active",
+                                  readonly: "",
+                                  placeholder: usuario.nome_usuario
+                                },
+                                domProps: {
+                                  value: _vm.usuarios[index].nome_usuario
+                                },
+                                on: {
+                                  blur: function($event) {
+                                    return _vm.afterUpdate($event)
+                                  },
+                                  change: function($event) {
+                                    return _vm.$set(
+                                      _vm.usuarios[index],
+                                      "nome_usuario",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
                             ]
                           ),
                           _vm._v(" "),
