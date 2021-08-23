@@ -27,17 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = User::find(Auth::user()->id);
-        // dd(Departamento::with('users:id')->find($user));
         
-        
-        // session(['departamento'=>strtolower(User::with('departamento')->find(Auth::user())->nome_departamento)]);
-        $dp = User::where('id',Auth::user()->id)->with('departamento')->get()->pluck('id_departamento');
-        $dp = Departamento::find($dp[0]);
-        $dp = $dp->nome_departamento;
-        
-        session(['departamento'=>$dp]);
-
         return view('home');
     }
 }

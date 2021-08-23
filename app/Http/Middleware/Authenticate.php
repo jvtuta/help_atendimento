@@ -2,7 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
+use App\Models\Departamento;
+
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Auth;
 
 class Authenticate extends Middleware
 {
@@ -16,6 +20,13 @@ class Authenticate extends Middleware
     {   
         if (! $request->expectsJson()) {
             return route('login');
+        } 
+        if (!session()->has('departamento')) {
+            $dp = User::where('id',Auth::user()->id)->with('departamento')->get()->pluck('id_departamento');
+            $dp = Departamento::find($dp[0]);
+            $dp = $dp->nome_departamento;
+            
+            session(['departamento'=>$dp]);
         }
         
     }

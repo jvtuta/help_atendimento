@@ -8,6 +8,10 @@ use App\Imports\MetasImport;
 
 class MetaController extends Controller
 {
+    public function __construct() {
+        $this->middleware('nivel.usuario:gerente,teleatendimento');
+    }
+
     public function index() {
         return view('app.meta');
     }

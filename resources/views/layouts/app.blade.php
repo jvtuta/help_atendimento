@@ -44,7 +44,7 @@
                             <li class="nav-item">
                                 <a href="{{ route('chat') }}" class="nav-link">Chat</a>
                             </li>
-                            @if(Session::get('departamento')=='teleatendimento' || Auth::user()->administrador)
+                            @if(Session::get('departamento')=='teleatendimento' && strtolower(Auth::user()->nivel_usuario) =='gerente' || Auth::user()->administrador == true)
                             <li class="nav-item">
                                 <a href="{{route('metas')}}" class="nav-link">Metas</a>
                             </li>
@@ -79,12 +79,12 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    @if (Auth::user()->administrador)
+                                    @if (Auth::user()->administrador == 1 )
                                         <a class="dropdown-item" href="/phpmyadmin/">
                                             Phpmyadmin
                                         </a>
                                     @endif
-                                    @if (strtolower(Auth::user()->nivel_usuario) == 'gerente' || Auth::user()->administrador)
+                                    @if (strtolower(Auth::user()->nivel_usuario) == 'gerente' || Auth::user()->administrador == 1)
                                         <a href="{{'usuarios'}}" class="dropdown-item">Autorizar usuários</a>
                                         <a href="{{ route('configuracoes') }}" class="dropdown-item">
                                             Configurações
