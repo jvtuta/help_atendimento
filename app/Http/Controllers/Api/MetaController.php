@@ -40,6 +40,10 @@ class MetaController extends Controller
             $metaRepository->repository->where('id','=',Auth::user()->id);
         }
 
+        if($request->has('data')) {
+            $metaRepository->repository->where('data',$request->data);
+        }
+
         return response()->json($metaRepository->getRes(),200);
         
     }

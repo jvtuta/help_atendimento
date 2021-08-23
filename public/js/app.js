@@ -1867,6 +1867,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['cardheader']
 });
@@ -2629,8 +2630,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["usuario"],
+  props: ["usuario", "data"],
   computed: {
     hora_atual: function hora_atual() {
       var hora_atual;
@@ -2641,7 +2658,7 @@ __webpack_require__.r(__webpack_exports__);
       return hora_atual[0];
     },
     periodo_dia: function periodo_dia() {
-      var periodo_dia;
+      var periodo_dia = '';
 
       if (this.hora_atual < 12) {
         return periodo_dia = "Bom dia";
@@ -2678,7 +2695,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var config = {
         method: "GET",
-        url: "/api/v1/meta?meta_usuario",
+        url: "/api/v1/meta?meta_usuario?data=" + this.data,
         headers: {
           Authorization: "Bearer " + this.token
         }
@@ -2686,7 +2703,7 @@ __webpack_require__.r(__webpack_exports__);
       axios(config).then(function (response) {
         return response.data;
       }).then(function (meta) {
-        return _this.metas.push(meta);
+        return _this.metas = meta;
       });
     }
   },
@@ -68159,10 +68176,7 @@ var render = function() {
     "div",
     { staticClass: "card bg-light mb-3 p-0" },
     [
-      _c("div", {
-        staticClass: "card-header",
-        domProps: { innerHTML: _vm._s(_vm.cardheader) }
-      }),
+      _c("div", { staticClass: "card-header" }, [_vm._t("cardheader")], 2),
       _vm._v(" "),
       _vm._t("cardbody"),
       _vm._v(" "),
@@ -69000,22 +69014,45 @@ var render = function() {
       _vm._v(_vm._s(_vm.periodo_dia) + ", " + _vm._s(_vm.usuario) + "!")
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-4" }, [
-        _c("h6", [_vm._v("Suas metas:")]),
-        _vm._v(" "),
-        _c(
-          "ul",
-          _vm._l(_vm.metas, function(meta) {
-            return _c("li", { key: meta })
-          }),
-          0
-        )
-      ])
-    ])
+    _vm._m(0)
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("h4", [_vm._v("Suas metas:")]),
+        _vm._v(" "),
+        _c("ul", { staticClass: "nav flex-column" }, [
+          _c("li", { staticClass: "nav-item" }, [
+            _vm._v("\n              Manipulação:\n            ")
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _vm._v("\n              Revenda:\n\n            ")
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _vm._v("\n              Vendas ontem:\n\n            ")
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _vm._v(
+              "\n              Realizado manipulação(mês):\n\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _vm._v("\n              Realizado vendas(mês):\n\n            ")
+          ])
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 

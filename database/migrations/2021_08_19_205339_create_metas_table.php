@@ -20,6 +20,7 @@ class CreateMetasTable extends Migration
             $table->integer('manipulacao');
             $table->integer('revenda');
             $table->integer('vendas_ontem');
+            $table->string('data')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });

@@ -14,7 +14,8 @@ class Meta extends Model
         'manipulacao',
         'revenda',
         'vendas_ontem',
-        'total'
+        'total',
+        'data'
     ];
     
     public function user() {

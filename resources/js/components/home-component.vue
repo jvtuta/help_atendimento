@@ -3,10 +3,26 @@
     <h5 class="card-title">{{ periodo_dia }}, {{ usuario }}!</h5>
     <div class="row">
       <div class="col-md-4">
-          <h6>Suas metas:</h6>
-          <ul>
-              <li v-for="meta in metas" :key="meta">
-                  
+          <h4>Suas metas:</h4>
+          <ul class="nav flex-column">
+              <li class="nav-item" >
+                Manipulação:
+              </li>
+              <li class="nav-item">
+                Revenda:
+
+              </li>
+              <li class="nav-item">
+                Vendas ontem:
+
+              </li>
+              <li class="nav-item">
+                Realizado manipulação(mês):
+
+              </li>
+              <li class="nav-item">
+                Realizado vendas(mês):
+
               </li>
           </ul>
       </div>
@@ -16,7 +32,7 @@
 
 <script>
 export default {
-  props: ["usuario"],
+  props: ["usuario","data"],
   computed: {
     hora_atual() {
       let hora_atual;
@@ -27,7 +43,7 @@ export default {
       return hora_atual[0];
     },
     periodo_dia() {
-      let periodo_dia;
+      let periodo_dia = '';
       if (this.hora_atual < 12) {
         return (periodo_dia = "Bom dia");
       } else if (this.hora_atual < 18) {
@@ -60,13 +76,12 @@ export default {
     getMeta() {
       const config = {
         method: "GET",
-        url: "/api/v1/meta?meta_usuario",
+        url: "/api/v1/meta?meta_usuario?data="+this.data,
         headers: { Authorization: "Bearer "+this.token },
       };
-
       axios(config)
         .then(response=>response.data)
-        .then(meta=>this.metas.push(meta))
+        .then(meta=>this.metas = meta)
     },
   },
   mounted() {
