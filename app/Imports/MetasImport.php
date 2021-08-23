@@ -34,13 +34,14 @@ class MetasImport implements ToModel, WithHeadingRow
          if($user === null) {
             return;
          }
+         
         return new Meta([
             'user_id' => $user->id, //Exemplo
             'nome_colaborador' => $row['colaborador'], //Exemplo
             'manipulacao' => $row['manipulacao'], //Exemplo
             'revenda' => $row['revenda'], //Exemplo
             'vendas_ontem' => $row['vendas_ontem'],
-            'vendas_total_manipulacao' => $row['venda_total_manip'] // venda_total_-_manip
+            'vendas_total_manipulacao' => $row['venda_total_manip']
         ]);
     }
 }

@@ -6,22 +6,22 @@
           <h4>Suas metas:</h4>
           <ul class="nav flex-column">
               <li class="nav-item" >
-                Manipulação:
+                Manipulação: {{this.metas.manipulacao}}
               </li>
               <li class="nav-item">
-                Revenda:
+                Revenda:{{this.metas.revenda}}
 
               </li>
               <li class="nav-item">
-                Vendas ontem:
+                Vendas ontem: {{this.metas.vendas_ontem}}
 
               </li>
               <li class="nav-item">
-                Realizado manipulação(mês):
-
+                Realizado manipulação(mês): {{this.metas.vendas_total_manipulacao}}
+                
               </li>
-              <li class="nav-item">
-                Realizado vendas(mês):
+              <li class="nav-item"> 
+                Faltam apenas: {{this.metas.manipulacao - this.metas.vendas_total_manipulacao}}
 
               </li>
           </ul>
@@ -76,12 +76,12 @@ export default {
     getMeta() {
       const config = {
         method: "GET",
-        url: "/api/v1/meta?meta_usuario?data="+this.data,
+        url: "/api/v1/meta?meta_usuario",
         headers: { Authorization: "Bearer "+this.token },
       };
       axios(config)
         .then(response=>response.data)
-        .then(meta=>this.metas = meta)
+        .then(meta=>this.metas = meta[meta.length - 1])
     },
   },
   mounted() {

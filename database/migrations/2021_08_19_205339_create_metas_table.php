@@ -19,6 +19,7 @@ class CreateMetasTable extends Migration
             $table->string('nome_colaborador', 50);
             $table->integer('manipulacao');
             $table->integer('revenda');
+            $table->integer('vendas_total_manipulacao');
             $table->integer('vendas_ontem');
             $table->string('data')->nullable();
             $table->timestamps();

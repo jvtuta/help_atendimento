@@ -38,6 +38,7 @@ class MetaController extends Controller
 
         if($request->has('meta_usuario')) {
             $metaRepository->repository->where('id','=',Auth::user()->id);
+            
         }
 
         if($request->has('data')) {

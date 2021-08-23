@@ -2695,7 +2695,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var config = {
         method: "GET",
-        url: "/api/v1/meta?meta_usuario?data=" + this.data,
+        url: "/api/v1/meta?meta_usuario",
         headers: {
           Authorization: "Bearer " + this.token
         }
@@ -2703,7 +2703,7 @@ __webpack_require__.r(__webpack_exports__);
       axios(config).then(function (response) {
         return response.data;
       }).then(function (meta) {
-        return _this.metas = meta;
+        return _this.metas = meta[meta.length - 1];
       });
     }
   },
@@ -69014,45 +69014,58 @@ var render = function() {
       _vm._v(_vm._s(_vm.periodo_dia) + ", " + _vm._s(_vm.usuario) + "!")
     ]),
     _vm._v(" "),
-    _vm._m(0)
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-4" }, [
         _c("h4", [_vm._v("Suas metas:")]),
         _vm._v(" "),
         _c("ul", { staticClass: "nav flex-column" }, [
           _c("li", { staticClass: "nav-item" }, [
-            _vm._v("\n              Manipulação:\n            ")
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
-            _vm._v("\n              Revenda:\n\n            ")
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
-            _vm._v("\n              Vendas ontem:\n\n            ")
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
             _vm._v(
-              "\n              Realizado manipulação(mês):\n\n            "
+              "\n              Manipulação: " +
+                _vm._s(this.metas.manipulacao) +
+                "\n            "
             )
           ]),
           _vm._v(" "),
           _c("li", { staticClass: "nav-item" }, [
-            _vm._v("\n              Realizado vendas(mês):\n\n            ")
+            _vm._v(
+              "\n              Revenda:" +
+                _vm._s(this.metas.revenda) +
+                "\n\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _vm._v(
+              "\n              Vendas ontem: " +
+                _vm._s(this.metas.vendas_ontem) +
+                "\n\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _vm._v(
+              "\n              Realizado manipulação(mês): " +
+                _vm._s(this.metas.vendas_total_manipulacao) +
+                "\n              \n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _vm._v(
+              " \n              Faltam apenas: " +
+                _vm._s(
+                  this.metas.manipulacao - this.metas.vendas_total_manipulacao
+                ) +
+                "\n\n            "
+            )
           ])
         ])
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
