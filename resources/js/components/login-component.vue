@@ -10,6 +10,9 @@
           <input type="password" name="password" id="password" class="form-control" placeholder="Coloque a sua senha" v-model="password">
       </div>
       <button type="submit" class="btn btn-outline-primary">Logar</button>
+      <div v-if="feedback_invalido" class="my-2">
+        <span class="text-danger" v-html="erro"></span>
+      </div>
   </form>
 </template>
 
@@ -22,7 +25,9 @@ export default {
     data() {
         return {
             'nome_usuario':'',
-            'password':''
+            'password':'',
+            'erro':'Usuário ou senha incorretos',
+            feedback_invalido:false
         }
     },
     methods: {
@@ -48,6 +53,7 @@ export default {
                     }
 
             })
+                .catch(()=>this.feedback_invalido = true)
         }
     }
 }

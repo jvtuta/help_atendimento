@@ -2822,17 +2822,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['csrf_token', 'action'],
   computed: {},
   data: function data() {
     return {
       'nome_usuario': '',
-      'password': ''
+      'password': '',
+      'erro': 'Usuário ou senha incorretos',
+      feedback_invalido: false
     };
   },
   methods: {
     login: function login(e) {
+      var _this = this;
+
       var url = '/api/v1/login';
       var params = new URLSearchParams({
         'nome_usuario': this.nome_usuario,
@@ -2852,6 +2859,8 @@ __webpack_require__.r(__webpack_exports__);
           document.cookie = '_Token=' + token + ';SameSite=lax';
           e.target.submit();
         }
+      })["catch"](function () {
+        return _this.feedback_invalido = true;
       });
     }
   }
@@ -2966,8 +2975,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["action", "csrf_token"],
+  props: ["action", "csrf_token", 'data'],
   computed: {
     token: function token() {
       var token = "";
@@ -2997,7 +3022,8 @@ __webpack_require__.r(__webpack_exports__);
     metas_method: function metas_method() {
       var _this = this;
 
-      var url = "/api/v1/meta";
+      var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.data;
+      var url = "/api/v1/meta?filtro=data:=:" + e.target.value;
       var config = {
         method: "GET",
         url: url,
@@ -3228,6 +3254,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["action", "csrf_token"],
   data: function data() {
@@ -3238,7 +3267,8 @@ __webpack_require__.r(__webpack_exports__);
       nome_usuario: '',
       password: '',
       password_confirmation: '',
-      registrado: false
+      registrado: false,
+      registro_falha: false
     };
   },
   methods: {
@@ -3268,8 +3298,8 @@ __webpack_require__.r(__webpack_exports__);
           document.cookie = "_Token=" + token + ";SameSite=lax";
           _this.registrado = true;
         }
-      })["catch"](function (err) {
-        console.log(err);
+      })["catch"](function () {
+        _this.registro_falha = true;
       });
     }
   },
@@ -69291,45 +69321,48 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-4" }, [
-        _c("h5", [_vm._v("Suas metas:")]),
-        _vm._v(" "),
-        _c("ul", { staticClass: "nav flex-column" }, [
-          _c("li", { staticClass: "nav-item" }, [
-            _vm._v("Manipulação: " + _vm._s(this.metas.manipulacao))
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
-            _vm._v("Revenda:" + _vm._s(this.metas.revenda))
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
-            _vm._v("Vendas ontem: " + _vm._s(this.metas.vendas_ontem))
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
-            _vm._v(
-              "\n          Realizado manipulação(mês):\n          " +
-                _vm._s(this.metas.vendas_total_manipulacao) +
-                "\n        "
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "nav-item", attrs: { id: "faltam_apenas" } },
-            [
-              _vm._v(
-                "\n          Faltam:\n          " +
-                  _vm._s(
-                    this.metas.manipulacao - this.metas.vendas_total_manipulacao
-                  ) +
-                  "\n        "
+      this.metas.length > 0
+        ? _c("div", { staticClass: "col-md-4" }, [
+            _c("h5", [_vm._v("Suas metas:")]),
+            _vm._v(" "),
+            _c("ul", { staticClass: "nav flex-column" }, [
+              _c("li", { staticClass: "nav-item" }, [
+                _vm._v("Manipulação: " + _vm._s(this.metas.manipulacao))
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "nav-item" }, [
+                _vm._v("Revenda:" + _vm._s(this.metas.revenda))
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "nav-item" }, [
+                _vm._v("Vendas ontem: " + _vm._s(this.metas.vendas_ontem))
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "nav-item" }, [
+                _vm._v(
+                  "\n          Realizado manipulação(mês):\n          " +
+                    _vm._s(this.metas.vendas_total_manipulacao) +
+                    "\n        "
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "li",
+                { staticClass: "nav-item", attrs: { id: "faltam_apenas" } },
+                [
+                  _vm._v(
+                    "\n          Faltam:\n          " +
+                      _vm._s(
+                        this.metas.manipulacao -
+                          this.metas.vendas_total_manipulacao
+                      ) +
+                      "\n        "
+                  )
+                ]
               )
-            ]
-          )
-        ])
-      ])
+            ])
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -69448,7 +69481,16 @@ var render = function() {
         "button",
         { staticClass: "btn btn-outline-primary", attrs: { type: "submit" } },
         [_vm._v("Logar")]
-      )
+      ),
+      _vm._v(" "),
+      _vm.feedback_invalido
+        ? _c("div", { staticClass: "my-2" }, [
+            _c("span", {
+              staticClass: "text-danger",
+              domProps: { innerHTML: _vm._s(_vm.erro) }
+            })
+          ])
+        : _vm._e()
     ]
   )
 }
@@ -69488,7 +69530,7 @@ var render = function() {
                 on: {
                   click: function($event) {
                     $event.preventDefault()
-                    _vm.imports = true
+                    ;(_vm.imports = true), (_vm.visualizar_imports = false)
                   }
                 }
               },
@@ -69505,7 +69547,8 @@ var render = function() {
                 on: {
                   click: function($event) {
                     $event.preventDefault()
-                    ;(_vm.visualizar_imports = true), _vm.metas_method()
+                    ;((_vm.visualizar_imports = true), (_vm.imports = false)),
+                      _vm.metas_method()
                   }
                 }
               },
@@ -69560,6 +69603,18 @@ var render = function() {
             "div",
             { staticClass: "col-md-12 ", attrs: { id: "tabela_metas" } },
             [
+              _c("div", { staticClass: "my-3 col-md-2" }, [
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "date", id: "data" },
+                  on: {
+                    change: function($event) {
+                      return _vm.metas_method($event)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
               _c("table", { staticClass: "table table-hover" }, [
                 _vm._m(1),
                 _vm._v(" "),
@@ -69576,7 +69631,7 @@ var render = function() {
                       _c("td", [
                         _vm._v(
                           "\n              " +
-                            _vm._s(meta.nome_usuario) +
+                            _vm._s(meta.nome_colaborador) +
                             "\n            "
                         )
                       ]),
@@ -69619,6 +69674,52 @@ var render = function() {
                                 return _vm.$set(
                                   _vm.metas[index],
                                   "manipulacao",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        {
+                          on: {
+                            dblclick: function($event) {
+                              return _vm.before_update_meta($event)
+                            }
+                          }
+                        },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model.lazy",
+                                value: _vm.metas[index].revenda,
+                                expression: "metas[index].revenda",
+                                modifiers: { lazy: true }
+                              }
+                            ],
+                            attrs: {
+                              type: "text",
+                              name: "revenda",
+                              readonly: "",
+                              placeholder: meta.revenda
+                            },
+                            domProps: { value: _vm.metas[index].revenda },
+                            on: {
+                              blur: function($event) {
+                                return _vm.blur($event)
+                              },
+                              keypress: function($event) {
+                                return _vm.after_update_meta($event)
+                              },
+                              change: function($event) {
+                                return _vm.$set(
+                                  _vm.metas[index],
+                                  "revenda",
                                   $event.target.value
                                 )
                               }
@@ -69757,9 +69858,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Revenda")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Vendas ontem")]),
+        _c("th", [_vm._v("Total realizado ontem")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Vendas total manipulação")])
+        _c("th", [_vm._v("Total realizado (manipulação)")])
       ])
     ])
   }
@@ -70132,6 +70233,16 @@ var render = function() {
       ? _c("div", { staticClass: "row mt-2" }, [
           _c("span", { staticClass: "text-success" }, [
             _vm._v("Registrado com sucesso!")
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.registro_falha
+      ? _c("div", { staticClass: "row mt-2" }, [
+          _c("span", { staticClass: "text-danger" }, [
+            _vm._v(
+              "Falha ao registrar, verifique os dados informados(senha, nome de usuario)"
+            )
           ])
         ])
       : _vm._e()

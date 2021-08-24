@@ -4,7 +4,7 @@
       <div id="nav_imports">
         <ul class="nav ms-auto border-bottom">
           <li class="nav-item mt-2">
-            <a href="" class="nav-link" @click.prevent="imports = true"
+            <a href="" class="nav-link" @click.prevent="imports = true, visualizar_imports = false"
               >Importar</a
             >
           </li>
@@ -12,11 +12,13 @@
             <a
               href=""
               class="nav-link"
-              @click.prevent="(visualizar_imports = true), metas_method()"
+              @click.prevent="(visualizar_imports = true, imports = false), metas_method()"
               >Visualizar relatórios importados</a
             >
           </li>
+          
         </ul>
+        
       </div>
     </div>
     <div class="row justify-content-center">
@@ -37,21 +39,24 @@
         </form>
       </div>
       <div class="col-md-12 " id="tabela_metas" v-if="visualizar_imports">
+        <div class="my-3 col-md-2">
+          <input type="date" id="data" class="form-control" @change="metas_method($event)">
+        </div>
         <table class="table table-hover">
           <thead>
             <tr>
               <th>Colaborador</th>
               <th>Manipulacao</th>
               <th>Revenda</th>
-              <th>Vendas ontem</th>
-              <th>Vendas total manipulação</th>
+              <th>Total realizado ontem</th>
+              <th>Total realizado (manipulação)</th>
             </tr>
           </thead>
           <tbody id="tbody-metas">
             <tr v-for="(meta, index) in metas" :key="meta.id" :id="index">
               <input type="hidden" name="id" :value="meta.id" />
               <td>
-                {{meta.nome_usuario}}
+                {{meta.nome_colaborador}}
               </td>
               <td @dblclick="before_update_meta($event)">
                 <input
@@ -62,6 +67,17 @@
                   readonly
                   :placeholder="meta.manipulacao"
                   v-model.lazy="metas[index].manipulacao"
+                />
+              </td>
+              <td @dblclick="before_update_meta($event)">
+                <input
+                  type="text"
+                  name="revenda"
+                  @blur="blur($event)"
+                  @keypress="after_update_meta($event)"
+                  readonly
+                  :placeholder="meta.revenda"
+                  v-model.lazy="metas[index].revenda"
                 />
               </td>
               <td @dblclick="before_update_meta($event)">
@@ -96,7 +112,7 @@
 
 <script>
 export default {
-  props: ["action", "csrf_token"],
+  props: ["action", "csrf_token", 'data'],
   computed: {
     token() {
       let token = "";
@@ -122,8 +138,8 @@ export default {
     };
   },
   methods: {
-    metas_method() {
-      const url = "/api/v1/meta";
+    metas_method(e=this.data) {
+      const url = "/api/v1/meta?filtro=data:=:"+e.target.value;
 
       const config = {
         method: "GET",
@@ -163,6 +179,7 @@ export default {
     },
     blur(e) {
       e.target.removeAttribute("style");
+      
     },
     log_method() {
       console.log("log_method");

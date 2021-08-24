@@ -99,9 +99,15 @@ class MetaController extends Controller
      * @param  \App\Models\Meta  $meta
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Meta $meta)
+    public function update(Request $request, $id)
     {
-        //
+        $meta = $this->meta->find($id);
+        if(!$meta) {
+            return response()->json(['erro' => 'Recurso não existe'], 404);
+        }
+        $meta->fill($request->all());
+        $meta->save();
+        return response()->json(['sucesso' => 'Recurso salvo com sucesso'], 200);
     }
 
     /**

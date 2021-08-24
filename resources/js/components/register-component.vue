@@ -99,6 +99,9 @@
     <div class="row mt-2" v-if="registrado">
       <span class="text-success">Registrado com sucesso!</span>
     </div>
+    <div class="row mt-2" v-if="registro_falha">
+      <span class="text-danger">Falha ao registrar, verifique os dados informados(senha, nome de usuario)</span>
+    </div>
   </div>
 </template>
 
@@ -113,7 +116,8 @@ export default {
       nome_usuario:'',
       password:'',
       password_confirmation: '',
-      registrado: false
+      registrado: false,
+      registro_falha: false
     };
   },
   methods: {
@@ -139,8 +143,8 @@ export default {
           document.cookie = "_Token=" + token + ";SameSite=lax";
           this.registrado = true
         }
-      }).catch((err)=>{
-        console.log(err)
+      }).catch(()=>{
+        this.registro_falha = true
       });
     },
   },

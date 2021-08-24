@@ -4,17 +4,21 @@ namespace App\Imports;
 
 use App\Models\User;
 use App\Models\Meta;
-use Maatwebsite\Excel\Concerns\SkipsUnknownSheets;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Maatwebsite\Excel\Concerns\WithUpserts;
 
-class MetasImport implements ToModel, WithHeadingRow
+class MetasImport implements ToModel, WithHeadingRow, WithUpserts
 {
     protected $users; //Pegar usuarios
     public function __construct()
     {
         $this->users = User::select('id', 'name')->get();
+    }
+
+    public function uniqueBy()
+    {
+        return 'data';
     }
 
     /**
@@ -34,6 +38,8 @@ class MetasImport implements ToModel, WithHeadingRow
          if($user === null) {
             return;
          }
+
+         
          
         return new Meta([
             'user_id' => $user->id, //Exemplo
@@ -41,7 +47,8 @@ class MetasImport implements ToModel, WithHeadingRow
             'manipulacao' => $row['manipulacao'], //Exemplo
             'revenda' => $row['revenda'], //Exemplo
             'vendas_ontem' => $row['vendas_ontem'],
-            'vendas_total_manipulacao' => $row['venda_total_manip']
+            'vendas_total_manipulacao' => $row['venda_total_manip'],
+            'data' => $row['data']
         ]);
     }
 }

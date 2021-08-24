@@ -2,7 +2,7 @@
   <div>
     <h5 class="card-title">{{ periodo_dia }}, {{ usuario }}!</h5>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-4" v-if="this.metas.length > 0">
         <h5>Suas metas:</h5>
         <ul class="nav flex-column">
           <li class="nav-item">Manipulação: {{ this.metas.manipulacao }}</li>
