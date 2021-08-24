@@ -1,7 +1,8 @@
 <template>
   <div class="card bg-light mb-3 p-0">
     <div class="card-header">
-      <slot name="cardheader"></slot>
+      {{cardheader}}
+      <slot name="cardheader"> </slot>
     </div>
     
     <slot name="cardbody"></slot>

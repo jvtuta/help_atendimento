@@ -106,7 +106,7 @@
                   />
                 </td>
                 <td>
-                  <button class="btn btn-sm btn-outline-info">pass</button>
+                  <button class="btn btn-sm btn-outline-info" @click="resetPassword($event)">pass</button>
                 </td>
                 <td>
                   <button class="btn btn-sm btn-outline-danger">X</button>
@@ -114,6 +114,9 @@
               </tr>
             </tbody>
           </table>
+          <div class="text-info" v-if="senha_resetada">
+            Senha alterada com sucesso!
+          </div>
         </div>
         <div v-if="logs">logs</div>
         <div v-if="log_chat">log_chat</div>
@@ -147,6 +150,7 @@ export default {
       usuarios: false,
       logs: false,
       log_chat: false,
+      senha_resetada: false,
       usuario_autenticado: "",
       usuario_selecionado: '',
       attr_old: ''
@@ -174,8 +178,19 @@ export default {
         });
 
     },
+    resetPassword(e) {
+      
+      let params = new URLSearchParams({'password':'123456789'})
+      const config = {
+        method: 'post',
+        url:'/api/v1/reset/'+e.path[2].children[0].value,
+        headers: { Authorization: "bearer "+ this.token },
+        data: params
+      }
+      axios(config)
+    },
     before_update_user(e) {
-      this.usuario_selecionado=document.querySelector('tr input').value
+      this.usuario_selecionado = e.path[2].children[0].value
       if (
         e.target.name == "administrador" &&
         !(this.usuario_autenticado.administrador == true)

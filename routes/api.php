@@ -30,5 +30,6 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('usuario', 'App\Http\Controllers\Api\UsuarioController');
         Route::apiResource('mensagem', 'App\Http\Controllers\Api\MensagemController');
         Route::apiResource('meta', 'App\Http\Controllers\Api\MetaController');
+        Route::post('reset/{id}', [App\Http\Controllers\Api\ForgotPass::class, 'resetPass']);
     });
 });

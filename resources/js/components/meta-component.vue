@@ -40,7 +40,7 @@
       </div>
       <div class="col-md-12 " id="tabela_metas" v-if="visualizar_imports">
         <div class="my-3 col-md-2">
-          <input type="date" id="data" class="form-control" @change="metas_method($event)">
+          <input type="date" id="data" class="form-control" @change="metas_method($event)" >
         </div>
         <table class="table table-hover">
           <thead>
@@ -138,9 +138,15 @@ export default {
     };
   },
   methods: {
-    metas_method(e=this.data) {
-      const url = "/api/v1/meta?filtro=data:=:"+e.target.value;
-
+    metas_method(e = this.data) {
+      let url = "/api/v1/meta?filtro=data:=:"+e
+      
+      if(e.target)  {
+        let data = e.target.value.split('-')
+        
+        url = "/api/v1/meta?filtro=data:=:"+data[2]+'/'+data[1]+'/'+data[0]
+      }
+      
       const config = {
         method: "GET",
         url: url,

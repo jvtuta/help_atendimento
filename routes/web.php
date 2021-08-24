@@ -31,5 +31,5 @@ Route::prefix('app')->middleware('auth')->group(function () {
     Route::get('/configuracoes', [App\Http\Controllers\ConfiguracoesController::class, 'index'])->name('configuracoes');
     Route::get('/metas', [App\Http\Controllers\MetaController::class, 'index'])->name('metas');
     Route::post('/metas', [App\Http\Controllers\MetaController::class, 'meta_import'])->name('meta_import');
-    
+    Route::get('/reset-password', [App\Http\Controllers\Api\ForgotPass::class, 'index'])->name('reset_password');
 });

@@ -37,7 +37,7 @@ Vue.component('register-component', require('./components/register-component.vue
 Vue.component('configuracoes-component', require('./components/configuracoes-component.vue').default);
 Vue.component('meta-component', require('./components/meta-component.vue').default);
 Vue.component('home-component', require('./components/home-component.vue').default);
-
+Vue.component('reset-password-component', require('./components/reset-password-component.vue').default);
 /*
  *
  * Next, we will create a fresh Vue application instance and attach it to
