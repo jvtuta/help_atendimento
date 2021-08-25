@@ -2606,19 +2606,18 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     deletar: function deletar(e) {
-      var params = new URLSearchParams({
-        autorizado: "false",
-        _method: "patch"
-      });
+      var _this3 = this;
+
       var config = {
-        method: "post",
+        method: "delete",
         url: "/api/v1/usuario/" + e.path[2].children[0].value,
         headers: {
           Authorization: "bearer " + this.token
-        },
-        data: params
+        }
       };
-      axios(config);
+      axios(config).then(function () {
+        _this3.usuarios.splice(e.path[2].id, 1);
+      });
     },
     resetPassword: function resetPassword(e) {
       var params = new URLSearchParams({

@@ -127,8 +127,12 @@ class UsuarioController extends Controller
      * @param  \App\Models\User  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $usuario)
+    public function destroy($id)
     {
-        //
+        $this->user = $this->user->find($id);
+        if($this->user) {
+            $this->user->delete();
+        }
+        return response()->json(['sucesso'=>'Usuário deletado com sucesso','registro'=>$id]);
     }
 }

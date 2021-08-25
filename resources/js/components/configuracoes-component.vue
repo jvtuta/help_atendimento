@@ -213,17 +213,16 @@ export default {
 
     },
     deletar(e) {
-      let params = new URLSearchParams({
-        autorizado: "false",
-        _method: "patch",
-      });
+      
       const config = {
-        method: "post",
+        method: "delete",
         url: "/api/v1/usuario/" + e.path[2].children[0].value,
         headers: { Authorization: "bearer " + this.token },
-        data: params,
       };
       axios(config)
+        .then(()=>{
+          this.usuarios.splice(e.path[2].id, 1)
+        })
     },
     resetPassword(e) {
       let params = new URLSearchParams({ password: "12345678" });

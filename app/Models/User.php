@@ -7,15 +7,21 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 // use App\Repository\UserRepository;
 
 class User extends Authenticatable implements JWTSubject
 {
 
-    use HasFactory, Notifiable;
-
+    use HasFactory, Notifiable, SoftDeletes;
+    
+    
     // Rest omitted for brevity
     public $timestamps = true;
+  
+
+
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
