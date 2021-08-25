@@ -6,19 +6,15 @@ use App\Models\User;
 use App\Models\Meta;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithUpserts;
 
-class MetasImport implements ToModel, WithHeadingRow, WithUpserts
+class MetasImport implements ToModel, WithHeadingRow
 {
     protected $users; //Pegar usuarios
+    protected $meta;
     public function __construct()
     {
         $this->users = User::select('id', 'name')->get();
-    }
-
-    public function uniqueBy()
-    {
-        return 'data';
+        $this->meta = Meta::select('data')->get();
     }
 
     /**
@@ -34,13 +30,15 @@ class MetasImport implements ToModel, WithHeadingRow, WithUpserts
         } 
 
          //Pegar o primeiro resultado a fim de otimizar a pesquisa na collection
-         $user = $this->users->where('name', $row['colaborador'])->first();
-         if($user === null) {
+        $user = $this->users->where('name', $row['colaborador'])->first();
+        if($user === null) {
             return;
-         }
+        }         
+        
+        if($this->meta->where('data',date('d/m/Y'))->first() !== null) {
+            return;
+        };
 
-         
-         
         return new Meta([
             'user_id' => $user->id, //Exemplo
             'nome_colaborador' => $row['colaborador'], //Exemplo
@@ -48,7 +46,7 @@ class MetasImport implements ToModel, WithHeadingRow, WithUpserts
             'revenda' => $row['revenda'], //Exemplo
             'vendas_ontem' => $row['vendas_ontem'],
             'vendas_total_manipulacao' => $row['venda_total_manip'],
-            'data' => $row['data']
+            'data' => date('d/m/Y')
         ]);
     }
 }

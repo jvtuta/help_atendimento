@@ -160,7 +160,7 @@ export default {
         });
     },
     before_update_meta(e) {
-      this.meta_selecionada = document.querySelector("tr input").value;
+      this.meta_selecionada = e.path[2].children[0].value;
       e.target.removeAttribute("readonly");
       e.target.setAttribute(
         "style",

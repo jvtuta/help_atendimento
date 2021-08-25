@@ -109,12 +109,15 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = $this->user->find($id);
-        if(!$user) {
+        $this->user = $this->user->find($id);
+
+        if(!$this->user) {
             return response()->json(['erro' => 'Recurso não existe'], 404);
         }
-        $user->fill($request->all());
-        $user->save();
+        $this->user->fill($request->all());
+        
+        $this->user->save();
+        dd($this->user);
         return response()->json(['sucesso' => 'Recurso salvo com sucesso'], 200);
     }
 

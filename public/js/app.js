@@ -3063,7 +3063,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     before_update_meta: function before_update_meta(e) {
-      this.meta_selecionada = document.querySelector("tr input").value;
+      this.meta_selecionada = e.path[2].children[0].value;
       e.target.removeAttribute("readonly");
       e.target.setAttribute("style", "cursor: text !important;font-family: inherit  !important;padding: 0.25em 0.5em  !important;background-color: #fff  !important;border: 2px solid rgb(207, 219, 219)  !important;border-radius: 4px  !important;");
     },
@@ -3459,7 +3459,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.feedback_valido = true;
           setTimeout(function () {
             window.location.href = '/app/home';
-          }, 3000);
+          }, 2000);
         }
       })["catch"](function () {
         _this.feedback_invalido = true;

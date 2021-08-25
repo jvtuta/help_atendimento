@@ -98,7 +98,7 @@ export default {
                 this.feedback_valido = true
                 setTimeout(()=>{
                     window.location.href = '/app/home'
-                }, 3000)
+                }, 2000)
             }
         }).catch(()=>{
             this.feedback_invalido = true;
