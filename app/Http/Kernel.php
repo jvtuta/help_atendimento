@@ -38,6 +38,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            
         ],
 
         'api' => [
@@ -64,6 +65,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'jwt.auth'=> \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
-        'nivel.usuario' =>\App\Http\Middleware\NivelUsuarioMiddleware::class
+        'nivel.usuario' =>\App\Http\Middleware\NivelUsuarioMiddleware::class,
+        'autorizar'=>\App\Http\Middleware\AutorizarMiddleware::class
     ];
 }

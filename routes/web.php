@@ -25,7 +25,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::prefix('app')->middleware('auth')->group(function () {
+Route::get('/autorizar', function(){
+    return view('autorizar');
+})->name('autorizar');
+
+Route::prefix('app')->middleware('auth','autorizar')->group(function () {
+    //Adicionar middleware de autorizar
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/chat', [App\Http\Controllers\ChatController::class, 'index'])->name('chat');    
     Route::get('/configuracoes', [App\Http\Controllers\ConfiguracoesController::class, 'index'])->name('configuracoes');

@@ -11,7 +11,7 @@
             </template>
             <template v-slot:cardbody>
                 <div class="card-body">
-                    <home-component usuario="{{Auth::user()->name}}" data="{{ date('d/m/Y') }}"></home-component>
+                    <home-component usuario="{{Auth::user()->name}}" data="{{ date('d/m/Y') }}" usuario_id="{{Auth::user()->id}}"></home-component>
                 </div>
             </template>
         </card-component>

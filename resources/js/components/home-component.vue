@@ -2,7 +2,7 @@
   <div>
     <h5 class="card-title">{{ periodo_dia }}, {{ usuario }}!</h5>
     <div class="row">
-      <div class="col-md-4" v-if="this.metas.length > 0">
+      <div class="col-md-4" v-if="this.metas">
         <h5>Suas metas:</h5>
         <ul class="nav flex-column">
           <li class="nav-item">Manipulação: {{ this.metas.manipulacao }}</li>
@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  props: ["usuario", "data"],
+  props: ["usuario",'usuario_id', "data"],
   computed: {
     hora_atual() {
       let hora_atual;
@@ -68,7 +68,7 @@ export default {
     async getMeta() {
       const config = {
         method: "GET",
-        url: "/api/v1/meta?meta_usuario",
+        url: "/api/v1/meta?meta_usuario="+this.usuario_id,
         headers: { Authorization: "Bearer " + this.token },
       };
       await axios(config)

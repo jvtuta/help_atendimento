@@ -2514,6 +2514,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: [],
   computed: {
@@ -2540,8 +2562,8 @@ __webpack_require__.r(__webpack_exports__);
       log_chat: false,
       senha_resetada: false,
       usuario_autenticado: "",
-      usuario_selecionado: '',
-      attr_old: ''
+      usuario_selecionado: "",
+      attr_old: ""
     };
   },
   methods: {
@@ -2564,13 +2586,47 @@ __webpack_require__.r(__webpack_exports__);
         _this.attr_old = data.usuarios;
       });
     },
-    resetPassword: function resetPassword(e) {
+    autorizar: function autorizar(e) {
+      var _this2 = this;
+
       var params = new URLSearchParams({
-        'password': '123456789'
+        autorizado: 1,
+        '_method': "patch"
       });
       var config = {
-        method: 'post',
-        url: '/api/v1/reset/' + e.path[2].children[0].value,
+        method: "post",
+        url: "/api/v1/usuario/" + e.path[2].children[0].value,
+        headers: {
+          Authorization: "bearer " + this.token
+        },
+        data: params
+      };
+      axios(config).then(function () {
+        return _this2.usuarios[e.path[2].id].autorizado = true;
+      });
+    },
+    deletar: function deletar(e) {
+      var params = new URLSearchParams({
+        autorizado: "false",
+        _method: "patch"
+      });
+      var config = {
+        method: "post",
+        url: "/api/v1/usuario/" + e.path[2].children[0].value,
+        headers: {
+          Authorization: "bearer " + this.token
+        },
+        data: params
+      };
+      axios(config);
+    },
+    resetPassword: function resetPassword(e) {
+      var params = new URLSearchParams({
+        password: "12345678"
+      });
+      var config = {
+        method: "post",
+        url: "/api/v1/reset/" + e.path[2].children[0].value,
         headers: {
           Authorization: "bearer " + this.token
         },
@@ -2589,13 +2645,13 @@ __webpack_require__.r(__webpack_exports__);
       e.target.setAttribute("style", "cursor: text !important;font-family: inherit  !important;padding: 0.25em 0.5em  !important;background-color: #fff  !important;border: 2px solid rgb(207, 219, 219)  !important;border-radius: 4px  !important;");
     },
     after_update_user: function after_update_user(e) {
-      if (e.key == 'Enter') {
+      if (e.key == "Enter") {
         var params = new URLSearchParams();
         params.append(e.target.name, e.target.value);
-        params.append('_method', 'PATCH');
+        params.append("_method", "PATCH");
         var config = {
-          method: 'POST',
-          url: '/api/v1/usuario/' + this.usuario_selecionado,
+          method: "POST",
+          url: "/api/v1/usuario/" + this.usuario_selecionado,
           headers: {
             Authorization: "bearer " + this.token
           },
@@ -2666,7 +2722,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["usuario", "data"],
+  props: ["usuario", 'usuario_id', "data"],
   computed: {
     hora_atual: function hora_atual() {
       var hora_atual;
@@ -2720,7 +2776,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 config = {
                   method: "GET",
-                  url: "/api/v1/meta?meta_usuario",
+                  url: "/api/v1/meta?meta_usuario=" + _this.usuario_id,
                   headers: {
                     Authorization: "Bearer " + _this.token
                   }
@@ -69267,7 +69323,34 @@ var render = function() {
                             ]
                           ),
                           _vm._v(" "),
-                          _c("td", [_vm._v("button")]),
+                          _c("td", [
+                            usuario.autorizado == false
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-sm btn-outline-info",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.autorizar($event)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "far fa-check-circle"
+                                    })
+                                  ]
+                                )
+                              : _c(
+                                  "button",
+                                  { staticClass: "btn btn-sm btn-info" },
+                                  [
+                                    _c("i", {
+                                      staticClass: "far fa-check-circle"
+                                    })
+                                  ]
+                                )
+                          ]),
                           _vm._v(" "),
                           _c(
                             "td",
@@ -69471,11 +69554,28 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("pass")]
+                              [
+                                _vm._v(
+                                  "\n                  pass\n                "
+                                )
+                              ]
                             )
                           ]),
                           _vm._v(" "),
-                          _vm._m(1, true)
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-sm btn-outline-danger",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deletar($event)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "far fa-trash-alt" })]
+                            )
+                          ])
                         ]
                       )
                     }),
@@ -69527,16 +69627,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("#")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("button", { staticClass: "btn btn-sm btn-outline-danger" }, [
-        _vm._v("X")
-      ])
-    ])
   }
 ]
 render._withStripped = true
@@ -69567,7 +69657,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
-      this.metas.length > 0
+      this.metas
         ? _c("div", { staticClass: "col-md-4" }, [
             _c("h5", [_vm._v("Suas metas:")]),
             _vm._v(" "),

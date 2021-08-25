@@ -45,7 +45,7 @@
                 :key="usuario.id"
                 :id="index"
               >
-                <input type="hidden" name="id" :value="usuario.id">
+                <input type="hidden" name="id" :value="usuario.id" />
                 <td>
                   <input type="text" readonly :placeholder="usuario.active" />
                 </td>
@@ -60,7 +60,22 @@
                     v-model.lazy="usuarios[index].administrador"
                   />
                 </td>
-                <td>button</td>
+                <td>
+
+                  <button 
+                    v-if="usuario.autorizado == false"
+                    class="btn btn-sm btn-outline-info"
+                    @click="autorizar($event)"
+                  >
+                    <i class="far fa-check-circle"></i>
+                  </button> 
+                  <button
+                    v-else
+                    class="btn btn-sm btn-info"
+                  >
+                    <i class="far fa-check-circle"></i>
+                  </button>
+                </td>
                 <td @dblclick="before_update_user($event)">
                   <input
                     type="text"
@@ -106,10 +121,17 @@
                   />
                 </td>
                 <td>
-                  <button class="btn btn-sm btn-outline-info" @click="resetPassword($event)">pass</button>
+                  <button
+                    class="btn btn-sm btn-outline-info"
+                    @click="resetPassword($event)"
+                  >
+                    pass
+                  </button>
                 </td>
                 <td>
-                  <button class="btn btn-sm btn-outline-danger">X</button>
+                  <button class="btn btn-sm btn-outline-danger" @click="deletar($event)">
+                    <i class="far fa-trash-alt"></i>
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -152,15 +174,13 @@ export default {
       log_chat: false,
       senha_resetada: false,
       usuario_autenticado: "",
-      usuario_selecionado: '',
-      attr_old: ''
-      
+      usuario_selecionado: "",
+      attr_old: "",
     };
   },
 
   methods: {
     usuarios_method() {
-      
       const url = "/api/v1/usuario?usuarios";
 
       const config = {
@@ -176,25 +196,51 @@ export default {
           this.usuario_autenticado = data.usuario_autenticado;
           this.attr_old = data.usuarios;
         });
+    },
+    autorizar(e) {
+      let params = new URLSearchParams({
+        autorizado: 1,
+        '_method': "patch",
+      });
+      const config = {
+        method: "post",
+        url: "/api/v1/usuario/" + e.path[2].children[0].value,
+        headers: { Authorization: "bearer " + this.token },
+        data: params,
+      };
+      axios(config)
+        .then(()=>this.usuarios[e.path[2].id].autorizado = true)
 
     },
-    resetPassword(e) {
-      
-      let params = new URLSearchParams({'password':'123456789'})
+    deletar(e) {
+      let params = new URLSearchParams({
+        autorizado: "false",
+        _method: "patch",
+      });
       const config = {
-        method: 'post',
-        url:'/api/v1/reset/'+e.path[2].children[0].value,
-        headers: { Authorization: "bearer "+ this.token },
-        data: params
-      }
+        method: "post",
+        url: "/api/v1/usuario/" + e.path[2].children[0].value,
+        headers: { Authorization: "bearer " + this.token },
+        data: params,
+      };
       axios(config)
     },
+    resetPassword(e) {
+      let params = new URLSearchParams({ password: "12345678" });
+      const config = {
+        method: "post",
+        url: "/api/v1/reset/" + e.path[2].children[0].value,
+        headers: { Authorization: "bearer " + this.token },
+        data: params,
+      };
+      axios(config);
+    },
     before_update_user(e) {
-      this.usuario_selecionado = e.path[2].children[0].value
+      this.usuario_selecionado = e.path[2].children[0].value;
       if (
         e.target.name == "administrador" &&
         !(this.usuario_autenticado.administrador == true)
-      ) {    
+      ) {
         return;
       }
       e.target.removeAttribute("readonly");
@@ -204,26 +250,25 @@ export default {
       );
     },
     after_update_user(e) {
-      
-      if(e.key == 'Enter') {        
-        let params = new URLSearchParams()
-        params.append(e.target.name, e.target.value)
-        params.append('_method', 'PATCH')
+      if (e.key == "Enter") {
+        let params = new URLSearchParams();
+        params.append(e.target.name, e.target.value);
+        params.append("_method", "PATCH");
         const config = {
-          method: 'POST',
-          url: '/api/v1/usuario/'+this.usuario_selecionado,
+          method: "POST",
+          url: "/api/v1/usuario/" + this.usuario_selecionado,
           headers: { Authorization: "bearer " + this.token },
-          data: params
-        }
+          data: params,
+        };
 
-        axios(config)
-        this.blur(e)
+        axios(config);
+        this.blur(e);
       }
     },
     blur(e) {
-      const old = this.attr_old
+      const old = this.attr_old;
       e.target.removeAttribute("style");
-      this.usuarios = old
+      this.usuarios = old;
     },
     log_method() {
       console.log("log_method");
