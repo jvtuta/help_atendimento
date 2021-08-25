@@ -90,11 +90,11 @@
                       >
                         {{ mensagem.created_at | formatDate() }}
                       </span>
-                      <a
+                      <img
                         v-if="mensagem.urn_arquivo"
-                        class="btn btn-sm btn-outline-primary"
+                        style="width: 250px; height: 250px"
                         @click="downloadImage(mensagem.urn_arquivo)"
-                        >{{ mensagem.urn_arquivo }}</a
+                        :src=" '/storage/'+mensagem.urn_arquivo  "
                       >
                     </p>
                   </div>
@@ -110,11 +110,11 @@
                       >
                         {{ mensagem.created_at | formatDate() }}
                       </span>
-                      <a
+                      <img
                         v-if="mensagem.urn_arquivo"
-                        class="btn btn-sm btn-outline-primary btn-sm"
+                        style="width: 250px; height: 250px"
                         @click="downloadImage(mensagem.urn_arquivo)"
-                        >{{ mensagem.urn_arquivo }}</a
+                        :src=" '/storage/'+mensagem.urn_arquivo  "
                       >
                     </p>
                   </div>
@@ -291,6 +291,7 @@ export default {
 
       let data = new FormData();
       console.log(event.target.files[0]);
+      
       data.append("imagem", event.target.files[0]);
       data.append("de_usuario_id", this.usuario_autenticado_id_);
       data.append("para_usuario_id", this.usuario_destino);
@@ -311,27 +312,19 @@ export default {
     },
 
     async downloadImage(urn_arquivo) {
-      const url = "/api/v1/mensagem?download=" + urn_arquivo;
-      const config = {
-        headers: {
-          Authorization: "bearer " + this.token,
-          responseType: "blob",
-        },
-      };
-      let imagemurn = urn_arquivo.replace("storage/imagens/chat/", "");
-      await axios
-        .get(url, config)
-        .then((response) => response.data)
-        .then((imagem) => {
-          let fileURL = window.URL.createObjectURL(new Blob([imagem]));
-          let fileLink = document.createElement("a");
+      let image
+      const url = "/storage/"+urn_arquivo;
+      image = await fetch(url)
+      image = await image.blob()
+      let fileURL = window.URL.createObjectURL(image)
+      let fileLink = document.createElement("a");
+      fileLink.href = fileURL
 
-          fileLink.href = fileURL;
-          fileLink.setAttribute("download", imagemurn);
-          document.body.appendChild(fileLink);
+      fileLink.setAttribute("download",'teste')
+      document.body.appendChild(fileLink)
+      fileLink.click();
+      document.body.removeChild(fileLink);
 
-          fileLink.click();
-        });
     },
 
     async sendMessage() {
@@ -422,6 +415,10 @@ export default {
   display: inline-block;
   height: 10px;
   width: 10px;
+}
+
+div img:hover {
+  cursor: pointer;
 }
 
 #chatMessages div .row .col .card-body:hover {

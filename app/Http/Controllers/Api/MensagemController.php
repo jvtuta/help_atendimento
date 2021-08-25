@@ -51,7 +51,7 @@ class MensagemController extends Controller
 
         if($request->has('download')) {
             $file = 'storage/'.$request->download;
-            return response()->download($file);
+            return response()->json($file);
 
         }
 

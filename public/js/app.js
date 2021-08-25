@@ -2253,35 +2253,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     downloadImage: function downloadImage(urn_arquivo) {
-      var _this5 = this;
-
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        var url, config, imagemurn;
+        var image, url, fileURL, fileLink;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                url = "/api/v1/mensagem?download=" + urn_arquivo;
-                config = {
-                  headers: {
-                    Authorization: "bearer " + _this5.token,
-                    responseType: "blob"
-                  }
-                };
-                imagemurn = urn_arquivo.replace("storage/imagens/chat/", "");
-                _context4.next = 5;
-                return axios.get(url, config).then(function (response) {
-                  return response.data;
-                }).then(function (imagem) {
-                  var fileURL = window.URL.createObjectURL(new Blob([imagem]));
-                  var fileLink = document.createElement("a");
-                  fileLink.href = fileURL;
-                  fileLink.setAttribute("download", imagemurn);
-                  document.body.appendChild(fileLink);
-                  fileLink.click();
-                });
+                url = "/storage/" + urn_arquivo;
+                _context4.next = 3;
+                return fetch(url);
 
-              case 5:
+              case 3:
+                image = _context4.sent;
+                _context4.next = 6;
+                return image.blob();
+
+              case 6:
+                image = _context4.sent;
+                fileURL = window.URL.createObjectURL(image);
+                fileLink = document.createElement("a");
+                fileLink.href = fileURL;
+                fileLink.setAttribute("download", 'teste');
+                document.body.appendChild(fileLink);
+                fileLink.click();
+                document.body.removeChild(fileLink);
+
+              case 14:
               case "end":
                 return _context4.stop();
             }
@@ -2290,7 +2287,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     sendMessage: function sendMessage() {
-      var _this6 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
         var url, params, config;
@@ -2300,23 +2297,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 url = "/api/v1/mensagem";
 
-                _this6.mensagens.push({
-                  de_usuario_id: _this6.usuario_autenticado_id_,
-                  para_usuario_id: _this6.usuario_destino,
-                  desc_mensagem: _this6.desc_mensagem,
+                _this5.mensagens.push({
+                  de_usuario_id: _this5.usuario_autenticado_id_,
+                  para_usuario_id: _this5.usuario_destino,
+                  desc_mensagem: _this5.desc_mensagem,
                   created_at: new Date().toISOString(),
                   updated_at: new Date().toISOString()
                 });
 
                 params = new URLSearchParams({
-                  de_usuario_id: _this6.usuario_autenticado_id_,
-                  para_usuario_id: _this6.usuario_destino,
-                  desc_mensagem: _this6.desc_mensagem
+                  de_usuario_id: _this5.usuario_autenticado_id_,
+                  para_usuario_id: _this5.usuario_destino,
+                  desc_mensagem: _this5.desc_mensagem
                 });
                 config = {
                   method: "POST",
                   headers: {
-                    Authorization: "bearer " + _this6.token,
+                    Authorization: "bearer " + _this5.token,
                     "content-type": "application/x-www-form-urlencoded"
                   },
                   data: params
@@ -2324,7 +2321,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 axios(url, config)["catch"](function (err) {
                   return console.log(err);
                 });
-                _this6.desc_mensagem = "";
+                _this5.desc_mensagem = "";
 
               case 6:
               case "end":
@@ -2336,7 +2333,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   mounted: function mounted() {
-    var _this7 = this;
+    var _this6 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
@@ -2344,18 +2341,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           switch (_context6.prev = _context6.next) {
             case 0:
               _context6.next = 2;
-              return _this7.getUsers();
+              return _this6.getUsers();
 
             case 2:
-              Echo["private"]("user.".concat(_this7.usuario_autenticado_id_)).listen(".SendMessage", function (mensagem) {
-                if (_this7.usuario_destino && _this7.usuario_destino == mensagem.mensagem.de_user_id) {
-                  _this7.mensagens.push(mensagem.mensagem);
+              Echo["private"]("user.".concat(_this6.usuario_autenticado_id_)).listen(".SendMessage", function (mensagem) {
+                if (_this6.usuario_destino && _this6.usuario_destino == mensagem.mensagem.de_user_id) {
+                  _this6.mensagens.push(mensagem.mensagem);
 
-                  _this7.scrollToEnd(".mensagem-container");
+                  _this6.scrollToEnd(".mensagem-container");
                 } else {
-                  _this7.usuarios.filter(function (usuario, i) {
+                  _this6.usuarios.filter(function (usuario, i) {
                     if (usuario.id === mensagem.mensagem.de_user_id) {
-                      vue__WEBPACK_IMPORTED_MODULE_1__.default.set(_this7.usuarios[i], "notificacao", true);
+                      vue__WEBPACK_IMPORTED_MODULE_1__.default.set(_this6.usuarios[i], "notificacao", true);
                     }
                   });
                 }
@@ -8116,7 +8113,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.textcard {\r\n  white-space: nowrap;\r\n  width: 160px;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.textcard:hover {\r\n  width: 300px;\n}\n#mensagemContainer > button {\r\n  border-radius: 0 !important;\n}\n.mensagem-container {\r\n  min-height: 50%;\r\n  max-height: 480px;\r\n  overflow-y: auto;\n}\n.notificacao {\r\n  border-radius: 50%;\r\n  display: inline-block;\r\n  height: 10px;\r\n  width: 10px;\n}\n#chatMessages div .row .col .card-body:hover {\r\n  background-color: rgb(207, 219, 219);\r\n  /* border-radius: 0 25px 25px 0; */\r\n  cursor: pointer;\r\n  -webkit-text-decoration-color: white;\r\n          text-decoration-color: white;\r\n  color: white;\n}\r\n/* #chatMessages div.card {\r\n  border-radius: 25px !important;\r\n} */\n#mensagemContainer {\r\n  border-top-right-radius: 50rem;\r\n  border-bottom-right-radius: 50rem;\n}\n#chatMessages > div > ul > li {\r\n  border: none;\r\n  margin: 0;\r\n  padding: 0;\n}\n#chatMessages > div > ul > li > div {\r\n  border-collapse: collapse;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.textcard {\r\n  white-space: nowrap;\r\n  width: 160px;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.textcard:hover {\r\n  width: 300px;\n}\n#mensagemContainer > button {\r\n  border-radius: 0 !important;\n}\n.mensagem-container {\r\n  min-height: 50%;\r\n  max-height: 480px;\r\n  overflow-y: auto;\n}\n.notificacao {\r\n  border-radius: 50%;\r\n  display: inline-block;\r\n  height: 10px;\r\n  width: 10px;\n}\ndiv img:hover {\r\n  cursor: pointer;\n}\n#chatMessages div .row .col .card-body:hover {\r\n  background-color: rgb(207, 219, 219);\r\n  /* border-radius: 0 25px 25px 0; */\r\n  cursor: pointer;\r\n  -webkit-text-decoration-color: white;\r\n          text-decoration-color: white;\r\n  color: white;\n}\r\n/* #chatMessages div.card {\r\n  border-radius: 25px !important;\r\n} */\n#mensagemContainer {\r\n  border-top-right-radius: 50rem;\r\n  border-bottom-right-radius: 50rem;\n}\n#chatMessages > div > ul > li {\r\n  border: none;\r\n  margin: 0;\r\n  padding: 0;\n}\n#chatMessages > div > ul > li > div {\r\n  border-collapse: collapse;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -68985,21 +68982,23 @@ var render = function() {
                                     ),
                                     _vm._v(" "),
                                     mensagem.urn_arquivo
-                                      ? _c(
-                                          "a",
-                                          {
-                                            staticClass:
-                                              "btn btn-sm btn-outline-primary",
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.downloadImage(
-                                                  mensagem.urn_arquivo
-                                                )
-                                              }
-                                            }
+                                      ? _c("img", {
+                                          staticStyle: {
+                                            width: "250px",
+                                            height: "250px"
                                           },
-                                          [_vm._v(_vm._s(mensagem.urn_arquivo))]
-                                        )
+                                          attrs: {
+                                            src:
+                                              "/storage/" + mensagem.urn_arquivo
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.downloadImage(
+                                                mensagem.urn_arquivo
+                                              )
+                                            }
+                                          }
+                                        })
                                       : _vm._e()
                                   ])
                                 ])
@@ -69035,25 +69034,24 @@ var render = function() {
                                       ),
                                       _vm._v(" "),
                                       mensagem.urn_arquivo
-                                        ? _c(
-                                            "a",
-                                            {
-                                              staticClass:
-                                                "btn btn-sm btn-outline-primary btn-sm",
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.downloadImage(
-                                                    mensagem.urn_arquivo
-                                                  )
-                                                }
-                                              }
+                                        ? _c("img", {
+                                            staticStyle: {
+                                              width: "250px",
+                                              height: "250px"
                                             },
-                                            [
-                                              _vm._v(
-                                                _vm._s(mensagem.urn_arquivo)
-                                              )
-                                            ]
-                                          )
+                                            attrs: {
+                                              src:
+                                                "/storage/" +
+                                                mensagem.urn_arquivo
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.downloadImage(
+                                                  mensagem.urn_arquivo
+                                                )
+                                              }
+                                            }
+                                          })
                                         : _vm._e()
                                     ]
                                   )
@@ -70568,7 +70566,7 @@ var render = function() {
       ? _c("div", { staticClass: "row mt-2" }, [
           _c("span", { staticClass: "text-success" }, [
             _vm._v(
-              "Registrado com sucesso! É necessário informar o seu gestor ou administrador do sistema para conseguir autorização para uso"
+              "Registrado com sucesso! É necessário informar o seu gestor ou administrador do sistema para ser habilitado(a) para uso do sistema"
             )
           ])
         ])
