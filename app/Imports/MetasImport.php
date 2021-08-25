@@ -35,9 +35,12 @@ class MetasImport implements ToModel, WithHeadingRow
             return;
         }         
         
-        if($this->meta->where('data',date('d/m/Y'))->first() !== null) {
+        $meta = $this->meta->where('data', date('d/m/Y'))->first();
+        if($meta !== null) {
             return;
-        };
+        }
+
+        
 
         return new Meta([
             'user_id' => $user->id, //Exemplo
@@ -50,3 +53,4 @@ class MetasImport implements ToModel, WithHeadingRow
         ]);
     }
 }
+
