@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="container">
-        <h3>É necessário estar autorizado, verifique com seu gestor ou admnistrador do sistema</h3>
+        <h2>É necessário estar autorizado, verifique com seu gestor ou admnistrador do sistema</h2>
     </div>
 @endsection

@@ -25,8 +25,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/autorizar', function(){
-    return view('autorizar');
+Route::get('/autorizar', function() {
+    if(!Auth::user()->autorizado) {
+        return view('autorizar');
+    } else {
+        return redirect('app/home');
+    }
 })->name('autorizar');
 
 Route::prefix('app')->middleware('auth','autorizar')->group(function () {

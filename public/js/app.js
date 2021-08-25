@@ -70567,7 +70567,9 @@ var render = function() {
     _vm.registrado
       ? _c("div", { staticClass: "row mt-2" }, [
           _c("span", { staticClass: "text-success" }, [
-            _vm._v("Registrado com sucesso!")
+            _vm._v(
+              "Registrado com sucesso! É necessário informar o seu gestor ou administrador do sistema para conseguir autorização para uso"
+            )
           ])
         ])
       : _vm._e(),

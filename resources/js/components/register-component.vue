@@ -97,7 +97,7 @@
       </div>
     </form>
     <div class="row mt-2" v-if="registrado">
-      <span class="text-success">Registrado com sucesso!</span>
+      <span class="text-success">Registrado com sucesso! É necessário informar o seu gestor ou administrador do sistema para conseguir autorização para uso</span>
     </div>
     <div class="row mt-2" v-if="registro_falha">
       <span class="text-danger">Falha ao registrar, verifique os dados informados(senha, nome de usuario)</span>
