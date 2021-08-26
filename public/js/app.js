@@ -2718,7 +2718,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["usuario", 'usuario_id', "data"],
+  props: ["usuario", 'usuario_id', "data", "funcao"],
   computed: {
     hora_atual: function hora_atual() {
       var hora_atual;
@@ -2849,13 +2849,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.next = 2;
+              if (!(_this2.funcao == 'atendente')) {
+                _context2.next = 4;
+                break;
+              }
+
+              _context2.next = 3;
               return _this2.getMeta();
 
-            case 2:
+            case 3:
               _this2.calcMeta();
 
-            case 3:
+            case 4:
             case "end":
               return _context2.stop();
           }
@@ -69772,7 +69777,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
-      this.metas
+      this.metas.length > 0
         ? _c("div", { staticClass: "col-md-4" }, [
             _c("h5", [_vm._v("Suas metas:")]),
             _vm._v(" "),

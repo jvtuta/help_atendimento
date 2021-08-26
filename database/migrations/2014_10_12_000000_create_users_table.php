@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->softDeletes();
             $table->string('name');
             $table->string('nome_usuario')->unique();
-            $table->string('nivel_usuario',20)->nullable();
+            $table->string('nivel_usuario',20)->default('atendente');
             $table->string('imagem_perfil_urn')->nullable();
             $table->boolean('active')->nullable();
             $table->timestamp('email_verified_at')->nullable();

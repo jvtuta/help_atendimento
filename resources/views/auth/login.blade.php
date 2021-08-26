@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" style="height: 760px;">
             <div class="col-md-4 col-sm-12">
                 <card-component cardheader="Login">
                     <template v-slot:cardbody>
@@ -14,6 +14,11 @@
                     </template>
                 </card-component>
             </div>
+        </div>
+        <div class="row justify-content-center">
+            <footer class="text-center"> 
+                Desenvolvido por joao@memoriaram.com.br
+            </footer>
         </div>
     </div>
     

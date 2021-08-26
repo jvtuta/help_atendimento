@@ -2,7 +2,7 @@
   <div>
     <h5 class="card-title">{{ periodo_dia }}, {{ usuario }}!</h5>
     <div class="row">
-      <div class="col-md-4" v-if="this.metas">
+      <div class="col-md-4" v-if="this.metas.length > 0">
         <h5>Suas metas:</h5>
         <ul class="nav flex-column">
           <li class="nav-item">Manipulação: {{ this.metas.manipulacao }}</li>
@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  props: ["usuario",'usuario_id', "data"],
+  props: ["usuario",'usuario_id', "data", "funcao"],
   computed: {
     hora_atual() {
       let hora_atual;
@@ -120,8 +120,11 @@ export default {
     },
   },
   async mounted() {
-    await this.getMeta();
-    this.calcMeta();
+    if(this.funcao == 'atendente') {
+      await this.getMeta();
+      this.calcMeta();
+    }
+    
   },
 };
 </script>

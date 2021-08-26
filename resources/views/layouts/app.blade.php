@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-
+    
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.theme.min lux.css') }}" rel="stylesheet">
 </head>
@@ -111,14 +111,11 @@
             </template>
         </navbar-component>
     </div>  
-        <main class="py-4" style="height: 810px">
+        <main class="py-4">
             @yield('content')
         </main>
     </div>
 
-    <footer class="text-center" >
-        Desenvolvido por <span class="fw-bold">joao@memoriaram.com.br</span>
-    </footer>
 </body>
 
 </html>
