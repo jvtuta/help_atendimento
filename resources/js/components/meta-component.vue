@@ -1,26 +1,5 @@
 <template>
   <div class="container">
-    <div class="row mb-4">
-      <div id="nav_imports">
-        <ul class="nav ms-auto border-bottom">
-          <li class="nav-item mt-2">
-            <a href="" class="nav-link" @click.prevent="imports = true, visualizar_imports = false"
-              >Importar</a
-            >
-          </li>
-          <li class="nav-item mt-2">
-            <a
-              href=""
-              class="nav-link"
-              @click.prevent="(visualizar_imports = true, imports = false), metas_method()"
-              >Visualizar relatórios importados</a
-            >
-          </li>
-          
-        </ul>
-        
-      </div>
-    </div>
     <div class="row justify-content-center">
       <div class="col-md-4" v-if="imports">
         <form :action="action" method="POST" enctype="multipart/form-data">
@@ -39,7 +18,7 @@
         </form>
       </div>
       <div class="col-md-12 " id="tabela_metas" v-if="visualizar_imports">
-        <div class="my-3 col-md-2">
+        <div class="mb-1 col-md-2">
           <input type="date" id="data" class="form-control" @change="metas_method($event)" >
         </div>
         <table class="table table-hover">
@@ -112,7 +91,7 @@
 
 <script>
 export default {
-  props: ["action", "csrf_token", 'data'],
+  props: ["action", "csrf_token", 'data', 'imports', 'visualizar_imports'],
   computed: {
     token() {
       let token = "";
@@ -131,8 +110,6 @@ export default {
   },
   data() {
     return {
-      imports: false,
-      visualizar_imports: false,
       metas: [],
       meta_selecionada: "",
     };

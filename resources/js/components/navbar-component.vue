@@ -1,5 +1,10 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="float-start">
+        <a href="http://memoriaram.com.br/" target="_blank">
+            <img :src="asset_logo" alt="" width="160px">
+        </a>
+    </div>
     <div class="container">
       <a :href="brandroute" class="navbar-brand">{{ brand }}</a>
       <button
@@ -21,7 +26,7 @@
 
 <script>
 export default {
-  props: ["brand", "brandroute"],
+  props: ["brand", "brandroute", "asset_logo"],
 };
 </script>
 

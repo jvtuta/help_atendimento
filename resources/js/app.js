@@ -38,6 +38,7 @@ Vue.component('configuracoes-component', require('./components/configuracoes-com
 Vue.component('meta-component', require('./components/meta-component.vue').default);
 Vue.component('home-component', require('./components/home-component.vue').default);
 Vue.component('reset-password-component', require('./components/reset-password-component.vue').default);
+Vue.component('meta-dropdown-component', require('./components/meta-dropdown-component.vue').default);
 /*
  *
  * Next, we will create a fresh Vue application instance and attach it to

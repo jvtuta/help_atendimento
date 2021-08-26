@@ -25,8 +25,8 @@
 
 <body>
     <div id="app">
-
-        <navbar-component brand="{{ config('app.name', 'Tele-Helpdesk') }}" brandroute="{{ route('home') }}">
+      <div class="container-liquid">
+        <navbar-component brand="{{ config('app.name', 'Tele-Helpdesk') }}" brandroute="{{ route('home') }}" asset_logo="{{asset('img/logo.png')}}">
             <template>
 
 
@@ -38,6 +38,7 @@
                 @else
                     <navbar-list-component dir="esquerda">
                         <template>
+                            
                             <li class="nav-item">
                                 <a href="{{ route('home') }}" class="nav-link">Dashboard</a>
                             </li>
@@ -45,9 +46,7 @@
                                 <a href="{{ route('chat') }}" class="nav-link">Chat</a>
                             </li>
                             @if(Session::get('departamento')=='teleatendimento' && strtolower(Auth::user()->nivel_usuario) =='gerente' || Auth::user()->administrador == true)
-                            <li class="nav-item">
-                                <a href="{{route('metas')}}" class="nav-link">Metas</a>
-                            </li>
+                                <meta-dropdown-component route_import="{{route('meta','importar')}}" route_visualizar_imports="{{route('meta','visualizar')}}"></meta-dropdown-component>
                             @endif
                         </template>
                     </navbar-list-component>
@@ -111,11 +110,15 @@
                 </navbar-list-component>
             </template>
         </navbar-component>
-
-        <main class="py-4">
+    </div>  
+        <main class="py-4" style="height: 810px">
             @yield('content')
         </main>
     </div>
+
+    <footer class="text-center" >
+        Desenvolvido por <span class="fw-bold">joao@memoriaram.com.br</span>
+    </footer>
 </body>
 
 </html>

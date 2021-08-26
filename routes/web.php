@@ -41,4 +41,14 @@ Route::prefix('app')->middleware('auth','autorizar')->group(function () {
     Route::get('/metas', [App\Http\Controllers\MetaController::class, 'index'])->name('metas');
     Route::post('/metas', [App\Http\Controllers\MetaController::class, 'meta_import'])->name('meta_import');
     Route::get('/reset-password', [App\Http\Controllers\Api\ForgotPass::class, 'index'])->name('reset_password');
+    Route::get('/meta/{modo}', function($modo) {
+        $imports = false;
+        $visualizar = false;
+        if($modo == 'importar') {
+            $imports = true;
+        } else {
+            $visualizar = true;
+        }
+        return view('app.meta',['importar'=> $imports,'visualizar'=>$visualizar]);
+    })->name('meta');
 });
