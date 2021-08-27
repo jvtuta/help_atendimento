@@ -18,7 +18,8 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="shortcut icon" href="{{asset('img/logo.png')}}">
+    
+    <link rel="shortcut icon" href="https://ticket.memoriaram.com.br/pics/favicon.ico">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.theme.min lux.css') }}" rel="stylesheet">
 </head>
@@ -84,7 +85,6 @@
                                         </a>
                                     @endif
                                     @if (strtolower(Auth::user()->nivel_usuario) == 'gerente' || Auth::user()->administrador == 1)
-                                        <a href="{{'usuarios'}}" class="dropdown-item">Autorizar usuários</a>
                                         <a href="{{ route('configuracoes') }}" class="dropdown-item">
                                             Configurações
                                         </a>
