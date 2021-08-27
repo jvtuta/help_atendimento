@@ -250,7 +250,6 @@ export default {
             }
           });
         });
-
     },
 
     async selectActivePanel(usuario) {

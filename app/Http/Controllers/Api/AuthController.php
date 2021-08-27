@@ -66,7 +66,8 @@ class AuthController extends Controller
     }
     public function logout()
     {
-        return 'teste logout';
+        auth('api')->logout(true);
+        return response()->json(['sucesso'=>'efetuado o logout']);
     }
     public function me()
     {
@@ -74,6 +75,9 @@ class AuthController extends Controller
     }
     public function refresh()
     {
-        return 'teste refresh';
+        if(Auth::user()) {
+            $token = auth('api')->refresh();
+            return response()->json(['token'=>$token]);
+        }
     }
 }
