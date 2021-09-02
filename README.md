@@ -2,8 +2,8 @@ Projeto destinado a melhoria no processo de atribuição de metas e gerenciament
 
 Projeto contem algumas features como chat, importação de planilhas, edição das planilhas direto no front end e gerenciamento de metas. 
 
-1° Instalação automatizada do pacote /teddysun/lamp (opcional caso ja possua o srv configurado);
-2° Remover o proc do php.ini, após a remoção reiniciar o serviço apache;
+1° Instalação automatizada do pacote /teddysun/lamp (opcional caso ja possua o srv configurado); \n
+2° Remover o proc do php.ini, após a remoção reiniciar o serviço apache; \n
 3° Instalação das dependencias;
 4° Necessário configurar o arquivo de de ui/authenticates, trocando email para nome_usuario;
 5° Arquivo .env configs:
