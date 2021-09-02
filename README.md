@@ -12,7 +12,7 @@ Projeto contem algumas features como chat, importação de planilhas, edição d
     *JWT_SECRET
     *PUSHER_APP_ID=myappid
     *PUSHER_APP_KEY=myappkey
-    *PUSHER_APP_SECRET=myappsocket
+    *PUSHER_APP_SECRET=myappsecret
     *PUSHER_APP_CLUSTER=mt1
     *APP_DEBUG=false;
 6° Criar link do storage/public para public;
