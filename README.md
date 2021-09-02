@@ -16,7 +16,7 @@ Projeto contem algumas features como chat, importação de planilhas, edição d
     *PUSHER_APP_CLUSTER=mt1
     *APP_DEBUG=false;
 6° Criar link do storage/public para public;
-7° Trocar link do default(previamente instalado) para o helpatendimento/public;
+7° Trocar link do(/data/www/default, /var/www/index, /var/www/default) default(previamente instalado) para o helpatendimento/public;
 8° Permissões de arquivos e pastas ;
     *chmod 755 * -R
     *chown apache:apache -R *
