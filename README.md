@@ -7,14 +7,14 @@
 <p>3° Instalação das dependencias; </p>
 <p>4° Necessário configurar o arquivo de de ui/authenticates, trocando email para nome_usuario; </p>
 <p> 5° Arquivo .env configs:
-    *BROADCAST_DRIVER=pusher
-    *JWT_TTL=120
-    *JWT_SECRET
-    *PUSHER_APP_ID=myappid
-    *PUSHER_APP_KEY=myappkey
-    *PUSHER_APP_SECRET=myappsecret
-    *PUSHER_APP_CLUSTER=mt1
-    *APP_DEBUG=false;
+   <p> *BROADCAST_DRIVER=pusher </p>
+   <p> *JWT_TTL=120 </p>
+    <p> *JWT_SECRET</p>
+    <p>*PUSHER_APP_ID=myappid</p>
+    <p>*PUSHER_APP_KEY=myappkey</p>
+    <p>*PUSHER_APP_SECRET=myappsecret</p>
+    <p>*PUSHER_APP_CLUSTER=mt1</p>
+    <p>*APP_DEBUG=false;</p>
     </p>
 <p>6° Criar link do storage/public para public;</p>
 <p>7° Trocar link do(/data/www/default, /var/www/index, /var/www/default) default(previamente instalado) para o helpatendimento/public;</p>
