@@ -19,9 +19,10 @@
 <p>6° Criar link do storage/public para public;</p>
 <p>7° Trocar link do(/data/www/default, /var/www/index, /var/www/default) default(previamente instalado) para o helpatendimento/public;</p>
 <p>8° Permissões de arquivos e pastas ;
-    *chmod 755 * -R
-    *chown apache:apache -R *
-    *find * -type d -exec chmod 755 {}\;
-    *find * -type f -exec chmod 644 {}\;</p> 
+    <p>*chmod 755 * -R</p>
+    <p>*chown apache:apache -R *</p>
+    <p>*find * -type d -exec chmod 755 {}\;</p>
+    <p>*find * -type f -exec chmod 644 {}\;</p>
+</p> 
     
 <h4>Pronto! Seu sistema helpatendimento está configurado!</h4>
