@@ -1,7 +1,7 @@
 <template>
-  <div class="container-liquid">
+  <div class="container">
     <div class="row justify-content-center p-5">
-      <div class="col-md-2 ps-0 pe-3">
+      <!-- <div class="col-md-2 ps-0 pe-3">
         <div class="border rounded border-primary pt-3">
           <h5 class="mb-3 ms-3">Menu</h5>
           <nav class="nav flex-column">
@@ -22,8 +22,8 @@
             >
           </nav>
         </div>
-      </div>
-      <div class="col-md-8" id="container">
+      </div> -->
+      <div class="col" id="container">
         <div v-if="usuarios" id="tabela_usuarios" class="p-4">
           <table class="table table-hover">
             <thead>
@@ -169,7 +169,7 @@ export default {
 
   data() {
     return {
-      usuarios: false,
+      usuarios: true,
       logs: false,
       log_chat: false,
       senha_resetada: false,
@@ -276,7 +276,9 @@ export default {
       console.log("log_chat_method");
     },
   },
-  mounted() {},
+  mounted() {
+    this.usuarios_method()
+  },
 };
 </script>
 

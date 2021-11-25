@@ -2554,7 +2554,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      usuarios: false,
+      usuarios: true,
       logs: false,
       log_chat: false,
       senha_resetada: false,
@@ -2669,7 +2669,9 @@ __webpack_require__.r(__webpack_exports__);
       console.log("log_chat_method");
     }
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {
+    this.usuarios_method();
+  }
 });
 
 /***/ }),
@@ -8164,7 +8166,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.textcard {\r\n  white-space: nowrap;\r\n  width: 160px;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\n}\n.textcard:hover {\r\n  width: 300px;\n}\n#mensagemContainer > button {\r\n  border-radius: 0 !important;\n}\n.mensagem-container {\r\n  min-height: 50%;\r\n  max-height: 480px;\r\n  overflow-y: auto;\n}\n.notificacao {\r\n  border-radius: 50%;\r\n  display: inline-block;\r\n  height: 10px;\r\n  width: 10px;\n}\ndiv img:hover {\r\n  cursor: pointer;\n}\n#chatMessages div .row .col .card-body:hover {\r\n  background-color: rgb(207, 219, 219);\r\n  /* border-radius: 0 25px 25px 0; */\r\n  cursor: pointer;\r\n  -webkit-text-decoration-color: white;\r\n          text-decoration-color: white;\r\n  color: white;\n}\r\n/* #chatMessages div.card {\r\n  border-radius: 25px !important;\r\n} */\n#mensagemContainer {\r\n  border-top-right-radius: 50rem;\r\n  border-bottom-right-radius: 50rem;\n}\n#chatMessages > div > ul > li {\r\n  border: none;\r\n  margin: 0;\r\n  padding: 0;\n}\n#chatMessages > div > ul > li > div {\r\n  border-collapse: collapse;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.textcard {\n  white-space: nowrap;\n  width: 160px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.textcard:hover {\n  width: 300px;\n}\n#mensagemContainer > button {\n  border-radius: 0 !important;\n}\n.mensagem-container {\n  min-height: 50%;\n  max-height: 480px;\n  overflow-y: auto;\n}\n.notificacao {\n  border-radius: 50%;\n  display: inline-block;\n  height: 10px;\n  width: 10px;\n}\ndiv img:hover {\n  cursor: pointer;\n}\n#chatMessages div .row .col .card-body:hover {\n  background-color: rgb(207, 219, 219);\n  /* border-radius: 0 25px 25px 0; */\n  cursor: pointer;\n  -webkit-text-decoration-color: white;\n          text-decoration-color: white;\n  color: white;\n}\n/* #chatMessages div.card {\n  border-radius: 25px !important;\n} */\n#mensagemContainer {\n  border-top-right-radius: 50rem;\n  border-bottom-right-radius: 50rem;\n}\n#chatMessages > div > ul > li {\n  border: none;\n  margin: 0;\n  padding: 0;\n}\n#chatMessages > div > ul > li > div {\n  border-collapse: collapse;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -8188,7 +8190,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#app > main > div > div > div.col-md-2.ps-0.pe-3 > div > nav a:hover\r\n/* #tbody-usuarios tr td input:hover */ {\r\n  background-color: rgb(207, 219, 219);\n}\n#tabela_usuarios > table th,\r\n#tabela_usuarios > table td {\r\n  height: 30px;\r\n  padding: 0px;\r\n  margin: 0px;\r\n  text-align: center;\r\n  font-size: 12px;\n}\n#tabela_usuarios > table td {\r\n  cursor: cell;\n}\n#tbody-usuarios tr td input {\r\n  padding: 6px;\r\n  height: 100%;\r\n  cursor: inherit;\r\n  background-color: inherit;\r\n  box-shadow: 0px 0px 0px 0px;\r\n  border: 0 none;\r\n  outline: 0;\r\n  text-align: center;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#app > main > div > div > div.col-md-2.ps-0.pe-3 > div > nav a:hover\n/* #tbody-usuarios tr td input:hover */ {\n  background-color: rgb(207, 219, 219);\n}\n#tabela_usuarios > table th,\n#tabela_usuarios > table td {\n  height: 30px;\n  padding: 0px;\n  margin: 0px;\n  text-align: center;\n  font-size: 12px;\n}\n#tabela_usuarios > table td {\n  cursor: cell;\n}\n#tbody-usuarios tr td input {\n  padding: 6px;\n  height: 100%;\n  cursor: inherit;\n  background-color: inherit;\n  box-shadow: 0px 0px 0px 0px;\n  border: 0 none;\n  outline: 0;\n  text-align: center;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -8212,7 +8214,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.metaconcluida {\r\n  color: blue;\r\n  font-size: 20px;\n}\n.positivo {\r\n  color: green;\n}\n.neutro {\r\n  color: rgb(133, 133, 25);\n}\n.negativo {\r\n  color: red;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.metaconcluida {\n  color: blue;\n  font-size: 20px;\n}\n.positivo {\n  color: green;\n}\n.neutro {\n  color: rgb(133, 133, 25);\n}\n.negativo {\n  color: red;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -8236,7 +8238,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#nav_imports ul li:hover {\r\n  background-color: rgb(207, 219, 219);\n}\n#app > main > div > div > div.col-md-2.ps-0.pe-3 > div > nav a:hover\r\n/* #tbody-usuarios tr td input:hover */ {\r\n  background-color: rgb(207, 219, 219);\n}\n#tabela_metas > table th,\r\n#tabela_metas > table td {\r\n  height: 30px;\r\n  padding: 0px;\r\n  margin: 0px;\r\n  text-align: center;\r\n  font-size: 12px;\n}\n#tabela_metas > table td {\r\n  cursor: cell;\n}\n#tbody-metas tr td input {\r\n  padding: 6px;\r\n  height: 100%;\r\n  cursor: inherit;\r\n  background-color: inherit;\r\n  box-shadow: 0px 0px 0px 0px;\r\n  border: 0 none;\r\n  outline: 0;\r\n  text-align: center;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#nav_imports ul li:hover {\n  background-color: rgb(207, 219, 219);\n}\n#app > main > div > div > div.col-md-2.ps-0.pe-3 > div > nav a:hover\n/* #tbody-usuarios tr td input:hover */ {\n  background-color: rgb(207, 219, 219);\n}\n#tabela_metas > table th,\n#tabela_metas > table td {\n  height: 30px;\n  padding: 0px;\n  margin: 0px;\n  text-align: center;\n  font-size: 12px;\n}\n#tabela_metas > table td {\n  cursor: cell;\n}\n#tbody-metas tr td input {\n  padding: 6px;\n  height: 100%;\n  cursor: inherit;\n  background-color: inherit;\n  box-shadow: 0px 0px 0px 0px;\n  border: 0 none;\n  outline: 0;\n  text-align: center;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -69308,62 +69310,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-liquid" }, [
+  return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center p-5" }, [
-      _c("div", { staticClass: "col-md-2 ps-0 pe-3" }, [
-        _c("div", { staticClass: "border rounded border-primary pt-3" }, [
-          _c("h5", { staticClass: "mb-3 ms-3" }, [_vm._v("Menu")]),
-          _vm._v(" "),
-          _c("nav", { staticClass: "nav flex-column" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link border-bottom border-primary",
-                attrs: { href: "" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.usuarios_method()
-                  }
-                }
-              },
-              [_vm._v("Usuários")]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "nav-link border-bottom border-primary",
-                attrs: { href: "" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.log_method()
-                  }
-                }
-              },
-              [_vm._v("Logs")]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "nav-link",
-                attrs: { href: "" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.log_chat_method()
-                  }
-                }
-              },
-              [_vm._v("Log chat")]
-            )
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-8", attrs: { id: "container" } }, [
+      _c("div", { staticClass: "col", attrs: { id: "container" } }, [
         _vm.usuarios
           ? _c(
               "div",
@@ -70370,7 +70319,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "nav",
-    { staticClass: "navbar navbar-expand-lg navbar-light bg-light" },
+    { staticClass: "navbar navbar-expand-lg  navbar-dark bg-dark" },
     [
       _c("div", { staticClass: "float-start" }, [
         _c(
@@ -70514,7 +70463,7 @@ var render = function() {
                     expression: "departamento"
                   }
                 ],
-                staticClass: "form-select",
+                staticClass: "form-control",
                 attrs: { name: "id_departamento", id: "departamentos" },
                 on: {
                   change: function($event) {

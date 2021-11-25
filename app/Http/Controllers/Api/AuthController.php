@@ -17,13 +17,16 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-
+ 
+        
 
         $token = auth('api')->attempt($request->all('nome_usuario', 'password'));
 
 
         if ($token) {
-
+            $this->user = $this->user->find(auth('api')->user()->id);
+            $this->user->fill(['active'=>true]);
+            $this->user->save();
             return response()->json(['token' => $token], 200);
         } else {
             return response()->json(['Erro'], 404);
@@ -66,6 +69,10 @@ class AuthController extends Controller
     }
     public function logout()
     {
+        $this->user = $this->user->find(auth('api')->user()->id);
+        dd($this->user);
+        $this->user->active = false;
+        $this->user->save();
         auth('api')->logout(true);
         return response()->json(['sucesso'=>'efetuado o logout']);
     }

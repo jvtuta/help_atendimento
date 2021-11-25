@@ -1,0 +1,28 @@
+Starting Laravel development server: http://127.0.0.1:8000
+[Wed Oct 27 11:19:42 2021] Failed to listen on 127.0.0.1:8000 (reason: Address already in use)
+Starting Laravel development server: http://127.0.0.1:8001
+[Wed Oct 27 11:19:42 2021] Failed to listen on 127.0.0.1:8001 (reason: Address already in use)
+Starting Laravel development server: http://127.0.0.1:8002
+[Wed Oct 27 11:19:49 2021] PHP 8.0.11 Development Server (http://127.0.0.1:8002) started
+Starting Laravel development server: http://127.0.0.1:8000
+[Wed Oct 27 11:24:04 2021] Failed to listen on 127.0.0.1:8000 (reason: Address already in use)
+Starting Laravel development server: http://127.0.0.1:8001
+[Wed Oct 27 11:24:05 2021] Failed to listen on 127.0.0.1:8001 (reason: Address already in use)
+Starting Laravel development server: http://127.0.0.1:8002
+[Wed Oct 27 11:24:05 2021] Failed to listen on 127.0.0.1:8002 (reason: Address already in use)
+Starting Laravel development server: http://127.0.0.1:8003
+[Wed Oct 27 11:24:06 2021] PHP 8.0.11 Development Server (http://127.0.0.1:8003) started
+Environment modified. Restarting server...
+[Wed Oct 27 11:25:16 2021] PHP 8.0.11 Development Server (http://127.0.0.1:8003) started
+Environment modified. Restarting server...
+[Wed Oct 27 11:25:16 2021] PHP 8.0.11 Development Server (http://127.0.0.1:8003) started
+Environment modified. Restarting server...
+[Wed Oct 27 11:25:20 2021] PHP 8.0.11 Development Server (http://127.0.0.1:8003) started
+
+> dev
+> npm run development
+
+
+> development
+> mix
+

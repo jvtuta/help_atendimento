@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
     <div class="float-start">
         <a href="http://memoriaram.com.br/" target="_blank">
             <img :src="asset_logo" alt="" width="160px">

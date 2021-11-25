@@ -117,7 +117,7 @@ class UsuarioController extends Controller
         $this->user->fill($request->all());
         
         $this->user->save();
-        dd($this->user);
+
         return response()->json(['sucesso' => 'Recurso salvo com sucesso'], 200);
     }
 

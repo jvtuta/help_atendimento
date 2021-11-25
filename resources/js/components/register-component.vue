@@ -7,7 +7,7 @@
           >Selecionar departamento</label
         >
         <div class="col-md-6 form-group">
-          <select name="id_departamento" id="departamentos" class="form-select" v-model="departamento">
+          <select name="id_departamento" id="departamentos" class="form-control" v-model="departamento">
             <option
               v-for="departamento in departamentos"
               :key="departamento.id"

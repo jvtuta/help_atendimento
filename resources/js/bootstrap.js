@@ -58,7 +58,7 @@ window.Echo = new Echo({
      auth: {
        headers: {
             Authorization: 'bearer ' + token()
-         }
+        }
     }
      
 
