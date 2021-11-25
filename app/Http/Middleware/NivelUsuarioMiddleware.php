@@ -17,15 +17,18 @@ class NivelUsuarioMiddleware
     public function handle(Request $request, Closure $next, $nivel_usuario, $departamento)
     {   
         if($departamento == 'all') {
-            if(Auth::user()->nivel_usuario == strtolower($nivel_usuario) || Auth::user()->administrador == 1 ) {
+            if(Auth::user()->nivel_usuario == strtolower($nivel_usuario) 
+            || Auth::user()->administrador == 1 ) {
                 return $next($request);
             } else {
                 return redirect('app/home');
             }
         }
+        $departamento = new Departamento();
+        $departamento->where('nome_departamento', 
+        strtolower($departamento))->first();
         
-        $departamento = Departamento::where('nome_departamento', strtolower($departamento))->get();
-    
+
         if(Auth::user()->nivel_usuario == strtolower($nivel_usuario) &&
           Auth::user()->id_departamento == $departamento->id ||
           Auth::user()->administrador == 1 ) {

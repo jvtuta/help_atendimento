@@ -2055,6 +2055,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["csrf_token"],
@@ -2273,7 +2277,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 fileURL = window.URL.createObjectURL(image);
                 fileLink = document.createElement("a");
                 fileLink.href = fileURL;
-                fileLink.setAttribute("download", 'teste');
+                fileLink.setAttribute("download", "teste");
                 document.body.appendChild(fileLink);
                 fileLink.click();
                 document.body.removeChild(fileLink);
@@ -69063,7 +69067,7 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "card mb-0" }, [
-                _c("div", { staticClass: "row g-0" }, [
+                _c("div", { staticClass: "row   g-0" }, [
                   _c("div", { staticClass: "card-header col-md-12" }, [
                     _c("h5", { staticClass: "card-title" }, [
                       _vm._v(_vm._s(_vm.usuario_destino_nome))
@@ -69072,115 +69076,132 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "div",
-                    { staticClass: "card-body col-md-10 mensagem-container" },
+                    { staticClass: "card-body col-md-12 mensagem-container" },
                     _vm._l(_vm.mensagens, function(mensagem) {
                       return _c(
                         "div",
-                        { key: mensagem.id, staticClass: "row" },
+                        { key: mensagem.id },
                         [
                           mensagem.para_user_id == _vm.usuario_autenticado_id_
                             ? [
-                                _c("div", { staticClass: "col" }, [
-                                  _c("p", { staticClass: "float-start" }, [
-                                    _vm._v(
-                                      "\n                    " +
-                                        _vm._s(mensagem.desc_mensagem) +
-                                        "\n                    "
-                                    ),
-                                    _c(
-                                      "span",
-                                      {
-                                        staticClass: "text-muted d-block",
-                                        staticStyle: { "font-size": "0.8rem" }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                      " +
-                                            _vm._s(
-                                              _vm._f("formatDate")(
-                                                mensagem.created_at
-                                              )
-                                            ) +
-                                            "\n                    "
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    mensagem.urn_arquivo
-                                      ? _c("img", {
-                                          staticStyle: {
-                                            width: "250px",
-                                            height: "250px"
-                                          },
-                                          attrs: {
-                                            src:
-                                              "/storage/" + mensagem.urn_arquivo
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.downloadImage(
-                                                mensagem.urn_arquivo
-                                              )
+                                _c(
+                                  "div",
+                                  { staticClass: "row justify-content-start" },
+                                  [
+                                    _c("div", { staticClass: "col-4" }, [
+                                      _c("p", [
+                                        _c("span", [
+                                          _vm._v(_vm._s(mensagem.desc_mensagem))
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "span",
+                                          {
+                                            staticClass: "text-muted d-block",
+                                            staticStyle: {
+                                              "font-size": "0.8rem"
                                             }
-                                          }
-                                        })
-                                      : _vm._e()
-                                  ])
-                                ])
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                        " +
+                                                _vm._s(
+                                                  _vm._f("formatDate")(
+                                                    mensagem.created_at
+                                                  )
+                                                ) +
+                                                "\n                      "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        mensagem.urn_arquivo
+                                          ? _c("img", {
+                                              staticStyle: {
+                                                width: "250px",
+                                                height: "250px"
+                                              },
+                                              attrs: {
+                                                src:
+                                                  "/storage/" +
+                                                  mensagem.urn_arquivo
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.downloadImage(
+                                                    mensagem.urn_arquivo
+                                                  )
+                                                }
+                                              }
+                                            })
+                                          : _vm._e()
+                                      ])
+                                    ])
+                                  ]
+                                )
                               ]
                             : [
-                                _c("div", { staticClass: "col" }, [
-                                  _c(
-                                    "p",
-                                    { staticClass: "float-end text-dark" },
-                                    [
-                                      _vm._v(
-                                        "\n                    " +
-                                          _vm._s(mensagem.desc_mensagem) +
-                                          "\n                    "
-                                      ),
-                                      _c(
-                                        "span",
-                                        {
-                                          staticClass: "text-muted d-block",
-                                          staticStyle: { "font-size": "0.8rem" }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                      " +
-                                              _vm._s(
-                                                _vm._f("formatDate")(
-                                                  mensagem.created_at
-                                                )
-                                              ) +
-                                              "\n                    "
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      mensagem.urn_arquivo
-                                        ? _c("img", {
-                                            staticStyle: {
-                                              width: "250px",
-                                              height: "250px"
-                                            },
-                                            attrs: {
-                                              src:
-                                                "/storage/" +
-                                                mensagem.urn_arquivo
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.downloadImage(
-                                                  mensagem.urn_arquivo
-                                                )
+                                _c(
+                                  "div",
+                                  { staticClass: "row justify-content-end" },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "col-4 text-end" },
+                                      [
+                                        _c("p", [
+                                          _c("span", [
+                                            _vm._v(
+                                              _vm._s(mensagem.desc_mensagem)
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass: "text-muted d-block",
+                                              staticStyle: {
+                                                "font-size": "0.6rem"
                                               }
-                                            }
-                                          })
-                                        : _vm._e()
-                                    ]
-                                  )
-                                ])
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                        " +
+                                                  _vm._s(
+                                                    _vm._f("formatDate")(
+                                                      mensagem.created_at
+                                                    )
+                                                  ) +
+                                                  "\n                      "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          mensagem.urn_arquivo
+                                            ? _c("img", {
+                                                staticStyle: {
+                                                  width: "250px",
+                                                  height: "250px"
+                                                },
+                                                attrs: {
+                                                  src:
+                                                    "/storage/" +
+                                                    mensagem.urn_arquivo
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.downloadImage(
+                                                      mensagem.urn_arquivo
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ])
+                                      ]
+                                    )
+                                  ]
+                                )
                               ]
                         ],
                         2
@@ -69191,7 +69212,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
+              _c("div", {}, [
                 _c(
                   "form",
                   {
@@ -69209,66 +69230,71 @@ var render = function() {
                       domProps: { value: _vm.csrf_token }
                     }),
                     _vm._v(" "),
-                    _c("div", { staticClass: "input-group" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.desc_mensagem,
-                            expression: "desc_mensagem"
-                          }
-                        ],
-                        staticClass: "form-control form-control-sm col-xs-12",
-                        attrs: {
-                          type: "text",
-                          name: "desc_mensagem",
-                          id: "desc_mensagem",
-                          placeholder: "Digite aqui..."
-                        },
-                        domProps: { value: _vm.desc_mensagem },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                    _c(
+                      "div",
+                      { staticClass: "input-group" },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.desc_mensagem,
+                              expression: "desc_mensagem"
                             }
-                            _vm.desc_mensagem = $event.target.value
+                          ],
+                          staticClass: "form-control col-xs-12",
+                          attrs: {
+                            type: "text",
+                            name: "desc_mensagem",
+                            id: "desc_mensagem",
+                            placeholder: "Digite aqui..."
+                          },
+                          domProps: { value: _vm.desc_mensagem },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.desc_mensagem = $event.target.value
+                            }
                           }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass: "btn btn-outline-primary p-1 m-0",
-                          attrs: { for: "file-image" }
-                        },
-                        [_vm._v("imagem")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        staticStyle: { display: "none" },
-                        attrs: {
-                          type: "file",
-                          name: "imagem",
-                          accept: "image/*",
-                          id: "file-image",
-                          placeholder: "imagem"
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.uploadImage($event)
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "btn",
+                          {
+                            staticClass: "btn btn-outline-primary p-1 m-0",
+                            attrs: { for: "file-image" }
+                          },
+                          [_vm._v("imagem")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control",
+                          staticStyle: { display: "none" },
+                          attrs: {
+                            type: "file",
+                            name: "imagem",
+                            accept: "image/*",
+                            id: "file-image",
+                            placeholder: "imagem"
+                          },
+                          on: {
+                            change: function($event) {
+                              return _vm.uploadImage($event)
+                            }
                           }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        { staticClass: "btn btn-outline-primary p-1" },
-                        [_vm._v("Enviar")]
-                      )
-                    ])
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          { staticClass: "btn btn-outline-primary p-1" },
+                          [_vm._v("Enviar")]
+                        )
+                      ],
+                      1
+                    )
                   ]
                 )
               ])

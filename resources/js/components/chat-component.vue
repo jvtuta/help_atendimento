@@ -73,57 +73,61 @@
         @click="focus('desc_mensagem')"
       >
         <div class="card mb-0">
-          <div class="row g-0">
+          <div class="row   g-0">
             <div class="card-header col-md-12">
               <h5 class="card-title">{{ usuario_destino_nome }}</h5>
             </div>
-            <div class="card-body col-md-10 mensagem-container">
-              <div v-for="mensagem in mensagens" :key="mensagem.id" class="row">
+            <div class="card-body col-md-12 mensagem-container">
+              <div v-for="mensagem in mensagens" :key="mensagem.id">
                 <template
                   v-if="mensagem.para_user_id == usuario_autenticado_id_"
-                  ><div class="col">
-                    <p class="float-start">
-                      {{ mensagem.desc_mensagem }}
-                      <span
-                        class="text-muted d-block"
-                        style="font-size: 0.8rem"
-                      >
-                        {{ mensagem.created_at | formatDate() }}
-                      </span>
-                      <img
-                        v-if="mensagem.urn_arquivo"
-                        style="width: 250px; height: 250px"
-                        @click="downloadImage(mensagem.urn_arquivo)"
-                        :src=" '/storage/'+mensagem.urn_arquivo  "
-                      >
-                    </p>
+                  ><div class="row justify-content-start">
+                    <div class="col-4">
+                      <p>
+                        <span>{{ mensagem.desc_mensagem }}</span>
+                        <span
+                          class="text-muted d-block"
+                          style="font-size: 0.8rem"
+                        >
+                          {{ mensagem.created_at | formatDate() }}
+                        </span>
+                        <img
+                          v-if="mensagem.urn_arquivo"
+                          style="width: 250px; height: 250px"
+                          @click="downloadImage(mensagem.urn_arquivo)"
+                          :src="'/storage/' + mensagem.urn_arquivo"
+                        />
+                      </p>
+                    </div>
                   </div>
                 </template>
 
                 <template v-else>
-                  <div class="col">
-                    <p class="float-end text-dark">
-                      {{ mensagem.desc_mensagem }}
-                      <span
-                        class="text-muted d-block"
-                        style="font-size: 0.8rem"
-                      >
-                        {{ mensagem.created_at | formatDate() }}
-                      </span>
-                      <img
-                        v-if="mensagem.urn_arquivo"
-                        style="width: 250px; height: 250px"
-                        @click="downloadImage(mensagem.urn_arquivo)"
-                        :src=" '/storage/'+mensagem.urn_arquivo  "
-                      >
-                    </p>
+                  <div class="row justify-content-end">
+                    <div class="col-4 text-end">
+                      <p>
+                        <span>{{ mensagem.desc_mensagem }}</span>
+                        <span
+                          class="text-muted d-block"
+                          style="font-size: 0.6rem"
+                        >
+                          {{ mensagem.created_at | formatDate() }}
+                        </span>
+                        <img
+                          v-if="mensagem.urn_arquivo"
+                          style="width: 250px; height: 250px"
+                          @click="downloadImage(mensagem.urn_arquivo)"
+                          :src="'/storage/' + mensagem.urn_arquivo"
+                        />
+                      </p>
+                    </div>
                   </div>
                 </template>
               </div>
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="">
           <form method="post" @submit.prevent="sendMessage()">
             <input type="hidden" name="csrf_token" :value="csrf_token" />
             <div class="input-group">
@@ -131,12 +135,12 @@
                 type="text"
                 name="desc_mensagem"
                 id="desc_mensagem"
-                class="form-control form-control-sm col-xs-12"
+                class="form-control col-xs-12"
                 placeholder="Digite aqui..."
                 v-model="desc_mensagem"
               />
-              <label class="btn btn-outline-primary p-1 m-0" for="file-image"
-                >imagem</label
+              <btn class="btn btn-outline-primary p-1 m-0" for="file-image"
+                >imagem</btn
               >
               <input
                 type="file"
@@ -232,21 +236,24 @@ export default {
       await axios
         .get(url, config)
         .then((response) => response.data)
-        .then((data) => {         
+        .then((data) => {
           data.forEach((departamento) => {
             if (
               departamento.users !== undefined &&
               departamento.users.length != 0
             ) {
-              let usuarios = []
-              departamento.users.forEach((usuario, index)=> {
-                if(usuario.id !== this.usuario_autenticado_id_ && usuario.active === 1) {
+              let usuarios = [];
+              departamento.users.forEach((usuario, index) => {
+                if (
+                  usuario.id !== this.usuario_autenticado_id_ &&
+                  usuario.active === 1
+                ) {
                   usuarios.push(usuario);
-                  this.usuarios.push(usuario)
+                  this.usuarios.push(usuario);
                 }
-              })
+              });
               departamento.users = usuarios;
-              this.departamentos.push(departamento)
+              this.departamentos.push(departamento);
             }
           });
         });
@@ -290,7 +297,7 @@ export default {
 
       let data = new FormData();
       console.log(event.target.files[0]);
-      
+
       data.append("imagem", event.target.files[0]);
       data.append("de_usuario_id", this.usuario_autenticado_id_);
       data.append("para_usuario_id", this.usuario_destino);
@@ -311,19 +318,18 @@ export default {
     },
 
     async downloadImage(urn_arquivo) {
-      let image
-      const url = "/storage/"+urn_arquivo;
-      image = await fetch(url)
-      image = await image.blob()
-      let fileURL = window.URL.createObjectURL(image)
+      let image;
+      const url = "/storage/" + urn_arquivo;
+      image = await fetch(url);
+      image = await image.blob();
+      let fileURL = window.URL.createObjectURL(image);
       let fileLink = document.createElement("a");
-      fileLink.href = fileURL
+      fileLink.href = fileURL;
 
-      fileLink.setAttribute("download",'teste')
-      document.body.appendChild(fileLink)
+      fileLink.setAttribute("download", "teste");
+      document.body.appendChild(fileLink);
       fileLink.click();
       document.body.removeChild(fileLink);
-
     },
 
     async sendMessage() {

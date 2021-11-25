@@ -24,8 +24,10 @@ class MetasImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-
-        if($row['colaborador'] === null) {
+        
+        
+        dd($row);
+        if(strtolower($row['Colaborador']) === null) {
             return;
         } 
 
