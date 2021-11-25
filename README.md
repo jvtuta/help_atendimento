@@ -24,5 +24,22 @@
     <p>*find * -type d -exec chmod 755 {}\;</p>
     <p>*find * -type f -exec chmod 644 {}\;</p>
 </p> 
-    
+<p> 9° Configuração de autenticação:
+    <p>Adicionar o seguinte script em vendor/laravel/auth/AuthenticatesUser: </p>
+        <p>
+            <p>
+            $user = new \App\Models\User();
+                </p>
+            <p>
+            $user = $user->find($this->guard()->user()->id);
+                </p>
+            <p>
+            $user->active = false;
+                </p>
+            <p>
+            $user->save();
+                </p>
+        </p>
+     
+</p>
 <h4>Pronto! Seu sistema helpatendimento está configurado!</h4>
